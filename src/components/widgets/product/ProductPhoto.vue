@@ -19,17 +19,22 @@
 
 <script>
 export default {
+  name: "ProductPhoto",
+
+  props: ['ImageProduct','ProductColor'],
+
   data() {
     return {
-    selectedProduct: 0
+      selectedProduct: 0
     }
   },
-  props: ['ImageProduct','ProductColor'],
+
   computed: {
     imageSrc() {
       return this.ImageProduct[this.selectedProduct];
     }
   },
+
   methods: {
     updateProduct(index) {
       this.selectedProduct = index

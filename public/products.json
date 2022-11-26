@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "title": "Vue Mastery Socks",
+    "selectedProduct": 0,
+    "availability": true,
+    "shipping": "Free",
+    "isSale": true,
+    "colors": [
+      "#00ff00",
+      "#4169E1"
+    ],
+    "images": [
+      "/images/vmSocks-green-onWhite.jpg",
+      "/images/vmSocks-blue-onWhite.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Vue T-shirt",
+    "selectedProduct": 0,
+    "availability": false,
+    "shipping": "Free",
+    "isSale": false,
+    "colors": [
+      "#000000",
+      "#00ff00"
+    ],
+    "images": [
+      "/images/vue-t-shirt-black.jpeg",
+      "/images/vue-t-shirt-green.jpeg"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Vue Cap",
+    "selectedProduct": 0,
+    "availability": false,
+    "shipping": "Free",
+    "isSale": false,
+    "colors": [
+      "#B22222",
+      "#8B4513"
+    ],
+    "images": [
+      "/images/cap-red.jpg",
+      "/images/cap-brown.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Vue T-shirt",
+    "selectedProduct": 0,
+    "availability": false,
+    "shipping": "Free",
+    "isSale": false,
+    "colors": [
+      "#FFFF00",
+      "#FFF"
+    ],
+    "images": [
+      "/images/t-shirt-yellow.jpg",
+      "/images/t-shirt-white.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Vue Mastery Socks",
+    "selectedProduct": 0,
+    "availability": true,
+    "shipping": "Free",
+    "isSale": true,
+    "colors": [
+      "#4169E1",
+      "#00ff00"
+    ],
+    "images": [
+      "/images/vmSocks-blue-onWhite.jpg",
+      "/images/vmSocks-green-onWhite.jpg"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Vue Cap",
+    "selectedProduct": 0,
+    "availability": false,
+    "shipping": "Free",
+    "isSale": false,
+    "colors": [
+      "#8B4513",
+      "#B22222"
+    ],
+    "images": [
+      "/images/cap-brown.jpg",
+      "/images/cap-red.jpg"
+    ]
+  }
+]
