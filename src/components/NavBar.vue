@@ -8,7 +8,9 @@
       </b-nav-item>
       <!-- Navbar dropdowns -->
       <b-nav-item href="#">
-        <router-link class="product-page-link" to="/cart" >CART</router-link>
+        <router-link class="product-page-link" to="/cart" >
+          CART
+        </router-link>
       </b-nav-item>
 
       <b-nav-item-dropdown text="User" right>

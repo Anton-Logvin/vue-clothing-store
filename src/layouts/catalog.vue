@@ -9,7 +9,7 @@
           v-for="product in products"
           :key="product.id"
           :product="product" 
-          @click.native="goToProduct(product.id)" 
+          @click.native="goToProduct(product)" 
         />
       </div>
     </div>
@@ -28,16 +28,31 @@ export default {
   computed: {
     products() {
       return this.$store.getters['productList']
-    }
+    },
+    // product() {
+    //   return this.$store.getters['getProductById']
+    // }
   },
 
   methods: {
-    goToProduct(id) {
+    goToProduct(product) {
       this.$router.push({
         name: 'product', 
-        params: { id }
+        params: { product }
+        
       })
+      console.log(product)
+      console.log(this.$store.getters['productList'])
     },
+ 
+    
+    // goToProduct(id) {
+    //   this.$router.push({
+    //     name: 'product', 
+    //     params: { id }
+    //   })
+      
+    // },
 
     getProducts() {
       this.$store.dispatch('getProducts')
