@@ -1,42 +1,53 @@
 <template>
-  <div class="container">
-    <h2>{{ productTitle }}</h2>
+  <div v-if="product" class="container">
+    <h2>{{ product.title }}</h2>
     <div class="page">
       <div class="page-discription">
-        <div>{{ productTitle }}</div>
-        <div>Product id: {{ productId }}</div> 
-        <div>Shipping: {{ productShipping }}</div>
-        <button >Cart</button>
+        <div>{{ product.title }}</div>
+        <div>Product id: {{ product.id }}</div> 
+        <div>Shipping: {{ product.shipping }}</div>
+        <button>Cart</button>
     </div>
     <div 
-      v-for="(image, index) in productImage" 
+      v-for="(image, index) in product.images" 
       :key="index"
     >
       <img :src="image" />
     </div>
   </div>
 </div>
+<span v-else>
+  Нет информации по товару
+</span>
 </template>
 
 <script>
-// import {mapGetters} from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'ProductPage',
   
   data() {
     return {
-      productId: this.$route.params.product.id,
-      productTitle: this.$route.params.product.title,
-      productImage: this.$route.params.product.images,
-      productShipping: this.$route.params.product.shipping
+      productId: +this.$route.params.id,
     }
   },
-  computed: {
-  
-    // ...mapGetters(['productItem'])
-  },
-  methods: {
 
+  computed: {
+    ...mapGetters(['productList']),
+    product() {
+      return this.productList.find(item => item.id === this.productId)
+    },
+  },
+
+  methods: {
+    ...mapActions(['getProducts']),
+  },
+
+  mounted() {
+    if(!this.productList.length) {
+      this.getProducts()
+    }
   }
 }
 </script>
@@ -59,5 +70,4 @@ img {
   max-width: 400px;
   width: 100%;
 }
-
 </style>

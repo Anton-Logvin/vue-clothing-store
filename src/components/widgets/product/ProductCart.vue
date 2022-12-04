@@ -1,7 +1,6 @@
 <template>
 <div class="product">
-
-  <ProductPhoto :ImageProduct="product.images" :ProductColor="product.colors" />
+  <product-photo :ImageProduct="product.images" :ProductColor="product.colors" />
   <div class="product-info">
     <span class="product-title">{{ product.title }}</span>
     <p>Shipping: {{ product.shipping }}</p>
@@ -16,11 +15,10 @@
       </div>
     </div>
 
-    <button @click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }">
+    <button @click.prevent.stop="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }">
       Add to cart
     </button>
-    <button @click="minToCart">delete to cart</button>
-
+    <button @click.prevent.stop="minToCart">delete to cart</button>
   </div>
   <div class="cart">
     <p>Cart({{ cartItem }})</p>
@@ -30,24 +28,25 @@
 
 <script>
 import ProductPhoto from './ProductPhoto'
-// import ProdColorBox from './ProdColorBox'
+
 export default {
   components: {
     ProductPhoto,
-    // ProdColorBox
   },
+
   props: {
     product: {
       type: Object,
       default: null
     }
   },
+
   data() {
     return {
       cartItem: 0,
-      // selectedProduct: 0
     }
   },
+
   methods: {
     addToCart() {
       this.cartItem += 1
@@ -59,8 +58,8 @@ export default {
         this.cartItem = 0
       }
     },
-
   },
+
   computed: {
     inStock() {
       return this.product.availability
@@ -73,7 +72,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 body {
   font-family: tahoma;
   color: #282828;
@@ -94,11 +93,6 @@ body {
 .product-title {
   font-size: 22px;
   color: #008512;
-}
-
-.product-stock {
-  /* margin: 2px; */
-
 }
 
 .product-availability {
@@ -124,7 +118,6 @@ body {
 }
 
 button {
-  /* margin-top: 30px; */
   margin-right: 5px;
   border: none;
   background-color: #00a0159c;

@@ -4,12 +4,12 @@
     <div class="title-container">
       <div class="bacground-v"></div>
       <side-bar />
-      <div class="items-product container">
+      <div v-if="products.length" class="items-product container">
         <product-cart
           v-for="product in products"
           :key="product.id"
           :product="product" 
-          @click.native="goToProduct(product)" 
+          @click.native="goToProduct(product.id)" 
         />
       </div>
     </div>
@@ -29,30 +29,15 @@ export default {
     products() {
       return this.$store.getters['productList']
     },
-    // product() {
-    //   return this.$store.getters['getProductById']
-    // }
   },
 
   methods: {
-    goToProduct(product) {
+    goToProduct(id) {
       this.$router.push({
         name: 'product', 
-        params: { product }
-        
+        params: { id }
       })
-      console.log(product)
-      console.log(this.$store.getters['productList'])
     },
- 
-    
-    // goToProduct(id) {
-    //   this.$router.push({
-    //     name: 'product', 
-    //     params: { id }
-    //   })
-      
-    // },
 
     getProducts() {
       this.$store.dispatch('getProducts')
