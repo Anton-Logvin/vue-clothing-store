@@ -1,28 +1,29 @@
 <template>
 <div class="product">
   <product-photo :ImageProduct="product.images" :ProductColor="product.colors" />
-  <div class="product-info">
-    <span class="product-title">{{ product.title }}</span>
-    <p>Shipping: {{ product.shipping }}</p>
-
-    <div class="product-availability">
-      <p class="product-stock" :class="{ 'out-of-stock': !inStock }">
+  <div class="product__info">
+    <span class="product__title">{{ product.title }}</span>
+    <p> <span>
+          Quantity: {{ product.quantity }}
+        </span> / Shipping: {{ product.shipping }}
+    </p>
+    <div class="product__availability">
+      <p class="product__stock" :class="{ 'product__out-of-stock': !inStock }">
         {{ inStock ? 'In stock' : 'Out of Stock' }}
       </p>
-
       <div :style="!isSale ? `color: red`: ''">
         {{ isSale ? 'on sale' : 'not on sale' }}
       </div>
     </div>
-
-    <button @click.prevent.stop="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }">
+    <button 
+      @click.prevent.stop="addToCart" 
+      :disabled="!inStock" 
+      :class="{ disabledButton: !inStock }">
       Add to cart
     </button>
-    <button @click.prevent.stop="minToCart">delete to cart</button>
+    <span class="product__price">$ {{ product.price }} </span>
   </div>
-  <div class="cart">
-    <p>Cart({{ cartItem }})</p>
-  </div>
+
 </div>
 </template>
 
@@ -49,15 +50,8 @@ export default {
 
   methods: {
     addToCart() {
-      this.cartItem += 1
-
-    },
-    minToCart() {
-      this.cartItem -= 1
-      if (this.cartItem < 0) {
-        this.cartItem = 0
-      }
-    },
+      return this.$store.state.cart.push(this.product)
+    }
   },
 
   computed: {
@@ -73,48 +67,86 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-body {
-  font-family: tahoma;
-  color: #282828;
-  margin: 0px;
-}
+// body {
+//   font-family: tahoma;
+//   color: #282828;
+//   margin: 0px;
+// }
 
-.nav-bar {
-  background: linear-gradient(-90deg, #84CF6A, #16C0B0);
-  height: 60px;
-  margin-bottom: 15px;
-}
+// .nav-bar {
+//   background: linear-gradient(-90deg, #84CF6A, #16C0B0);
+//   height: 60px;
+//   margin-bottom: 15px;
+// }
 
 .product {
   flex-flow: wrap;
   padding: 1rem;
-}
 
-.product-title {
-  font-size: 22px;
-  color: #008512;
-}
 
-.product-availability {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
+  &__title {
+    font-size: 22px;
+    color: #008512;
+  }
 
-.product-btn {
-  margin-top: 0px;
-}
+  &__availability {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
 
-.color-box {
-  display: flex;
-  justify-content: center;
-}
+  &__price {
+    color: rgb(255, 0, 0);
+    font-size: 20px;
+    padding-left: 10px;
+  }
 
-.cart {
-  margin-right: 30px;
-  margin-top: 12px;
-  border: 1px solid #d8d8d8;
-  padding: 5px 10px;
+// .product-btn {
+//   margin-top: 0px;
+// }
+
+// .color-box {
+//   display: flex;
+//   justify-content: center;
+// }
+
+// .cart {
+//   margin-right: 30px;
+//   margin-top: 12px;
+//   border: 1px solid #d8d8d8;
+//   padding: 5px 10px;
+// }
+
+
+
+// .review-form {
+//   width: 400px;
+//   padding: 20px;
+//   margin: 40px;
+//   border: 1px solid #d8d8d8;
+// }
+
+// input {
+//   width: 100%;
+//   height: 25px;
+//   margin-bottom: 20px;
+// }
+
+// textarea {
+//   width: 100%;
+//   height: 60px;
+// }
+
+// .tab {
+//   margin-left: 20px;
+//   cursor: pointer;
+// }
+
+
+
+  &__out-of-stock {
+    text-decoration: line-through;
+  }
 }
 
 button {
@@ -137,42 +169,16 @@ button:hover {
 .disabledButton {
   background-color: #b4b4b4;
 }
+
 .disabledButton:hover {
   background: #b4b4b4;
 }
+
 .disabledButton:hover {
   box-shadow: none;
 }
-
-.review-form {
-  width: 400px;
-  padding: 20px;
-  margin: 40px;
-  border: 1px solid #d8d8d8;
-}
-
-input {
-  width: 100%;
-  height: 25px;
-  margin-bottom: 20px;
-}
-
-textarea {
-  width: 100%;
-  height: 60px;
-}
-
-.tab {
-  margin-left: 20px;
-  cursor: pointer;
-}
-
 .activeTab {
   color: #16C0B0;
   text-decoration: underline;
-}
-
-.out-of-stock {
-  text-decoration: line-through;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="page">
-    <h2>Product Main Page</h2>
-    <div class="title-container">
-      <div class="bacground-v"></div>
+  <div class="catalog">
+    <h2>Product catalog</h2>
+    <div class="catalog__body">
+      <div class="catalog__bacground-v"></div>
       <side-bar />
-      <div v-if="products.length" class="items-product container">
+      <div v-if="products.length" class="catalog__items container">
         <product-cart
           v-for="product in products"
           :key="product.id"
@@ -22,8 +22,11 @@ import SideBar from '@/components/SideBar'
 
 export default {
   name: 'CatalogPage',
-
-  components: { ProductCart, SideBar },
+  
+  components: { 
+    ProductCart, 
+    SideBar 
+  },
 
   computed: {
     products() {
@@ -50,23 +53,24 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.items-product {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
+<style lang="scss" scoped>
+.catalog {
 
-.bacground-v {
-  opacity: 0.2;
-  z-index: -1;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background: url('https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg') no-repeat top center;
-}
-
-.title-container {
-  position: relative;
+  &__body {
+    position: relative;
+  }
+  &__bacground-v {
+    opacity: 0.2;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg') no-repeat top center;
+  }
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
-  <div class="product-window">
+  <div class="product-view">
     
-    <div class="product-image">
+    <div class="product-view__image">
       <img :src="imageSrc" />
     </div>
-    <div class="color-box">
+    <div class="product-view__color-box">
     <div 
-      class="color-box__item" 
+      class="product-view__color-box-item" 
       v-for="(color, index) in ProductColor" 
       :key="index"
       :style="`background: ${color}`" 
@@ -43,36 +43,36 @@ export default {
 }
 </script>
 
-<style scoped>
-  img {
+<style lang="scss" scoped>
+img {
     border: 1px solid #d8d8d8;
     max-width: 350px;
     box-shadow: 0px 2px 5px rgb(204, 204, 204);
     border-radius: 10px;
 }
-.product-window {
+.product-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
   
-}
-
-.color-box {
+  &__color-box {
     display: flex;
     justify-content: center;
     width: 100%;
-}
+    padding-top: 5px;
+  }
 
-.color-box__item {
-    width: 40px;
-    height: 40px;
+  &__color-box-item {
+    width: 50px;
+    height: 10px;
     margin: 5px;
     background: red;
-    border-radius: 4px;
+    border-radius: 3px;
     box-shadow:  0px 0px 4px rgb(128, 128, 128);
-}
+  }
 
-.color-box__item:hover {
+  &__color-box-item:hover {
     box-shadow: 0px 0px 8px rgb(59, 59, 59);
+  }
 }
 </style>

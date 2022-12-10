@@ -14,18 +14,23 @@ const store = new Vuex.Store({
 
   getters: {
     productList: state => state.products,
-    cart(state) {
+    // productItem(productList) {
+    //   return productList.find(item => item === item.id)
+    // },
+    productById(state) {
+      return productId => {
+        return state.products.find(product => product.id === productId)
+      }
+    },
+    Cart(state) {
       return state.cart
     },
-    prodProd() {
-      return console.log('ppppp')
-    }
   },
 
   mutations: {
     getProductList(state, payload) {
       state.products = payload
-    },
+    }
   },
 
   actions: {
@@ -33,7 +38,7 @@ const store = new Vuex.Store({
       axios.get('/products.json').then((response) => {
         commit('getProductList', response.data)
       })
-    },
+    }
   }
 })
 

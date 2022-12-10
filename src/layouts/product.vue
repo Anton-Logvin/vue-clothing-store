@@ -1,12 +1,18 @@
 <template>
   <div v-if="product" class="container">
     <h2>{{ product.title }}</h2>
-    <div class="page">
-      <div class="page-discription">
-        <div>{{ product.title }}</div>
+    <div class="product">
+      <div class="product__discription">
+        <h5>{{ product.title }}</h5>
         <div>Product id: {{ product.id }}</div> 
         <div>Shipping: {{ product.shipping }}</div>
-        <button>Cart</button>
+        <div>Quantity: {{ product.quantity }}</div>
+        <span class="product__price">$ {{ product.price }} </span>
+        <b-button
+          variant="success"
+          @click="addToCart"
+        >
+        Add to Cart</b-button>
     </div>
     <div 
       v-for="(image, index) in product.images" 
@@ -34,7 +40,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['productList']),
+    ...mapGetters(['productList', 'Cart']),
     product() {
       return this.productList.find(item => item.id === this.productId)
     },
@@ -42,6 +48,9 @@ export default {
 
   methods: {
     ...mapActions(['getProducts']),
+    addToCart() {
+      return this.$store.state.cart.push(this.product)
+    }
   },
 
   mounted() {
@@ -53,21 +62,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
+img {
+  max-width: 400px;
+  width: 100%;
+}
+.product {
   padding: 30px;
   display: flex;
   border: 2px solid #ccc;
   border-radius: 10px;
   box-shadow: 0px 0px 6px gray;
-}
-.page-discription {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  min-width: 20%;
-}
-img {
-  max-width: 400px;
-  width: 100%;
+
+  &__discription {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-width: 20%;
+  }
+  &__price {
+    color: rgb(255, 0, 0);
+    font-size: 20px;
+  }
 }
 </style>
