@@ -1,10 +1,11 @@
 <template>
 <div class="main-page">
+  <!-- TODO: Вынести в отдельный компонент -->
   <b-carousel 
     class="main-slider" 
     ref="myCarousel" 
     id="carousel-fade" 
-    interval="2000" 
+    :interval="2000" 
     style="text-shadow: 0px 0px 2px #000" 
     fade indicators img-width="1024" 
     img-height="480"
@@ -20,7 +21,7 @@
       :key="product.id" 
       :product="product" 
     >
-    <div 
+      <div 
         v-for="(image, index) in product.images" 
         :key="index"
         class="main-page__item-image"
@@ -28,7 +29,7 @@
         <img :src="image" />
       </div>
       <div class="main-page__item-description">
-        <h4 class="main-page__item-title">{{product.title}}</h4>
+        <h4 class="main-page__item-title">{{ product.title }}</h4>
         <div class="main-page__item-icons">
           <b-icon icon="arrow-down-square" scale="2" aria-hidden="true"></b-icon>
           <b-icon icon="cart-check" animation="cylon" scale="2" aria-hidden="true"></b-icon>

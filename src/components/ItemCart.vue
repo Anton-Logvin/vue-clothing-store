@@ -1,32 +1,30 @@
 <template>
-<div class="item-cart container">
-  <div class="item-cart__product" v-for="(product, i) in toCart" :key="i" :product="product">
-    <div class="item-cart__image">
-      <div 
-        v-for="(image, index) in product.images" 
-        :key="index"
-      >
-        <img :src="image" />
+  <div class="item-cart container">
+    <div class="item-cart__product" v-for="(product, i) in cart" :key="i" :product="product">
+      <div class="item-cart__image">
+        <div 
+          v-for="(image, index) in product.images" 
+          :key="index"
+        >
+          <img :src="image" />
+        </div>
+      </div>
+      <div class="product-description">
+        <h4>{{ product.title }}</h4>
+        <p></p>
+        <span>id: {{ product.id }} Quantity: {{ product.quantity }}</span>
+        <div>Shipping: {{ product.shipping }}</div>
+        <p class="item-cart__price">$ {{ product.price }} </p>
+        <b-button variant="success">
+          Delete
+        </b-button>
       </div>
     </div>
-    <div class="product-description">
-      <h4>{{product.title}}</h4>
-      <p></p>
-      <span>id: {{ product.id }} Quantity: {{ product.quantity }}</span>
-      <div>Shipping: {{ product.shipping }}</div>
-      <p class="item-cart__price">$ {{ product.price }} </p>
-      <b-button
-          variant="success"
-          
-        >
-        Delete</b-button>
-    </div>
+    <!-- <div
+      :PriceCart="PriceCart"
+    ></div>
+    Order: {{ PriceCart }} -->
   </div>
-  <!-- <div
-    :PriceCart="PriceCart"
-  ></div>
-  Order: {{ PriceCart }} -->
-</div>
 </template>
 
 <script>
@@ -34,16 +32,8 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'ProductPage',
   props: [],
-  data() {
-    return {
-      
-    }
-  },
   computed: {
-    ...mapGetters(['Cart', 'productList', ]),
-    toCart() {
-      return this.Cart
-    }
+    ...mapGetters(['cart', 'productList', ]),
   },
   methods: {
     // ...mapActions(['getProducts']),

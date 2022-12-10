@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="header">
   <!-- menu sticky??????????????????? -->
   <b-navbar type="dark" variant="dark" class="navbar">
     <div class="container-lg">
@@ -20,7 +20,7 @@
         <router-link class="product-page-link" to="/cart">
           Cart
           <b-icon icon="cart4" aria-hidden="true"></b-icon>
-          {{ Cart.length }}
+          {{ cart.length }}
         </router-link>
 
         <a href="https://vuejs.org/" class="navbar-logo">
@@ -38,12 +38,20 @@
 import { mapGetters } from 'vuex';
 export default {
   computed: {
-    ...mapGetters(['Cart']),
+    ...mapGetters(['cart']),
   },
 }
 </script>
 
 <style scoped>
+.header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
 .product-page-link {
   text-decoration: none;
   color: #adadad;

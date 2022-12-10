@@ -1,30 +1,31 @@
 <template>
-<div class="product">
-  <product-photo :ImageProduct="product.images" :ProductColor="product.colors" />
-  <div class="product__info">
-    <span class="product__title">{{ product.title }}</span>
-    <p> <span>
+  <div class="product">
+    <product-photo :ImageProduct="product.images" :ProductColor="product.colors" />
+    <div class="product__info">
+      <span class="product__title">{{ product.title }}</span>
+      <p>
+        <span>
           Quantity: {{ product.quantity }}
-        </span> / Shipping: {{ product.shipping }}
-    </p>
-    <div class="product__availability">
-      <p class="product__stock" :class="{ 'product__out-of-stock': !inStock }">
-        {{ inStock ? 'In stock' : 'Out of Stock' }}
+        </span>
+        / Shipping: {{ product.shipping }}
       </p>
-      <div :style="!isSale ? `color: red`: ''">
-        {{ isSale ? 'on sale' : 'not on sale' }}
+      <div class="product__availability">
+        <p class="product__stock" :class="{ 'product__out-of-stock': !inStock }">
+          {{ inStock ? 'In stock' : 'Out of Stock' }}
+        </p>
+        <div :style="!isSale ? `color: red`: ''">
+          {{ isSale ? 'on sale' : 'not on sale' }}
+        </div>
       </div>
+      <button 
+        @click.prevent.stop="addToCart" 
+        :disabled="!inStock" 
+        :class="{ disabledButton: !inStock }">
+        Add to cart
+      </button>
+      <span class="product__price">$ {{ product.price }} </span>
     </div>
-    <button 
-      @click.prevent.stop="addToCart" 
-      :disabled="!inStock" 
-      :class="{ disabledButton: !inStock }">
-      Add to cart
-    </button>
-    <span class="product__price">$ {{ product.price }} </span>
   </div>
-
-</div>
 </template>
 
 <script>
@@ -50,7 +51,7 @@ export default {
 
   methods: {
     addToCart() {
-      return this.$store.state.cart.push(this.product)
+      return this.$store.dispatch('addProductToCart', this.product)
     }
   },
 

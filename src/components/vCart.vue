@@ -11,7 +11,6 @@
 
 <script>
 import ItemCart from '@/components/ItemCart'
-import { mapGetters } from 'vuex';
 export default {
   name: 'vCart',
   data() {
@@ -19,16 +18,7 @@ export default {
       
     }
   },
-  components: {
-    ItemCart
-  },
-  computed: {
-    ...mapGetters(['Cart', 'productList']),
-    toCart() {
-      return this.Cart
-    }
-    
-  },
+  components: { ItemCart },
   // methods: {
   //   ...mapActions(['getProducts']),
   //   PriceCart() {

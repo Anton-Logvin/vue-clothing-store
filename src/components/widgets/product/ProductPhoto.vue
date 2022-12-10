@@ -1,31 +1,39 @@
 <template>
   <div class="product-view">
-    
     <div class="product-view__image">
       <img :src="imageSrc" />
     </div>
     <div class="product-view__color-box">
-    <div 
-      class="product-view__color-box-item" 
-      v-for="(color, index) in ProductColor" 
-      :key="index"
-      :style="`background: ${color}`" 
-      @mouseover="updateProduct(index)"
-    />
-   
-  </div>  
+      <div 
+        class="product-view__color-box-item" 
+        v-for="(color, index) in ProductColor" 
+        :key="index"
+        :style="`background: ${color}`" 
+        @mouseover="updateProduct(index)"
+      />
+      <custom-radio-group 
+        v-model="selectedColor" 
+        :items="ProductColor" 
+        @click.native.stop 
+      />
+    </div>  
   </div>  
 </template>
 
 <script>
+import CustomRadioGroup from '@/components/form/CustomRadioGroup'
+
 export default {
   name: "ProductPhoto",
 
   props: ['ImageProduct','ProductColor'],
 
+  components: { CustomRadioGroup },
+
   data() {
     return {
-      selectedProduct: 0
+      selectedProduct: 0,
+      selectedColor: this.ProductColor[0],
     }
   },
 

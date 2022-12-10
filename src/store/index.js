@@ -22,14 +22,20 @@ const store = new Vuex.Store({
         return state.products.find(product => product.id === productId)
       }
     },
-    Cart(state) {
-      return state.cart
+
+    cart(state) {
+      const products = sessionStorage.getItem('cart')
+      return products ? JSON.parse(products) : state.cart
     },
   },
 
   mutations: {
     getProductList(state, payload) {
       state.products = payload
+    },
+
+    addProductToCart(state, product) {
+      state.cart.push(product)
     }
   },
 
@@ -38,6 +44,21 @@ const store = new Vuex.Store({
       axios.get('/products.json').then((response) => {
         commit('getProductList', response.data)
       })
+    },
+
+    addProductToCart({ commit }, product) {
+      const cart = sessionStorage.getItem('cart') || []
+
+      if(cart.length) {
+        const cartProducts = JSON.parse(cart)
+        const allProducts = [...cartProducts, product]
+        sessionStorage.setItem('cart', JSON.stringify(allProducts));
+        commit('addProductToCart', allProducts)
+      } else {
+        const selectedProduct = JSON.stringify([product])
+        sessionStorage.setItem('cart', selectedProduct);
+        commit('addProductToCart', product)
+      }
     }
   }
 })
