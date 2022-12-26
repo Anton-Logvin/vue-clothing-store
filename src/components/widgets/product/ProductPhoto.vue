@@ -4,23 +4,19 @@
       <img :src="imageSrc" />
     </div>
     <div class="product-view__color-box">
-      <div 
-        class="product-view__color-box-item" 
-        v-for="(color, index) in ProductColor" 
-        :key="index"
-        :style="`background: ${color}`" 
-        @mouseover="updateProduct(index)"
-      />
-      <custom-radio-group 
+    
+      <custom-radio-group
         v-model="selectedColor" 
         :items="ProductColor" 
-        @click.native.stop 
+        @click.native.stop
+        @getIndexPhoto="updateProduct"
       />
     </div>  
   </div>  
 </template>
 
 <script>
+// import { eventBus } from '@/main'
 import CustomRadioGroup from '@/components/form/CustomRadioGroup'
 
 export default {
@@ -44,8 +40,13 @@ export default {
   },
 
   methods: {
-    updateProduct(index) {
-      this.selectedProduct = index
+    updateProduct(getIndexPhoto) {
+      this.selectedProduct = getIndexPhoto
+      
+      return this.$store.dispatch('getIndexImageProduct', this.selectedProduct)
+    
+      // eventBus.$emit('indexImageCart', this.selectedProduct)
+      // console.log(this.selectedProduct)
     },
   }
 }

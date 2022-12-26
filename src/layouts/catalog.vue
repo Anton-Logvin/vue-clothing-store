@@ -5,7 +5,7 @@
       <div class="catalog__bacground-v"></div>
       <side-bar />
       <div v-if="products.length" class="catalog__items container">
-        <product-cart
+        <product-card
           v-for="product in products"
           :key="product.id"
           :product="product" 
@@ -17,14 +17,14 @@
 </template>
 
 <script>
-import ProductCart from '@/components/widgets/product/ProductCart'
+import ProductCard from '@/components/widgets/product/ProductCard'
 import SideBar from '@/components/SideBar'
 
 export default {
   name: 'CatalogPage',
   
   components: { 
-    ProductCart, 
+    ProductCard, 
     SideBar 
   },
 

@@ -49,6 +49,7 @@ export default {
   methods: {
     ...mapActions(['getProducts']),
     addToCart() {
+      console.log(this.product)
       return this.$store.state.cart.push(this.product)
     }
   },

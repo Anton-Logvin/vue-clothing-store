@@ -1,6 +1,5 @@
 <template>
 <div class="header">
-  <!-- menu sticky??????????????????? -->
   <b-navbar type="dark" variant="dark" class="navbar">
     <div class="container-lg">
       <b-navbar-nav>
@@ -12,7 +11,9 @@
         </b-nav-item>
         <!-- Navbar dropdowns -->
         <b-nav-item-dropdown text="User" right>
-          <b-dropdown-item href="#">Account</b-dropdown-item>
+          <b-dropdown-item href="#">
+            <router-link class="product-page-link" to="/user">Account</router-link>  
+          </b-dropdown-item>
           <b-dropdown-item href="#">Settings</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -51,23 +52,18 @@ export default {
   left: 0;
   z-index: 100;
 }
-
 .product-page-link {
   text-decoration: none;
   color: #adadad;
   transition: all .3s ease-out;
 }
-
 .product-page-link:hover {
   color: rgba(255, 255, 255, 0.849);
 }
-
 .navbar {
   font-size: 18px;
   background-image: linear-gradient(90deg, #001f31, #005212);
-  
 }
-
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -76,21 +72,16 @@ export default {
   color: rgba(240, 248, 255, 0.692);
   transition: all .3s ease-out;
 }
-
 .navbar-logo span {
   padding-right: 8px;
 }
-
 .navbar-logo:hover {
   opacity: 0.6;
 }
-
 .navbar-logo-image {
   width: 30px;
   height: 30px;
-
 }
-
 .navbar-cart {
   display: flex;
   align-items: center;

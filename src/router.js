@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import CatalogPage from './layouts/catalog'
 import ProductPage from './layouts/product'
 import MainPage from './layouts/MainPage'
+import UserPage from './layouts/UserPage'
 
 Vue.use(VueRouter)
 
@@ -22,8 +23,12 @@ const routes = [
   },
   {
     path: '/cart',
-    component: () => import('./components/vCart')
-  }
+    component: () => import('./layouts/Cart')
+  },
+  {
+    path: '/user',
+    component: UserPage
+  },
 ]
 
 export default new VueRouter({

@@ -16,11 +16,11 @@
   </b-carousel>
   <div class="main-page__items">
     <div 
-      class="main-page__item"
       v-for="product in products" 
       :key="product.id" 
       :product="product" 
     >
+    <router-link class="main-page__item" :to="'/catalog'">
       <div 
         v-for="(image, index) in product.images" 
         :key="index"
@@ -32,12 +32,13 @@
         <h4 class="main-page__item-title">{{ product.title }}</h4>
         <div class="main-page__item-icons">
           <b-icon icon="arrow-down-square" scale="2" aria-hidden="true"></b-icon>
-          <b-icon icon="cart-check" animation="cylon" scale="2" aria-hidden="true"></b-icon>
+          <b-icon icon="cart-check" scale="2" aria-hidden="true"></b-icon>
           <b-icon icon="emoji-sunglasses" scale="2" aria-hidden="true"></b-icon>
         </div>
         
         <span class="main-page__item-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, accusamus?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, explicabo!</span>
       </div>
+    </router-link>
     </div>
   </div>
 </div>
@@ -56,16 +57,12 @@ export default {
   },
   // ...
   methods: {
-    // prev() {
-    //   this.$refs.myCarousel.prev()
-    // },
-    // next() {
-    //   this.$refs.myCarousel.next()
-    // },
+
     getProducts() {
       this.$store.dispatch('getProducts')
     }
   },
+  
   created() {
     this.getProducts()
   }
@@ -89,6 +86,7 @@ export default {
   }
 
   &__item {
+    text-decoration: none;
     display: flex;
     justify-content: space-around;
     gap: 10px;
@@ -121,7 +119,7 @@ export default {
   &__item-title {
     font-size: 24px;
     color: #008512;
-    text-shadow: 0px 0px 3px #008512;
+    // text-shadow: 0px 0px 3px #008512;
   }
 
   &__item-icons {
