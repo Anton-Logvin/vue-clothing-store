@@ -1,18 +1,15 @@
 <template>
   <div class="cart">
     <h2>CART page</h2>
-    {{ totalCost }}
-    <button @click="totalCost">totalCost</button>
     <item-cart
-      v-for="(item, index) in cart"
+      v-for="item in cart"
       :key="item.id"
       :cart_item_data="item"
-      @deleteFromCart="$store.dispatch('removeProductFromCart', index)"  
-      @totalSumQuantity="totalCost"
+      @deleteFromCart="deleteProductFromCart(item.id)"  
     />
     <div class="cart-total">
       <p class="total__name">Total: </p>
-      <p>$ {{ cartTotalCost }}</p>
+      <p>$ {{ totalPrice }}</p>
     </div>
   </div>
 </template>
@@ -22,39 +19,20 @@ import { mapGetters, mapActions } from 'vuex'
 import ItemCart from '@/layouts/ItemCart'
 export default {
   name: 'cart_data',
-  data() {
-    return {
-      // sumQuantity: 0,
-      arr: [],
-    }
-  },
-  components: { ItemCart },
-  props: {
-  
-  },
+
+components: { ItemCart },
   
   computed: {
-    ...mapGetters(['cart']),
-    ...mapActions(['removeProductFromCart']),
+    ...mapGetters(['cart', 'totalPrice']),
+  },
 
-    cartTotalCost() {
-      let result = []
-      
-      for (let item of this.cart) {
-        result.push(item.price)
-      }
-        result = result.reduce((sum, el) => sum + el)  
-        // console.log(result)
-      return result
-    },
-  },
-  
   methods: {
-    totalCost(sumQuantity) {
-        console.log(sumQuantity)
-      // return sumQuantity
-    },
+    ...mapActions(['deleteProductFromCart']),
   },
+
+  mounted() {
+    this.$store.dispatch('setCartFromStorage');
+  }
 }
 
 </script>

@@ -17,14 +17,19 @@ const store = new Vuex.Store({
   getters: {
     productList: state => state.products,
     
-    cart(state) {
-      const products = sessionStorage.getItem('cart')
-      return products ? JSON.parse(products) : state.cart
-    },
+    cart: (state) => state.cart,
 
     indexImageGetter(state) {
       return state.indexImage
-    }
+    },
+
+    totalPrice(state) {
+      let sum = 0
+      state.cart.forEach(item => {
+        sum += item.price
+      })
+      return sum
+    },
   },
 
   mutations: {
@@ -39,12 +44,13 @@ const store = new Vuex.Store({
     addProductToCart(state, product) {
       state.cart.push(product)
     },
-    removeFromCart(state, index) {
-      const cart = sessionStorage.getItem('cart') || []
-      const allProducts = JSON.parse(cart)
-      allProducts.splice(index, 1)
-      sessionStorage.setItem('cart', JSON.stringify(allProducts));
-      // sessionStorage.removeItem(index);
+
+    addProductsFromStorage(state, products) {
+      state.cart = products
+    },
+
+    deleteProductFromCart(state, id) {
+      state.cart = state.cart.filter(item => item.id !== id) || []
     },
   },
 
@@ -59,25 +65,25 @@ const store = new Vuex.Store({
       commit('IndexImageProduct', selectedProduct)
     },
 
-    addProductToCart({ commit }, product) {
-      const cart = sessionStorage.getItem('cart') || []
-
-      if(cart.length) {
-        const cartProducts = JSON.parse(cart)
-        const allProducts = [...cartProducts, product]
-        sessionStorage.setItem('cart', JSON.stringify(allProducts));
-        commit('addProductToCart', allProducts)
-        
-      } else {
-        const selectedProduct = JSON.stringify([product])
-        sessionStorage.setItem('cart', selectedProduct);
-        commit('addProductToCart', product)
-      }
+    addProductToCart({ commit, dispatch }, product) {
+      commit('addProductToCart', product)
+      dispatch('saveToStorage')
     },
 
-    removeProductFromCart({commit}, index) {
-      
-      commit('removeFromCart', index)
+    deleteProductFromCart({ commit, dispatch}, id) {
+      commit('deleteProductFromCart', id)
+      dispatch('saveToStorage')
+    },
+
+    saveToStorage({ state }) {
+      sessionStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+
+    setCartFromStorage({ commit }) {
+      const products = JSON.parse(sessionStorage.getItem('cart'));
+      if (products && products.length) {
+        commit('addProductsFromStorage', products)
+      }
     },
   }
 })
