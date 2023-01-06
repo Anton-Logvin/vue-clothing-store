@@ -55,6 +55,7 @@ const store = new Vuex.Store({
             isProductExist = true
             item.quantityInCart++
             if(item.quantityInCart >= item.quantity) {
+              item.quantityInCart = item.quantity
               alert('Большего количества товара нет!!!')
             }
           }
