@@ -70,14 +70,15 @@ const store = new Vuex.Store({
       }
     
     },
+
     increment(state, index) {
       state.cart[index].quantityInCart++
       if (state.cart[index].quantityInCart > state.cart[index].quantity) {
         state.cart[index].quantityInCart = state.cart[index].quantity
         alert('Большего количества товара нет!!!')
-        
       }
     },
+
     decrement(state, index) {
       if(state.cart[index].quantityInCart > 1) {
       state.cart[index].quantityInCart--
@@ -114,6 +115,7 @@ const store = new Vuex.Store({
       commit('increment', index)
       dispatch('saveToStorage')
     },
+    
     decrementItemInCart({commit, dispatch}, index) {
       commit('decrement', index)
       dispatch('saveToStorage')

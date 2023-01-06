@@ -14,10 +14,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
     width: 100%;
-    bottom: 0;
-    left: 0;
     background: green;
     padding: 10px 20px;
   }

@@ -1,6 +1,7 @@
 <template>
   <div class="catalog">
     <h2>Product catalog</h2>
+    <catalog-filter />
     <div class="catalog__body">
       <div class="catalog__bacground-v"></div>
       <side-bar />
@@ -19,13 +20,15 @@
 <script>
 import ProductCard from '@/components/widgets/product/ProductCard'
 import SideBar from '@/components/SideBar'
+import CatalogFilter from '@/components/CatalogFilter'
 
 export default {
   name: 'CatalogPage',
   
   components: { 
     ProductCard, 
-    SideBar 
+    SideBar,
+    CatalogFilter
   },
 
   computed: {
@@ -55,7 +58,6 @@ export default {
 
 <style lang="scss" scoped>
 .catalog {
-
   &__body {
     position: relative;
   }

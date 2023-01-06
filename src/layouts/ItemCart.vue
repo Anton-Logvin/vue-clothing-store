@@ -77,10 +77,6 @@ export default {
       this.$emit('increment')
     },
   },
-
-  mounted() {
-    this.$set(this.cart_item_data, 'quantityInCart', 1)
-  },
 }
 </script>
 

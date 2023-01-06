@@ -1,14 +1,13 @@
 <template>
   <div>
-    <b-button v-b-toggle.sidebar-no-header class="sidebar-btn">Discount
-20-50%</b-button>
+    <b-button v-b-toggle.sidebar-no-header class="sidebar-btn">
+      Discount 20-50%
+    </b-button>
     <b-sidebar id="sidebar-no-header" class="sidebar"  aria-labelledby="sidebar-no-header-title" no-header bg-variant="light" text-variant="dark"  right shadow>
       <template #default="{ hide }">
         <div class="p-3">
           <h4 id="sidebar-no-header-title">Discounted Products</h4>
-          <p>
-            STORE DEALS       
-          </p>
+          <p>STORE DEALS</p>
           <nav class="mb-3">
             <b-nav vertical>
               <b-nav-item active @click="hide">SALE 50%</b-nav-item>
@@ -27,6 +26,7 @@
 .sidebar {
   opacity: 0.8;
 }
+
 .sidebar-btn {
   color:rgb(0, 151, 0);
   border-radius: 4px;
@@ -36,6 +36,7 @@
   padding: 10px 20px;
   transition: all .3s ease-out;
 }
+
 .sidebar-btn:hover {
   background: rgba(0, 128, 0, 0.685);
   color: rgb(255, 227, 202);

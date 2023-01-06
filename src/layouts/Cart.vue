@@ -22,7 +22,7 @@ import ItemCart from '@/layouts/ItemCart'
 export default {
   name: 'cart_data',
 
-components: { ItemCart },
+  components: { ItemCart },
   
   computed: {
     ...mapGetters(['cart', 'totalPrice',]),
@@ -33,7 +33,6 @@ components: { ItemCart },
       'deleteProductFromCart',
       'incrementItemInCart', 
       'decrementItemInCart',
-      
     ]),
     decrement(index) {
       this.decrementItemInCart(index)
@@ -42,9 +41,7 @@ components: { ItemCart },
     increment(index) {
       this.incrementItemInCart(index) 
     },
-
   },
-
 
   mounted() {
     this.$store.dispatch('setCartFromStorage');
@@ -57,21 +54,22 @@ components: { ItemCart },
 .cart {
   margin-bottom: 96px;
 }
-  .cart-total {
-    z-index: 100;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    background: rgb(0, 131, 0);
-    color: rgb(255, 255, 255);
-    font-size: 20px;
 
-  }
-  .total__name {
-    margin-right: 10px;
-  }
+.cart-total {
+  display: flex;
+  justify-content: center;
+  background: rgb(0, 131, 0);
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+}
+
+.total__name {
+  margin-right: 10px;
+}
 </style>
