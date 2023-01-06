@@ -1,42 +1,30 @@
 <template>
   <div class="product">
-    <product-photo 
-      :ImageProduct="product.images" 
-      :ProductColor="product.colors" 
+    <img 
+      class="product__image"
+      :src="product.images[0]" 
     />
+    
     <div class="product__info">
       <span class="product__title">{{ product.title }}</span>
-      <p>
-        <span>
-          Quantity: {{ product.quantity }}
-        </span>
-        / Shipping: {{ product.shipping }}
-      </p>
-      <div class="product__availability">
-        <p class="product__stock" :class="{ 'product__out-of-stock': !inStock }">
-          {{ inStock ? 'In stock' : 'Out of Stock' }}
-        </p>
-        <div :style="!isSale ? `color: red`: ''">
-          {{ isSale ? 'on sale' : 'not on sale' }}
-        </div>
+      <div class="product__buy">
+        <button 
+          @click.prevent.stop="addToCart" 
+          :disabled="!inStock" 
+          :class="{ disabledButton: !inStock }">
+          Add to cart
+        </button>
+        <span class="product__price">$ {{ product.price }} </span>
       </div>
-      <button 
-        @click.prevent.stop="addToCart" 
-        :disabled="!inStock" 
-        :class="{ disabledButton: !inStock }">
-        Add to cart
-      </button>
-      <span class="product__price">$ {{ product.price }} </span>
     </div>
   </div>
 </template>
 
 <script>
-import ProductPhoto from './ProductPhoto'
 
 export default {
   components: {
-    ProductPhoto,
+    
   },
 
   props: {
@@ -75,17 +63,30 @@ export default {
   flex-flow: wrap;
   padding: 1rem;
 
+  &__image {
+    border: 1px solid #d8d8d8;
+    max-width: 350px;
+    box-shadow: 0px 2px 5px rgb(204, 204, 204);
+    border-radius: 10px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    
+  }
 
   &__title {
     font-size: 22px;
     color: #008512;
+    padding: 6px;
   }
 
-  &__availability {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
+  // &__availability {
+  //   display: flex;
+  //   justify-content: center;
+  //   gap: 20px;
+  // }
 
   &__price {
     color: rgb(255, 0, 0);
@@ -93,17 +94,16 @@ export default {
     padding-left: 10px;
   }
 
-  &__out-of-stock {
-    text-decoration: line-through;
-  }
+  // &__out-of-stock {
+  //   text-decoration: line-through;
+  // }
 }
 
 button {
-  margin-right: 5px;
   border: none;
   background-color: #00a0159c;
   color: white;
-  height: 40px;
+  height: 36px;
   width: 100px;
   font-size: 14px;
   transition: .3s ease;

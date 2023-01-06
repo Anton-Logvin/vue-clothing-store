@@ -3,15 +3,17 @@
     <nav-bar />
     <h1 class="title">Branded Clothing Store VUE JS</h1>
     <router-view />
+    <FooterBar />
   </div>
 </template>
 
 <script>
 import NavBar from './components/NavBar'
+import FooterBar from './components/FooterBar.vue'
 
 export default {
   name: 'App',
-  components: { NavBar },
+  components: { NavBar, FooterBar },
 }
 </script>
 
@@ -21,6 +23,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   padding-top: 60px;
+  padding-bottom: 60px;
+  /* position: relative; */
 }
 
 .title {

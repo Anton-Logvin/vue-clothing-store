@@ -55,16 +55,23 @@ export default {
 <style lang="scss">
 .radio-group {
   display: flex;
+
   gap: 10px;
+
   &__label {
     border-radius: 4px;
-    width: 50px;
-    height: 15px;
+    width: 36px;
+    height: 36px;
     border: 1px solid gray;
     box-shadow: 0px 0px 5px rgb(204, 204, 204);
     display: flex;
     transition: all .3s ease-out;;
   }
+
+  &__label input {
+    display: none;
+  }
+
   &__label:hover {
     box-shadow: 0px 0px 5px rgb(99, 99, 99);
   }

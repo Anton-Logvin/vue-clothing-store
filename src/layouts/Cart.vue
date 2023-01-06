@@ -2,10 +2,12 @@
   <div class="cart">
     <h2>CART page</h2>
     <item-cart
-      v-for="item in cart"
+      v-for="(item, index) in cart"
       :key="item.id"
       :cart_item_data="item"
       @deleteFromCart="deleteProductFromCart(item.id)"  
+      @increment="increment(index)"
+      @decrement="decrement(index)"
     />
     <div class="cart-total">
       <p class="total__name">Total: </p>
@@ -23,12 +25,26 @@ export default {
 components: { ItemCart },
   
   computed: {
-    ...mapGetters(['cart', 'totalPrice']),
+    ...mapGetters(['cart', 'totalPrice',]),
   },
 
   methods: {
-    ...mapActions(['deleteProductFromCart']),
+    ...mapActions([
+      'deleteProductFromCart',
+      'incrementItemInCart', 
+      'decrementItemInCart',
+      
+    ]),
+    decrement(index) {
+      this.decrementItemInCart(index)
+    },
+
+    increment(index) {
+      this.incrementItemInCart(index) 
+    },
+
   },
+
 
   mounted() {
     this.$store.dispatch('setCartFromStorage');
@@ -42,6 +58,7 @@ components: { ItemCart },
   margin-bottom: 96px;
 }
   .cart-total {
+    z-index: 100;
     position: fixed;
     bottom: 0;
     right: 0;

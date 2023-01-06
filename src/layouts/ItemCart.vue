@@ -2,36 +2,31 @@
   <div class="item-cart container">
     <div class="item-cart__product">
       <div class="item-cart__image">
-        <div 
-          v-for="(image, index) in cart_item_data.images" 
-          :key="index"
-        >
-          <img :src="image" />
-        </div>
+        <img :src="cart_item_data.images[this.$store.state.indexImage]">
       </div>
-      <div class="product-description">
-        <h4>{{ cart_item_data.title }}</h4>
-        <span>
-          Quantity: 
-          <span class="item-cart__amount" @click="decrementItem">-</span>
-          {{ amountQuantity }}
-          <span class="item-cart__amount" @click="incrementItem">+</span>
-          <p>in stock:{{ cart_item_data.quantity }}</p> 
-        </span>
-        <div>Shipping: {{ cart_item_data.shipping }}</div>
-        <p class="item-cart__price">$ {{ sumQuantity }} </p>
-        <b-button 
-          variant="success"
-          @click="deleteFromCart"
-        >
-          Delete
-        </b-button>
-        <!-- <b-button 
-          variant="success"
-          @click="IndexImageProduct"
-        >
-          image Index
-        </b-button> -->
+      <div class="item-cart__description">
+        <h4 class="item-cart__title">{{ cart_item_data.title }}</h4>
+        <div class="item-cart__sub-title">
+          <div>
+            <span>
+              Quantity: <br />
+              <span class="item-cart__amount" @click="decrementItem">-</span>
+                {{ cart_item_data.quantityInCart }}
+              <span class="item-cart__amount" @click="incrementItem">+</span>
+              <p>in stock: {{ cart_item_data.quantity }}</p>
+            </span>
+          </div>
+          <div>Shipping: {{ cart_item_data.shipping }}
+            <div class="item-cart__color">Color: <div class="item-cart__color-item" :style="`background: ${cart_item_data.colors[this.$store.state.indexImage]}`"></div> </div>
+          </div>
+          
+          <div>
+            <p class="item-cart__price">$ {{ sumQuantity }} </p>
+            <b-button variant="success" @click="deleteFromCart">
+              Delete
+            </b-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -39,15 +34,11 @@
 
 <script>
 
-// import { eventBus } from '../main'
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'ItemCart',
   data() {
-    return {
-      amountQuantity: 1,
-      summProduct: 0
-    }
+    return {}
   },
   props: {
     cart_item_data: {
@@ -57,61 +48,39 @@ export default {
   },
 
   computed: {
-    // ...mapMutations(['IndexImageProduct']),
-    // ...mapGetters(['indexImageGetter']),
+    ...mapGetters(['']),
 
     sumQuantity() {
-      // let quantity = this.amountQuantity
-      let sumQuantity = this.cart_item_data.price * this.amountQuantity
+      let sumQuantity = this.cart_item_data.price * this.cart_item_data.quantityInCart
       this.$emit('totalSumQuantity', sumQuantity)
       return sumQuantity
     },
 
-    //   indexImageFromCart() {
-    //   console.log(this.$store.state.indexImage)
-    //   return this.$store.actions.getIndexImageProduct
-    // }
+    imgIndexCart() {
+      console.log(this.$store.state.indexImage)
+      return this.$store.getters['getIndexImageProduct']
+    },
   },
 
-  // created() {
-  //   eventBus.$on('indexImageCart', this.selectedProduct)
-  //   console.log(this.selectedProduct)
-  // },
-
   methods: {
-    ...mapGetters(['indexImageGetter']),
-
-    // imgIndexCart() {
-    //   console.log(this.$store.getters['indexImageGetter'])
-    //   return this.$store.getters['indexImageGetter']
-    // },
-
-    ...mapActions([
-      'incrementCartItem', 
-      'decrementCartItem', 
-      'removeProductFromCart'
-    ]),
+    ...mapGetters(['indexImageGetter', 'getIndexImageProduct']),
 
     deleteFromCart() {
       this.$emit('deleteFromCart')
     },
-  
+
     decrementItem() {
-      this.amountQuantity--
-      this.$emit('getAmountQuantity', this.amountQuantity)
-      if (this.amountQuantity < 1) return this.amountQuantity = 1
-      
+      this.$emit('decrement')
     },
 
     incrementItem() {
-      this.amountQuantity++
-      this.$emit('getAmountQuantity', this.amountQuantity)
-      if (this.amountQuantity > this.cart_item_data.quantity) {
-        alert('Больше товара нет в наличии')
-        return this.amountQuantity = this.cart_item_data.quantity
-      }
+      this.$emit('increment')
     },
-  }
+  },
+
+  mounted() {
+    this.$set(this.cart_item_data, 'quantityInCart', 1)
+  },
 }
 </script>
 
@@ -125,11 +94,9 @@ export default {
     margin: 0 auto;
     border: 2px solid rgb(190, 190, 190);
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 10px;
     box-shadow: 0px 0px 6px gray;
-    justify-content: space-around;
-    padding-top: 20px;
   }
 
   &__image {
@@ -139,12 +106,42 @@ export default {
   &__image img {
     max-width: 200px;
   }
+
+  &__description {
+    flex-grow: 1;
+    position: relative;
+  }
+
+  &__title {
+    position: absolute;
+  }
+
+  &__sub-title {
+    padding-top: 3em;
+    display: flex;
+    justify-content: space-around;
+  }
+
   &__amount {
     padding: 4px;
   }
+
   &__amount:hover {
     cursor: pointer;
   }
+
+  &__color {
+    display: flex;
+    gap: 10px;
+  } 
+
+  &__color-item {
+    height: 12px;
+    width: 26px;
+    margin-top: 7px;
+    border-radius: 2px;
+  }
+
   &__price {
     color: rgb(255, 0, 0);
     font-size: 20px;

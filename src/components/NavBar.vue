@@ -21,7 +21,7 @@
         <router-link class="product-page-link" to="/cart">
           Cart
           <b-icon icon="cart4" aria-hidden="true"></b-icon>
-          {{ cart.length }}
+          {{ cartLength }}
         </router-link>
 
         <a href="https://vuejs.org/" class="navbar-logo">
@@ -39,8 +39,12 @@
 import { mapGetters } from 'vuex';
 export default {
   computed: {
-    ...mapGetters(['cart']),
+    ...mapGetters(['cart', 'cartLength']),
+  
   },
+  created() {
+   
+  }
 }
 </script>
 
