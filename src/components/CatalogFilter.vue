@@ -10,74 +10,73 @@
     7. Настроить работу фильтра 
   -->
   <div class="filter">
-    <p>Категория</p>
-    <label>
-      <input type="checkbox">
-      <span>Майки</span>
-    </label>
-    <label>
-      <input type="checkbox">
-      <span>Кепки</span>
-    </label>
-    <label>
-      <input type="checkbox">
-      <span>Носки</span>
-    </label>
-    <p>Цена</p>
-    <div>
-      <span>От</span>
-      <input type="text">
-      <span>До</span>
-      <input type="text">
-    </div>
-    <p>Цвета</p>
-    <div class="color">
-      <label class="color__item">
-        <input class="color__checkbox" type="checkbox">
-        <span class="color__trigger"></span>
-      </label>
-      <label class="color__item">
-        <input class="color__checkbox" type="checkbox">
-        <span class="color__trigger"></span>
-      </label>
-      <label class="color__item">
-        <input class="color__checkbox" type="checkbox">
-        <span class="color__trigger"></span>
-      </label>
-    </div>
+    <custom-input 
+      @searchByTitle="searchTitleProductName"
+    />
+    <custom-checkbox 
+      @changeCategories="changeCategories"
+    />
+    <custom-price-filter 
+      @changePriceFilter="changePriceFilter"
+    />
+    <custom-colors-filter 
+      @giveColorProductsToParent="changeColorProducts"
+    />
   </div>
 </template>
 
 <script>
+import CustomCheckbox from './form/CustomCheckbox'
+import CustomColorsFilter from './form/CustomColorsFilter'
+import CustomInput from './form/CustomInput'
+import CustomPriceFilter from './form/CustomPriceFilter'
+
 export default {
-  name: 'CatalogFilter'
+  name: 'CatalogFilter',
+
+  data() {
+    return {
+            
+    }
+  },
+
+  components: {
+    CustomCheckbox,
+    CustomPriceFilter,
+    CustomColorsFilter,
+    CustomInput,
+  },
+  computed: {
+    
+  },
+
+  methods: {
+    searchTitleProductName(searchTitle) {
+      console.log(searchTitle)
+      this.$emit('searchTitleProduct', searchTitle) 
+
+    },
+    changeCategories(changeCategories) {
+      this.$emit('filterChangeCategories', changeCategories)
+    },
+
+    changePriceFilter(minPrice, maxPrice) {
+      this.$emit('minMaxPriceFilter', minPrice, maxPrice)
+    },
+
+    changeColorProducts(changedColor) {
+      this.$emit('changeColorProducts', changedColor)
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-.color {
-  &__item {
-    cursor: pointer;
-    display: block;
-  }
-
-  &__trigger {
-    display: block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #ffa500;
-    border: 2px solid transparent;
-  }
-
-  &__checkbox {
-    display: none;
-    
-    &:checked {
-      & + .color__trigger{
-        border-color: #cb11ab;
-      }
-    }
-  }
+.filter {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
+
+
 </style>

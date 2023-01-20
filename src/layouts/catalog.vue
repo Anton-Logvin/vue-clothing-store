@@ -1,13 +1,29 @@
 <template>
   <div class="catalog">
-    <h2>Product catalog</h2>
-    <catalog-filter />
+    <h2 @click="sortByColors">Product catalog</h2>
+    
+    <catalog-filter 
+      @filterChangeCategories="sortByCategories"
+      @minMaxPriceFilter="setRangeSliders"
+      @changeColorProducts="sortByColors"
+      @searchTitleProduct="searchByNameProduct"
+    />
+  <!-- <button @click="searchTitleProduct">search</button> -->
+
+    <div>
+      <input 
+        v-model="searchTitle" 
+        type="text" 
+        placeholder="search product"
+    >
+    </div>
+
     <div class="catalog__body">
       <div class="catalog__bacground-v"></div>
       <side-bar />
       <div v-if="products.length" class="catalog__items container">
         <product-card
-          v-for="product in products"
+          v-for="product in searchByNameProduct"
           :key="product.id"
           :product="product" 
           @click.native="goToProduct(product.id)" 
@@ -22,6 +38,7 @@ import ProductCard from '@/components/widgets/product/ProductCard'
 import SideBar from '@/components/SideBar'
 import CatalogFilter from '@/components/CatalogFilter'
 
+
 export default {
   name: 'CatalogPage',
   
@@ -31,10 +48,35 @@ export default {
     CatalogFilter
   },
 
+  data() {
+    return {
+      filterProducts: [],
+      minPrice: 0,
+      maxPrice: 100,
+      changedColor: '',
+      searchTitle: ''
+    }
+  },
+
   computed: {
     products() {
       return this.$store.getters['productList']
     },
+
+    sortedProducts() {
+      if (this.filterProducts.length) {
+        return this.filterProducts.filter(item => item.price >= this.minPrice && item.price <= this.maxPrice)
+      } else {
+        return this.$store.getters['productList'].filter(item => item.price >= this.minPrice && item.price <= this.maxPrice)
+      }
+    },
+
+    searchByNameProduct() {
+      return this.sortedProducts.filter(product => {
+        return product.title.toUpperCase().indexOf(this.searchTitle.toUpperCase()) > -1
+      })
+    },
+
   },
 
   methods: {
@@ -47,6 +89,39 @@ export default {
 
     getProducts() {
       this.$store.dispatch('getProducts')
+    },
+
+    searchTitleProduct(searchTitle) {
+      this.searchTitle = searchTitle
+      console.log(this.searchTitle)
+    },
+
+    sortByCategories(changeCategories) {
+      this.filterProducts = []
+      const allProducts = this.$store.getters['productList']
+      for(let i = 0; i < allProducts.length; i++) {
+        if(changeCategories.join().includes(allProducts[i].category)) {
+          this.filterProducts.push(allProducts[i])
+        }
+      } 
+    },
+
+    setRangeSliders(minPrice, maxPrice) {
+      this.minPrice = minPrice
+      this.maxPrice = maxPrice
+    },
+
+    sortByColors(changedColor) {
+      // console.log(changedColor)
+      // this.filterProducts = []
+      const allProducts = this.$store.getters['productList']
+      for(let i = 0; i < allProducts.length; i++) {
+        if(allProducts[i].colors.includes(changedColor)) {
+          this.filterProducts.push(allProducts[i])
+          // console.log([...new Set(this.filterProducts)])
+          return [...new Set(this.filterProducts)]
+        }
+      }
     }
   },
 
@@ -54,6 +129,7 @@ export default {
     this.getProducts()
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -61,6 +137,7 @@ export default {
   &__body {
     position: relative;
   }
+
   &__bacground-v {
     opacity: 0.2;
     z-index: -1;
@@ -69,6 +146,7 @@ export default {
     position: absolute;
     background: url('https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg') no-repeat top center;
   }
+
   &__items {
     display: flex;
     flex-wrap: wrap;

@@ -31,9 +31,9 @@
       <div class="product__buy">
         <span class="product__price">$ {{ product.price }} </span>
         <b-button variant="success" @click="addToCart">
-          Add to Cart</b-button>
+          Add to Cart
+        </b-button>
       </div>
-
     </div>
     <!-- <div 
       v-for="(image, index) in product.images" 

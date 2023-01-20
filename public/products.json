@@ -1,13 +1,14 @@
 [
   {
     "id": 1,
-    "title": "Vue Mastery Socks",
+    "title": "Due Mastery Socks",
     "selectedProduct": 0,
     "quantity": 7,
     "price": 12,
     "availability": true,
     "shipping": "Free",
     "isSale": true,
+    "category": "socks",
     "colors": [
       "#00ff00",
       "#4169E1"
@@ -19,13 +20,14 @@
   },
   {
     "id": 2,
-    "title": "Vue T-shirt",
+    "title": "Vue T-shirt!!!",
     "selectedProduct": 0,
     "quantity": 3,
     "price": 11.5,
     "availability": true,
     "shipping": "Free",
     "isSale": false,
+    "category": "t-shirt",
     "colors": [
       "#000000",
       "#00ff00"
@@ -44,6 +46,7 @@
     "availability": true,
     "shipping": "Free",
     "isSale": true,
+    "category": "cap",
     "colors": [
       "#B22222",
       "#8B4513"
@@ -55,13 +58,14 @@
   },
   {
     "id": 4,
-    "title": "Vue T-shirt",
+    "title": "Gue T-shirt",
     "selectedProduct": 0,
     "quantity": 2,
     "price": 5.5,
     "availability": true,
     "shipping": "Free",
     "isSale": true,
+    "category": "t-shirt",
     "colors": [
       "#FFFF00",
       "#FFF"
@@ -80,6 +84,7 @@
     "availability": true,
     "shipping": "Free",
     "isSale": true,
+    "category": "socks",
     "colors": [
       "#4169E1",
       "#00ff00"
@@ -98,6 +103,7 @@
     "availability": false,
     "shipping": "Free",
     "isSale": false,
+    "category": "cap",
     "colors": [
       "#8B4513",
       "#B22222"
@@ -105,6 +111,44 @@
     "images": [
       "/images/cap-brown.jpg",
       "/images/cap-red.jpg"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Gue T-shirt",
+    "selectedProduct": 0,
+    "quantity": 2,
+    "price": 9.5,
+    "availability": true,
+    "shipping": "Free",
+    "isSale": true,
+    "category": "t-shirt",
+    "colors": [
+      "#FFF",
+      "#FFFF00"
+    ],
+    "images": [
+      "/images/t-shirt-white.jpg",
+      "/images/t-shirt-yellow.jpg"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Vue T-shirt!!!",
+    "selectedProduct": 0,
+    "quantity": 3,
+    "price": 15.5,
+    "availability": true,
+    "shipping": "Free",
+    "isSale": false,
+    "category": "t-shirt",
+    "colors": [
+      "#00ff00",
+      "#000000"
+    ],
+    "images": [
+      "/images/vue-t-shirt-green.jpeg",
+      "/images/vue-t-shirt-black.jpeg"
     ]
   }
 ]
