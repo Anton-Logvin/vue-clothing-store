@@ -1,49 +1,34 @@
 <template>
-  <div>
-    <p>Категория</p>
-    <label>
-      <input 
-        type="checkbox" 
-        v-model="categories" 
-        value="t-shirt" 
-        @change="changeCategories"
-      >
-      <span>Майки</span>
-    </label>
-    <label>
-      <input 
-        type="checkbox" 
-        v-model="categories" 
-        value="cap" 
-        @change="changeCategories"
-      >
-      <span>Кепки</span>
-    </label>
-    <label>
-      <input 
-        type="checkbox" 
-        v-model="categories" 
-        value="socks" 
-        @change="changeCategories"
-      >
-      <span>Носки</span>
-    </label>
-  </div>
+  <label>
+    <input type="checkbox" v-model="selected">
+    <span v-if="label">{{ label }}</span>
+  </label>
 </template>
 
 <script>
 export default {
   name: 'CustomCheckbox',
 
-  data() {
-    return {
-      categories: [],
+  props: {
+    value: {
+      type: [Boolean, String],
+      default: false
+    },
+    label: {
+      type: String,
+      default: ""
     }
   },
-  methods: {
-    changeCategories() {
-      this.$emit('changeCategories', this.categories)
+
+  computed: {
+    selected: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
+      }
     }
-  }
+  },
 }
 </script>

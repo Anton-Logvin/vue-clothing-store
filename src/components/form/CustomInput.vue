@@ -1,11 +1,9 @@
 <template>
   <div>
-    <input 
+    <input
+      v-model="search"
       placeholder="search product"
-      v-model="searchNameProduct"
-      @onInput="searchByTitle"
     >
-  <p>{{ searchNameProduct }}</p>
   </div>
 </template>
 
@@ -14,20 +12,24 @@
 
 export default {
   name: 'CustomInput',
-  data() {
-    return {
-      searchNameProduct: ''
+
+  props: {
+    value: {
+      type: String,
+      default: ""
     }
   },
-  methods: {
-    searchByTitle() {
-      this.$emit('searchByTitle', this.searchNameProduct)
+
+  computed: {
+    search: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
+      }
     }
-  }
+  },
 }
 
 </script>
-
-<style lang="scss" scoped>
-
-</style>

@@ -37,8 +37,11 @@ const store = new Vuex.Store({
     },
 
     getIndexImageProduct(state) {
-      // console.log(state.indexImage)
       return state.indexImage
+    },
+
+    allProductColors(state) {
+      return [...new Set(state.products.map(item => item = item.colors).flat(2))]
     }
   },
 

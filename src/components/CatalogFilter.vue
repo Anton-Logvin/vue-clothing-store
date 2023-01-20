@@ -1,27 +1,21 @@
 <template>
-  <!-- 
-  TODO: 
-    1. сделать компонент custom checkbox
-    2. сделать компонент custom input
-    3. сделать компонент цена
-    4. сделать компонент цвет/группа цветов
-    5. оформить фильтр на странице Каталог
-    6. Заполнить фильтр данными
-    7. Настроить работу фильтра 
-  -->
   <div class="filter">
-    <custom-input 
-      @searchByTitle="searchTitleProductName"
-    />
-    <custom-checkbox 
-      @changeCategories="changeCategories"
-    />
-    <custom-price-filter 
-      @changePriceFilter="changePriceFilter"
-    />
-    <custom-colors-filter 
-      @giveColorProductsToParent="changeColorProducts"
-    />
+    <!-- TODO: Сделать поиск сразу используюя функцию debounce -->
+    <custom-input v-model="search" />
+    
+    <div>
+      <p>Категории</p>
+      <custom-checkbox  v-model="category.tshirt" label="Майки" />
+      <custom-checkbox  v-model="category.cap" label="Кeпки" />
+      <custom-checkbox  v-model="category.socks" label="Носки" />
+    </div>
+
+    <custom-price-filter v-model="priceRange" />
+
+    <custom-colors-filter v-model="colors" />
+
+    <button>Применить</button>
+    <button>Сбросить</button>
   </div>
 </template>
 
@@ -36,7 +30,17 @@ export default {
 
   data() {
     return {
-            
+      search: "",
+      category: {
+        tshirt: false,
+        cap: false,
+        socks: false,
+      },
+      priceRange: {
+        minPrice: 0,
+        maxPrice: 100
+      },
+      colors: [],
     }
   },
 
@@ -46,16 +50,12 @@ export default {
     CustomColorsFilter,
     CustomInput,
   },
-  computed: {
-    
-  },
 
   methods: {
     searchTitleProductName(searchTitle) {
-      console.log(searchTitle)
       this.$emit('searchTitleProduct', searchTitle) 
-
     },
+
     changeCategories(changeCategories) {
       this.$emit('filterChangeCategories', changeCategories)
     },

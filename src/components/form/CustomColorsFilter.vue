@@ -10,11 +10,12 @@
         <input 
           class="color__checkbox" 
           type="checkbox"
-          @change="giveColorProductsToParent(color)"
+          v-model="selectedColors"
+          :value="color"
         >
         <span class="color__trigger"
-          :style="{background: color}"
-        ></span>
+          :style="{ background: color }"
+        />
       </label>
     </div>
   </div>
@@ -24,46 +25,37 @@
 
 export default {
   name: 'CustomColorsFilter',
-  data() {
-    return {
-      colors: [],
-      changeColor: ''
+
+  props: {
+    value: {
+      type: Array,
+      default: () => []
     }
   },
 
   computed: {
+    selectedColors: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
+      }
+    },
     getColorsProducts() {
-      return this.allColorsProducts()
+      return this.$store.getters['allProductColors']
     }
   },
-
-  methods: {
-    allColorsProducts() {
-      let productsColors = []
-      const allProducts = this.$store.getters['productList']
-      productsColors.push(allProducts.map(item => item = item.colors))
-      let colors = []
-      colors.push(productsColors.flat(2))
-      colors = new Set(colors[0])
-      colors = Array.from(colors)
-      this.colors = colors
-      return colors
-    },
-
-    giveColorProductsToParent(changeColor) {
-      this.$emit('giveColorProductsToParent', changeColor)
-    }
-  }
 }
 
 </script>
 
 <style lang="scss" scoped>
 .color {
-    max-width: 250px;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px;
+  max-width: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
 
   &__item {
     cursor: pointer;

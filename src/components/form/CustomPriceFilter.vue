@@ -5,10 +5,11 @@
       type="range" 
       min="0" 
       max="100" 
-      step="5" 
+      step="5"
       v-model.number="minPrice" 
       @change="setRangeSliders"
     >
+
     <input 
       type="range" 
       min="0" 
@@ -25,10 +26,18 @@
 export default {
   name: 'CustomPriceFilter',
 
+  props: {
+    value: {
+      type: Object,
+      default: null,
+    }
+  },
+
   data() {
     return {
-      minPrice: 0,
-      maxPrice: 100,
+      // TODO: Поменять значения 0 и 100 на самый дешевый и дорогой товар соответственно
+      minPrice: this.value.minPrice || 0,
+      maxPrice: this.value.maxPrice || 100,
     }
   },
   methods: {
@@ -38,7 +47,10 @@ export default {
         this.maxPrice = this.minPrice
         this.minPrice = tmp
       }
-      this.$emit('changePriceFilter', this.minPrice, this.maxPrice)
+      this.$emit('input', {
+        minPrice: this.minPrice,
+        maxPrice: this.maxPrice
+      })
     },
   }
 }
