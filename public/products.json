@@ -105,12 +105,10 @@
     "isSale": false,
     "category": "cap",
     "colors": [
-      "#8B4513",
-      "#B22222"
+      "#8B4513"
     ],
     "images": [
-      "/images/cap-brown.jpg",
-      "/images/cap-red.jpg"
+      "/images/cap-brown.jpg"
     ]
   },
   {
@@ -143,11 +141,11 @@
     "isSale": false,
     "category": "t-shirt",
     "colors": [
-      "#00ff00",
+      
       "#000000"
     ],
     "images": [
-      "/images/vue-t-shirt-green.jpeg",
+     
       "/images/vue-t-shirt-black.jpeg"
     ]
   }

@@ -17,6 +17,7 @@
           :style="{ background: color }"
         />
       </label>
+      {{ this.value }}
     </div>
   </div>
 </template>
@@ -35,13 +36,16 @@ export default {
 
   computed: {
     selectedColors: {
+
       get() {
         return this.value
       },
       set(val) {
+        // console.log(val)
         this.$emit('input', val)
       }
     },
+    
     getColorsProducts() {
       return this.$store.getters['allProductColors']
     }

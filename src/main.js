@@ -9,6 +9,7 @@ import './plugins/axios'
 import store from './store'
 import router from '@/router'
 
+
 Vue.config.productionTip = false
 
 export const eventBus = new Vue()
@@ -16,5 +17,8 @@ export const eventBus = new Vue()
 new Vue({
   router,
   store,
+  // computed: {
+  //   ...mapGetters(['productList'])
+  // },
   render: h => h(App),
 }).$mount('#app')

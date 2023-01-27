@@ -11,12 +11,24 @@ const store = new Vuex.Store({
   state: {
     products: [],
     cart: [],
-    indexImage: 0
+    indexImage: 0,
+    productColors: [],
+    filteredProducts: [],
+    minPrice: 0,
+    maxPrice: 90
   },
 
   getters: {
-    productList: state => state.products,
-    
+    productList(state) {
+      console.log(state.products)
+      return state.products
+    },
+
+    filteredProductsList(state) {
+      console.log(state.filteredProducts)
+      return state.filteredProducts
+    },
+
     cart: (state) => state.cart,
 
     totalPrice(state) {
@@ -30,6 +42,26 @@ const store = new Vuex.Store({
       // return sum
     },
 
+    minProductPrice(state) {
+      let priceProducts = []
+      // console.log(state.products)
+      state.products.forEach(item => {
+        item = item.price
+        priceProducts.push(item)
+      })
+      return Math.min.apply(null, priceProducts)
+    },
+
+    maxProductPrice(state) {
+      
+      let priceProducts = []
+      state.products.forEach(item => {
+        item = item.price
+        priceProducts.push(item)
+      })
+      return Math.max.apply(null, priceProducts)
+    },
+
     cartLength(state) {
       let amountCartProduct = 0
       state.cart.forEach((item) => amountCartProduct += item.quantityInCart)
@@ -40,9 +72,11 @@ const store = new Vuex.Store({
       return state.indexImage
     },
 
-    allProductColors(state) {
-      return [...new Set(state.products.map(item => item = item.colors).flat(2))]
-    }
+    allProductColors(state, productColors) {
+      productColors = [...new Set(state.products.map(item => item = item.colors).flat(2))]
+      return productColors
+    },
+
   },
 
   mutations: {
@@ -59,7 +93,7 @@ const store = new Vuex.Store({
             item.quantityInCart++
             if(item.quantityInCart >= item.quantity) {
               item.quantityInCart = item.quantity
-              alert('Большего количества товара нет!!!')
+              alert('Большего товара нет!!!')
             }
           }
         })
@@ -78,7 +112,7 @@ const store = new Vuex.Store({
       state.cart[index].quantityInCart++
       if (state.cart[index].quantityInCart > state.cart[index].quantity) {
         state.cart[index].quantityInCart = state.cart[index].quantity
-        alert('Большего количества товара нет!!!')
+        alert('Большего товара нет!!!')
       }
     },
 
@@ -99,6 +133,54 @@ const store = new Vuex.Store({
     IndexImageProductToCart(state, indexPhoto) {
       state.indexImage = indexPhoto
       // console.log(state.indexImage)
+    },
+
+
+
+    filteredProducts(state, filterSetting) {
+      let arr = []
+      for(const product of state.products) {
+        
+        if(product.price < filterSetting.priceRange.maxPrice && product.price > filterSetting.priceRange.minPrice) {
+        
+          if(filterSetting.category.cap && product.category === 'cap') {
+            arr.push(product)
+            console.log(arr)
+          }
+          if(filterSetting.category.tshirt && product.category === 't-shirt') {
+            arr.push(product)
+          }
+          if(filterSetting.category.socks && product.category === 'socks') {
+            arr.push(product)
+          }
+          
+        }
+         else {
+          arr.push(product)
+        }
+      }
+      if(arr.length) {
+        state.filteredProducts = arr
+        console.log(state.filteredProducts)
+      } else {
+        state.filteredProducts = state.products
+      }
+      if(filterSetting.colors.length) {
+        let result = []
+        for(const item of state.filteredProducts) {
+          for(const color of filterSetting.colors) {
+            if(item.colors.includes(color)) {
+              result.push(item)
+            }
+            state.filteredProducts = [...new Set(result)]
+          }
+          
+        }
+        console.log(state.filteredProducts)
+      } else { 
+          state.filteredProducts = state.products
+          console.log(state.filteredProducts)
+        }
     }
   },
 
@@ -106,6 +188,8 @@ const store = new Vuex.Store({
     getProducts({ commit }) {
       axios.get('/products.json').then((response) => {
         commit('getProductList', response.data)
+        // dispatch('minPriceProducts')
+        // dispatch('maxPriceProducts')
       })
     },
 
@@ -134,14 +218,22 @@ const store = new Vuex.Store({
       dispatch('saveToStorage')
     },
 
-    saveToStorage({ state }) {
-      sessionStorage.setItem('cart', JSON.stringify(state.cart));
-      // sessionStorage.setItem('indexImage', JSON.stringify(state.indexImage))
-    },
-    // setQuantityInCart({commit}) {
-    //   commit('setQuantityInCart', )
+    // minPriceProducts({commit}) {
+    //   commit('minProductPrice')
+    // },
+    // maxPriceProducts({commit}) {
+    //   commit('maxProductPrice')
     // },
 
+    filteredProducts({commit,}, filterSetting) {
+      console.log(filterSetting)
+      commit('filteredProducts', filterSetting)
+    },
+        
+    saveToStorage({ state }) {
+      sessionStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+  
     setCartFromStorage({ commit }) {
       const products = JSON.parse(sessionStorage.getItem('cart'));
       if (products && products.length) {

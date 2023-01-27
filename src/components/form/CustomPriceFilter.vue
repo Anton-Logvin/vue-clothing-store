@@ -19,6 +19,7 @@
       @change="setRangeSliders"
     >
     <p>Max: {{ maxPrice }}</p>
+    
   </div>
 </template>
 
@@ -37,10 +38,18 @@ export default {
     return {
       // TODO: Поменять значения 0 и 100 на самый дешевый и дорогой товар соответственно
       minPrice: this.value.minPrice || 0,
-      maxPrice: this.value.maxPrice || 100,
+      maxPrice: this.value.maxPrice || 99,
     }
   },
+  computed: {
+      
+  },
+  // created() {
+  //    this.$store.dispatch('getProducts')
+  // },
+
   methods: {
+  
     setRangeSliders() {
       if(this.minPrice > this.maxPrice) {
         let tmp = this.maxPrice
@@ -52,7 +61,7 @@ export default {
         maxPrice: this.maxPrice
       })
     },
-  }
+  },
 }
 </script>
 

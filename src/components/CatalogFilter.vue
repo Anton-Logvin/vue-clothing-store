@@ -14,8 +14,9 @@
 
     <custom-colors-filter v-model="colors" />
 
-    <button>Применить</button>
+    <button @click="filterData">Применить</button>
     <button>Сбросить</button>
+  
   </div>
 </template>
 
@@ -38,10 +39,18 @@ export default {
       },
       priceRange: {
         minPrice: 0,
-        maxPrice: 100
+        maxPrice: 0
       },
       colors: [],
     }
+  },
+  // created() {
+    
+  //   this.$store.dispatch('getProducts')
+    
+  // },
+  computed: {
+  
   },
 
   components: {
@@ -52,22 +61,28 @@ export default {
   },
 
   methods: {
-    searchTitleProductName(searchTitle) {
-      this.$emit('searchTitleProduct', searchTitle) 
+    maxPrice() {
+      this.maxPrice = this.$store.getters['maxProductPrice']
+      return this.maxPrice
     },
-
-    changeCategories(changeCategories) {
-      this.$emit('filterChangeCategories', changeCategories)
-    },
-
-    changePriceFilter(minPrice, maxPrice) {
-      this.$emit('minMaxPriceFilter', minPrice, maxPrice)
-    },
-
+    
     changeColorProducts(changedColor) {
       this.$emit('changeColorProducts', changedColor)
+    },
+
+    filterData() {
+      const filterSetting = {
+      category: this.category,
+      priceRange: this.priceRange,
+      colors: this.colors,
     }
-  }
+      return this.$store.dispatch('filteredProducts', filterSetting)
+    }
+  },
+ 
+  // created() {
+  //   this.filterData()
+  // }
 }
 </script>
 

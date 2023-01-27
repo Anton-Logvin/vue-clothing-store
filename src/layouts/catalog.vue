@@ -1,12 +1,9 @@
 <template>
   <div class="catalog">
-    <h2 @click="sortByColors">Product catalog</h2>
+    <h2>Product catalog</h2>
     
     <catalog-filter 
-      @filterChangeCategories="sortByCategories"
-      @minMaxPriceFilter="setRangeSliders"
-      @changeColorProducts="sortByColors"
-      @searchTitleProduct="searchByNameProduct"
+
     />
   <!-- <button @click="searchTitleProduct">search</button> -->
 
@@ -21,9 +18,9 @@
     <div class="catalog__body">
       <div class="catalog__bacground-v"></div>
       <side-bar />
-      <div v-if="products.length" class="catalog__items container">
+      <div v-if="filteredProducts.length" class="catalog__items container">
         <product-card
-          v-for="product in searchByNameProduct"
+          v-for="product in filteredProducts"
           :key="product.id"
           :product="product" 
           @click.native="goToProduct(product.id)" 
@@ -50,7 +47,7 @@ export default {
 
   data() {
     return {
-      filterProducts: [],
+      // filterProducts: [],
       minPrice: 0,
       maxPrice: 100,
       changedColor: '',
@@ -59,23 +56,24 @@ export default {
   },
 
   computed: {
-    products() {
-      return this.$store.getters['productList']
+    filteredProducts() {
+      this.$store.getters['productList']
+      return this.$store.getters['filteredProductsList']
     },
+    
+    // sortedProducts() {
+    //   if (this.filterProducts.length) {
+    //     return this.filterProducts.filter(item => item.price >= this.minPrice && item.price <= this.maxPrice)
+    //   } else {
+    //     return this.$store.getters['productList'].filter(item => item.price >= this.minPrice && item.price <= this.maxPrice)
+    //   }
+    // },
 
-    sortedProducts() {
-      if (this.filterProducts.length) {
-        return this.filterProducts.filter(item => item.price >= this.minPrice && item.price <= this.maxPrice)
-      } else {
-        return this.$store.getters['productList'].filter(item => item.price >= this.minPrice && item.price <= this.maxPrice)
-      }
-    },
-
-    searchByNameProduct() {
-      return this.sortedProducts.filter(product => {
-        return product.title.toUpperCase().indexOf(this.searchTitle.toUpperCase()) > -1
-      })
-    },
+    // searchByNameProduct() {
+    //   return this.sortedProducts.filter(product => {
+    //     return product.title.toUpperCase().indexOf(this.searchTitle.toUpperCase()) > -1
+    //   })
+    // },
 
   },
 
@@ -96,33 +94,21 @@ export default {
       console.log(this.searchTitle)
     },
 
-    sortByCategories(changeCategories) {
-      this.filterProducts = []
-      const allProducts = this.$store.getters['productList']
-      for(let i = 0; i < allProducts.length; i++) {
-        if(changeCategories.join().includes(allProducts[i].category)) {
-          this.filterProducts.push(allProducts[i])
-        }
-      } 
-    },
+    // sortByCategories(changeCategories) {
+    //   this.filterProducts = []
+    //   const allProducts = this.$store.getters['productList']
+    //   for(let i = 0; i < allProducts.length; i++) {
+    //     if(changeCategories.join().includes(allProducts[i].category)) {
+    //       this.filterProducts.push(allProducts[i])
+    //     }
+    //   } 
+    // },
 
-    setRangeSliders(minPrice, maxPrice) {
-      this.minPrice = minPrice
-      this.maxPrice = maxPrice
-    },
+    // setRangeSliders(minPrice, maxPrice) {
+    //   this.minPrice = minPrice
+    //   this.maxPrice = maxPrice
+    // },
 
-    sortByColors(changedColor) {
-      // console.log(changedColor)
-      // this.filterProducts = []
-      const allProducts = this.$store.getters['productList']
-      for(let i = 0; i < allProducts.length; i++) {
-        if(allProducts[i].colors.includes(changedColor)) {
-          this.filterProducts.push(allProducts[i])
-          // console.log([...new Set(this.filterProducts)])
-          return [...new Set(this.filterProducts)]
-        }
-      }
-    }
   },
 
   created() {
