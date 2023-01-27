@@ -57,7 +57,6 @@ export default {
 
   computed: {
     filteredProducts() {
-      this.$store.getters['productList']
       return this.$store.getters['filteredProductsList']
     },
     

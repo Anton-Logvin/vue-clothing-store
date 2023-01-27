@@ -3,18 +3,18 @@
     <p>Min: {{ minPrice }}</p>
     <input 
       type="range" 
-      min="0" 
-      max="100" 
-      step="5"
+      :min="minPrice" 
+      :max="maxPrice" 
+      step="1"
       v-model.number="minPrice" 
       @change="setRangeSliders"
     >
 
     <input 
       type="range" 
-      min="0" 
-      max="100" 
-      step="5" 
+      :min="minPrice" 
+      :max="maxPrice" 
+      step="1" 
       v-model.number="maxPrice" 
       @change="setRangeSliders"
     >
@@ -36,20 +36,31 @@ export default {
 
   data() {
     return {
-      // TODO: Поменять значения 0 и 100 на самый дешевый и дорогой товар соответственно
-      minPrice: this.value.minPrice || 0,
-      maxPrice: this.value.maxPrice || 99,
+      minPrice: 0,
+      maxPrice: 0,
     }
   },
+
   computed: {
-      
+    min() {
+      return this.$store.getters.minProductPrice
+    },
+    max() {
+      return this.$store.getters.maxProductPrice
+    }
   },
-  // created() {
-  //    this.$store.dispatch('getProducts')
-  // },
+
+  watch: {
+    min(val) {
+      this.minPrice = val
+    },
+
+    max(val) {
+      this.maxPrice = val
+    },
+  },
 
   methods: {
-  
     setRangeSliders() {
       if(this.minPrice > this.maxPrice) {
         let tmp = this.maxPrice

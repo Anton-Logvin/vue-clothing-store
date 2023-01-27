@@ -17,7 +17,6 @@
           :style="{ background: color }"
         />
       </label>
-      {{ this.value }}
     </div>
   </div>
 </template>

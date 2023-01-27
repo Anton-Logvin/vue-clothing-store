@@ -25,8 +25,7 @@ const store = new Vuex.Store({
     },
 
     filteredProductsList(state) {
-      console.log(state.filteredProducts)
-      return state.filteredProducts
+      return state.filteredProducts.length ? state.filteredProducts : state.products
     },
 
     cart: (state) => state.cart,
@@ -43,23 +42,11 @@ const store = new Vuex.Store({
     },
 
     minProductPrice(state) {
-      let priceProducts = []
-      // console.log(state.products)
-      state.products.forEach(item => {
-        item = item.price
-        priceProducts.push(item)
-      })
-      return Math.min.apply(null, priceProducts)
+      return Math.min(...state.products.map(item => item.price))
     },
 
     maxProductPrice(state) {
-      
-      let priceProducts = []
-      state.products.forEach(item => {
-        item = item.price
-        priceProducts.push(item)
-      })
-      return Math.max.apply(null, priceProducts)
+      return Math.max(...state.products.map(item => item.price))
     },
 
     cartLength(state) {
@@ -138,49 +125,36 @@ const store = new Vuex.Store({
 
 
     filteredProducts(state, filterSetting) {
-      let arr = []
-      for(const product of state.products) {
-        
-        if(product.price < filterSetting.priceRange.maxPrice && product.price > filterSetting.priceRange.minPrice) {
-        
-          if(filterSetting.category.cap && product.category === 'cap') {
-            arr.push(product)
-            console.log(arr)
-          }
-          if(filterSetting.category.tshirt && product.category === 't-shirt') {
-            arr.push(product)
-          }
-          if(filterSetting.category.socks && product.category === 'socks') {
-            arr.push(product)
-          }
-          
-        }
-         else {
-          arr.push(product)
-        }
+      let filteredProducts = state.products;
+      const { category, priceRange, colors } = filterSetting
+
+      // Category filter
+      const selectedCategories = Object.entries(category).filter(item => item[1]).map(item => item[0])
+      if (selectedCategories.length) {
+        filteredProducts = filteredProducts.filter(product => {
+          return selectedCategories.includes(product.category)
+        })
       }
-      if(arr.length) {
-        state.filteredProducts = arr
-        console.log(state.filteredProducts)
-      } else {
-        state.filteredProducts = state.products
+
+      // Price filter
+      if (priceRange.minPrice || priceRange.maxPrice) {
+        filteredProducts = filteredProducts.filter(product => {
+          return product.price > filterSetting.priceRange.minPrice && product.price < filterSetting.priceRange.maxPrice
+        })
       }
-      if(filterSetting.colors.length) {
-        let result = []
-        for(const item of state.filteredProducts) {
-          for(const color of filterSetting.colors) {
-            if(item.colors.includes(color)) {
-              result.push(item)
-            }
-            state.filteredProducts = [...new Set(result)]
-          }
-          
-        }
-        console.log(state.filteredProducts)
-      } else { 
-          state.filteredProducts = state.products
-          console.log(state.filteredProducts)
-        }
+
+      // Colors filter
+      if (colors.length) {
+        filteredProducts = filteredProducts.filter(product => {
+          if (product.colors.some(color => colors.includes(color))) return product
+        })
+      }
+
+      state.filteredProducts = filteredProducts
+    },
+
+    clearFilter(state) {
+      state.filteredProducts = state.products
     }
   },
 
@@ -226,8 +200,11 @@ const store = new Vuex.Store({
     // },
 
     filteredProducts({commit,}, filterSetting) {
-      console.log(filterSetting)
       commit('filteredProducts', filterSetting)
+    },
+
+    clearFilter({ commit, }) {
+      commit('clearFilter')
     },
         
     saveToStorage({ state }) {

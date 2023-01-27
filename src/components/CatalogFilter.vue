@@ -1,11 +1,11 @@
 <template>
-  <div class="filter">
+  <form class="filter">
     <!-- TODO: Сделать поиск сразу используюя функцию debounce -->
     <custom-input v-model="search" />
     
     <div>
       <p>Категории</p>
-      <custom-checkbox  v-model="category.tshirt" label="Майки" />
+      <custom-checkbox  v-model="category['t-shirt']" label="Майки" />
       <custom-checkbox  v-model="category.cap" label="Кeпки" />
       <custom-checkbox  v-model="category.socks" label="Носки" />
     </div>
@@ -15,9 +15,8 @@
     <custom-colors-filter v-model="colors" />
 
     <button @click="filterData">Применить</button>
-    <button>Сбросить</button>
-  
-  </div>
+    <button type="reset" @click="resetFilter">Сбросить</button>
+  </form>
 </template>
 
 <script>
@@ -33,7 +32,7 @@ export default {
     return {
       search: "",
       category: {
-        tshirt: false,
+        "t-shirt": false,
         cap: false,
         socks: false,
       },
@@ -44,14 +43,8 @@ export default {
       colors: [],
     }
   },
-  // created() {
-    
-  //   this.$store.dispatch('getProducts')
-    
-  // },
-  computed: {
   
-  },
+  computed: {},
 
   components: {
     CustomCheckbox,
@@ -71,18 +64,14 @@ export default {
     },
 
     filterData() {
-      const filterSetting = {
-      category: this.category,
-      priceRange: this.priceRange,
-      colors: this.colors,
-    }
-      return this.$store.dispatch('filteredProducts', filterSetting)
+      const { category, priceRange, colors } = this
+      this.$store.dispatch('filteredProducts', { category, priceRange, colors })
+    },
+
+    resetFilter() {
+      this.$store.dispatch('clearFilter');
     }
   },
- 
-  // created() {
-  //   this.filterData()
-  // }
 }
 </script>
 
