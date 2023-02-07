@@ -3,8 +3,8 @@
     <p>Min: {{ minPrice }}</p>
     <input 
       type="range" 
-      :min="minPrice" 
-      :max="maxPrice" 
+      :min="min"
+      :max="max" 
       step="1"
       v-model.number="minPrice" 
       @change="setRangeSliders"
@@ -12,14 +12,13 @@
 
     <input 
       type="range" 
-      :min="minPrice" 
-      :max="maxPrice" 
+      :min="min"
+      :max="max" 
       step="1" 
       v-model.number="maxPrice" 
       @change="setRangeSliders"
     >
     <p>Max: {{ maxPrice }}</p>
-    
   </div>
 </template>
 
@@ -36,8 +35,9 @@ export default {
 
   data() {
     return {
-      minPrice: 0,
-      maxPrice: 0,
+      //?????????
+      minPrice: this.$store.getters.minProductPrice,
+      maxPrice: this.$store.getters.maxProductPrice,
     }
   },
 
@@ -62,18 +62,26 @@ export default {
 
   methods: {
     setRangeSliders() {
+      console.log(this.$store.state.disabled)
       if(this.minPrice > this.maxPrice) {
         let tmp = this.maxPrice
         this.maxPrice = this.minPrice
         this.minPrice = tmp
+        
       }
       this.$emit('input', {
         minPrice: this.minPrice,
         maxPrice: this.maxPrice
       })
+      //disabled
+      if(this.minPrice != this.$store.getters.minProductPrice || this.maxPrice != this.$store.getters.maxProductPrice) {
+        return this.$store.state.disabled = true
+      } else 
+      { return this.$store.state.disabled = false}
     },
   },
 }
+
 </script>
 
 <style lang="scss" scoped>

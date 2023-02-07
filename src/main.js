@@ -8,7 +8,8 @@ Vue.use(BootstrapVueIcons)
 import './plugins/axios'
 import store from './store'
 import router from '@/router'
-
+//??????debounce
+import { debounce } from 'vue-debounce'
 
 Vue.config.productionTip = false
 
@@ -17,8 +18,7 @@ export const eventBus = new Vue()
 new Vue({
   router,
   store,
-  // computed: {
-  //   ...mapGetters(['productList'])
-  // },
+  //??????debounce
+  debounce,
   render: h => h(App),
 }).$mount('#app')

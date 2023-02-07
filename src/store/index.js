@@ -15,12 +15,12 @@ const store = new Vuex.Store({
     productColors: [],
     filteredProducts: [],
     minPrice: 0,
-    maxPrice: 90
+    maxPrice: 90,
+    disabled: false,
   },
 
   getters: {
     productList(state) {
-      console.log(state.products)
       return state.products
     },
 
@@ -30,15 +30,9 @@ const store = new Vuex.Store({
 
     cart: (state) => state.cart,
 
-    totalPrice(state) {
-      let sum = 0
-      state.cart.forEach(item => {
-        sum += item.price * item.quantityInCart
-      })
-      return sum
-      // const sum = state.cart.reduce((sum, elem) => sum + elem)
-      // console.log(sum)
-      // return sum
+    totalPrice(state) {        
+      const res = state.cart.reduce((sum, product) => sum + product.price * product.quantityInCart, 0)
+      return res
     },
 
     minProductPrice(state) {
@@ -63,7 +57,6 @@ const store = new Vuex.Store({
       productColors = [...new Set(state.products.map(item => item = item.colors).flat(2))]
       return productColors
     },
-
   },
 
   mutations: {
@@ -97,7 +90,7 @@ const store = new Vuex.Store({
 
     increment(state, index) {
       state.cart[index].quantityInCart++
-      if (state.cart[index].quantityInCart > state.cart[index].quantity) {
+      if(state.cart[index].quantityInCart > state.cart[index].quantity) {
         state.cart[index].quantityInCart = state.cart[index].quantity
         alert('Большего товара нет!!!')
       }
@@ -122,7 +115,20 @@ const store = new Vuex.Store({
       // console.log(state.indexImage)
     },
 
-
+    searchByNameProduct(state, value) {
+      let searchProducts = []
+      console.log(value)
+      state.filteredProducts.length ? state.filteredProducts : state.filteredProducts = state.products
+     const xuy = state.filteredProducts.filter(product => {
+        if(product.title.toUpperCase().indexOf(value.toUpperCase()) > -1) {
+          searchProducts.push(product)
+          setTimeout(() => state.filteredProducts = searchProducts, 2000) 
+        
+        }
+         
+      })
+      console.log( xuy)
+    },
 
     filteredProducts(state, filterSetting) {
       let filteredProducts = state.products;
@@ -130,40 +136,51 @@ const store = new Vuex.Store({
 
       // Category filter
       const selectedCategories = Object.entries(category).filter(item => item[1]).map(item => item[0])
+      console.log(selectedCategories)
       if (selectedCategories.length) {
         filteredProducts = filteredProducts.filter(product => {
           return selectedCategories.includes(product.category)
         })
+        
       }
 
       // Price filter
       if (priceRange.minPrice || priceRange.maxPrice) {
         filteredProducts = filteredProducts.filter(product => {
-          return product.price > filterSetting.priceRange.minPrice && product.price < filterSetting.priceRange.maxPrice
+          return product.price >= filterSetting.priceRange.minPrice && product.price <= filterSetting.priceRange.maxPrice
         })
       }
 
       // Colors filter
       if (colors.length) {
+        state.disabled = true
         filteredProducts = filteredProducts.filter(product => {
           if (product.colors.some(color => colors.includes(color))) return product
         })
       }
-
       state.filteredProducts = filteredProducts
     },
 
     clearFilter(state) {
+      //?????????????
       state.filteredProducts = state.products
-    }
+      state.disabled = false
+    },
+
+    disableButton(state, changeFilterOption) {
+      changeFilterOption ? state.disabled = true : state.disabled = false
+    },
+
+    // disableButtonToColors(state, colors) {
+    //   console.log(colors.length)
+    //   colors.length ? state.disabled = true : state.disabled = false
+    // }
   },
 
   actions: {
     getProducts({ commit }) {
       axios.get('/products.json').then((response) => {
         commit('getProductList', response.data)
-        // dispatch('minPriceProducts')
-        // dispatch('maxPriceProducts')
       })
     },
 
@@ -192,20 +209,26 @@ const store = new Vuex.Store({
       dispatch('saveToStorage')
     },
 
-    // minPriceProducts({commit}) {
-    //   commit('minProductPrice')
-    // },
-    // maxPriceProducts({commit}) {
-    //   commit('maxProductPrice')
-    // },
+    searchByNameProduct({ commit }, value) {
+      commit('searchByNameProduct', value)
+    },
 
-    filteredProducts({commit,}, filterSetting) {
+    filteredProducts({ commit }, filterSetting) {
       commit('filteredProducts', filterSetting)
     },
 
-    clearFilter({ commit, }) {
+    clearFilter({ commit }) {
       commit('clearFilter')
     },
+
+    disableButton({commit, }, checkBox) {
+      commit('disableButton', checkBox)
+      // dispatch('disableButtonToColors')
+    },
+
+    // disableButtonToColors({commit}, colors) {
+    //   commit('disableButtonToColors', colors)
+    // },
         
     saveToStorage({ state }) {
       sessionStorage.setItem('cart', JSON.stringify(state.cart));

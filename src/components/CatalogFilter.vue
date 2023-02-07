@@ -1,8 +1,8 @@
 <template>
   <form class="filter">
     <!-- TODO: Сделать поиск сразу используюя функцию debounce -->
-    <custom-input v-model="search" />
-    
+    <custom-input v-model="search"/>
+
     <div>
       <p>Категории</p>
       <custom-checkbox  v-model="category['t-shirt']" label="Майки" />
@@ -14,8 +14,8 @@
 
     <custom-colors-filter v-model="colors" />
 
-    <button @click="filterData">Применить</button>
-    <button type="reset" @click="resetFilter">Сбросить</button>
+    <button type="button" :disabled="!isDisabled" @click="filterData">Применить</button>
+    <button type="reset" :disabled="!isDisabled" @click="resetFilter">Сбросить</button>
   </form>
 </template>
 
@@ -43,8 +43,6 @@ export default {
       colors: [],
     }
   },
-  
-  computed: {},
 
   components: {
     CustomCheckbox,
@@ -53,26 +51,39 @@ export default {
     CustomInput,
   },
 
+  computed: {
+    isDisabled() {
+      Object.values(this.category).forEach(item => { 
+        if(item === true) this.$store.dispatch('disableButton', item)
+      })
+        if(this.colors.length) this.$store.dispatch('disableButton', true)
+      return this.$store.state.disabled 
+    }
+  },
+
   methods: {
     maxPrice() {
       this.maxPrice = this.$store.getters['maxProductPrice']
-      return this.maxPrice
-    },
-    
-    changeColorProducts(changedColor) {
-      this.$emit('changeColorProducts', changedColor)
     },
 
     filterData() {
+      // ??????????this
       const { category, priceRange, colors } = this
       this.$store.dispatch('filteredProducts', { category, priceRange, colors })
     },
 
     resetFilter() {
-      this.$store.dispatch('clearFilter');
-    }
+      // ??????????
+      const { category, colors } = this
+      this.$store.dispatch('clearFilter', { category, colors })
+      this.colors = []
+      this.category = {"t-shirt": false, cap: false, socks: false,}
+      this.priceRange.minPrice = this.$store.getters.minProductPrice
+      this.priceRange.maxPrice = this.$store.getters.maxProductPrice
+    },
   },
 }
+
 </script>
 
 <style lang="scss">
@@ -80,7 +91,8 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
 }
-
 
 </style>

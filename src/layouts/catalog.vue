@@ -2,19 +2,8 @@
   <div class="catalog">
     <h2>Product catalog</h2>
     
-    <catalog-filter 
-
-    />
-  <!-- <button @click="searchTitleProduct">search</button> -->
-
-    <div>
-      <input 
-        v-model="searchTitle" 
-        type="text" 
-        placeholder="search product"
-    >
-    </div>
-
+    <catalog-filter />
+    
     <div class="catalog__body">
       <div class="catalog__bacground-v"></div>
       <side-bar />
@@ -44,36 +33,11 @@ export default {
     SideBar,
     CatalogFilter
   },
-
-  data() {
-    return {
-      // filterProducts: [],
-      minPrice: 0,
-      maxPrice: 100,
-      changedColor: '',
-      searchTitle: ''
-    }
-  },
-
+ 
   computed: {
     filteredProducts() {
       return this.$store.getters['filteredProductsList']
     },
-    
-    // sortedProducts() {
-    //   if (this.filterProducts.length) {
-    //     return this.filterProducts.filter(item => item.price >= this.minPrice && item.price <= this.maxPrice)
-    //   } else {
-    //     return this.$store.getters['productList'].filter(item => item.price >= this.minPrice && item.price <= this.maxPrice)
-    //   }
-    // },
-
-    // searchByNameProduct() {
-    //   return this.sortedProducts.filter(product => {
-    //     return product.title.toUpperCase().indexOf(this.searchTitle.toUpperCase()) > -1
-    //   })
-    // },
-
   },
 
   methods: {
@@ -92,22 +56,6 @@ export default {
       this.searchTitle = searchTitle
       console.log(this.searchTitle)
     },
-
-    // sortByCategories(changeCategories) {
-    //   this.filterProducts = []
-    //   const allProducts = this.$store.getters['productList']
-    //   for(let i = 0; i < allProducts.length; i++) {
-    //     if(changeCategories.join().includes(allProducts[i].category)) {
-    //       this.filterProducts.push(allProducts[i])
-    //     }
-    //   } 
-    // },
-
-    // setRangeSliders(minPrice, maxPrice) {
-    //   this.minPrice = minPrice
-    //   this.maxPrice = maxPrice
-    // },
-
   },
 
   created() {
