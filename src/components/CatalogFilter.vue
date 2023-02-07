@@ -10,7 +10,7 @@
       <custom-checkbox  v-model="category.socks" label="Носки" />
     </div>
 
-    <custom-price-filter v-model="priceRange" />
+    <custom-price-filter :key="refresh" v-model="priceRange" />
 
     <custom-colors-filter v-model="colors" />
 
@@ -30,6 +30,7 @@ export default {
 
   data() {
     return {
+      refresh: false,
       search: "",
       category: {
         "t-shirt": false,
@@ -51,6 +52,12 @@ export default {
     CustomInput,
   },
 
+  watch: {
+    search(val) {
+      this.$store.dispatch('searchByNameProduct', val)
+    }
+  },
+
   computed: {
     isDisabled() {
       Object.values(this.category).forEach(item => { 
@@ -67,19 +74,18 @@ export default {
     },
 
     filterData() {
-      // ??????????this
       const { category, priceRange, colors } = this
       this.$store.dispatch('filteredProducts', { category, priceRange, colors })
     },
 
     resetFilter() {
-      // ??????????
-      const { category, colors } = this
-      this.$store.dispatch('clearFilter', { category, colors })
-      this.colors = []
-      this.category = {"t-shirt": false, cap: false, socks: false,}
-      this.priceRange.minPrice = this.$store.getters.minProductPrice
-      this.priceRange.maxPrice = this.$store.getters.maxProductPrice
+      this.refresh = !this.refresh
+      // const { category, colors } = this
+      // this.$store.dispatch('clearFilter', { category, colors })
+      // this.colors = []
+      // this.category = {"t-shirt": false, cap: false, socks: false,}
+      // this.priceRange.minPrice = this.$store.getters.minProductPrice
+      // this.priceRange.maxPrice = this.$store.getters.maxProductPrice
     },
   },
 }

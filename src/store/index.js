@@ -25,7 +25,7 @@ const store = new Vuex.Store({
     },
 
     filteredProductsList(state) {
-      return state.filteredProducts.length ? state.filteredProducts : state.products
+      return state.filteredProducts
     },
 
     cart: (state) => state.cart,
@@ -62,6 +62,7 @@ const store = new Vuex.Store({
   mutations: {
     getProductList(state, payload) {
       state.products = payload
+      state.filteredProducts = payload
     },
   
     addProductToCart(state, product) {
@@ -112,26 +113,20 @@ const store = new Vuex.Store({
 
     IndexImageProductToCart(state, indexPhoto) {
       state.indexImage = indexPhoto
-      // console.log(state.indexImage)
     },
 
-    searchByNameProduct(state, value) {
-      let searchProducts = []
-      console.log(value)
-      state.filteredProducts.length ? state.filteredProducts : state.filteredProducts = state.products
-     const xuy = state.filteredProducts.filter(product => {
-        if(product.title.toUpperCase().indexOf(value.toUpperCase()) > -1) {
-          searchProducts.push(product)
-          setTimeout(() => state.filteredProducts = searchProducts, 2000) 
-        
-        }
-         
+    searchByNameProduct(state, searchText) {
+      let searchProducts = state.products;
+
+      searchProducts = searchProducts.filter(product => {
+        return product.title.toLowerCase().includes(searchText.toLowerCase())
       })
-      console.log( xuy)
+
+      state.filteredProducts = searchProducts
     },
 
     filteredProducts(state, filterSetting) {
-      let filteredProducts = state.products;
+      let filteredProducts = state.filteredProducts;
       const { category, priceRange, colors } = filterSetting
 
       // Category filter
