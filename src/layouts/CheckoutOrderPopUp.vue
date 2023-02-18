@@ -9,19 +9,22 @@
         <custom-input 
           class="popup__input"
           :plaseHolder="plaseHolderName"
-          v-model="name" 
+          v-model="name"
+          width="100"
         />
         <span>Адрес доставки</span>
         <custom-input
         class="popup__input" 
           :plaseHolder="plaseHolderAdress"
           v-model="adress" 
+          width="300"
         />
         <span>Телефон</span>
         <custom-input
-        class="popup__input" 
+          class="popup__input" 
           :plaseHolder="plaseHolderTel"
-          v-model="phone" 
+          v-model="phone"
+          fill
         />
         
         <div

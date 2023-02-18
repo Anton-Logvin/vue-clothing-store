@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <input
-      v-model="search"
-      :placeholder="plaseHolder"
-    >
-  </div>
+  <input
+    class="custom-input"
+    v-model="search"
+    :placeholder="plaseHolder"
+    :style="`width: ${fill ? '100%': width + 'px'}`"
+  >
 </template>
 
 <script>
@@ -17,11 +17,21 @@ export default {
       type: String,
       default: ""
     },
+
     plaseHolder: {
       type: String,
       default: '_'
-    }
+    },
 
+    width: {
+      type: [String. Number],
+      default: 100
+    },
+
+    fill: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   computed: {
@@ -37,3 +47,14 @@ export default {
 }
 
 </script>
+
+<style lang="scss">
+.custom-input {
+  display: block;
+  padding: 8px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  outline: none;
+}
+</style>
