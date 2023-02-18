@@ -1,12 +1,12 @@
 <template>
   <div class="price-slider">
-    <p>Min: {{ minPrice }}</p>
+    <p>Min: {{ price.minPrice }}</p>
     <input 
       type="range" 
       :min="min"
       :max="max" 
       step="1"
-      v-model.number="minPrice" 
+      v-model.number="price.minPrice" 
       @change="setRangeSliders"
     >
 
@@ -15,10 +15,10 @@
       :min="min"
       :max="max" 
       step="1" 
-      v-model.number="maxPrice" 
+      v-model.number="price.maxPrice" 
       @change="setRangeSliders"
     >
-    <p>Max: {{ maxPrice }}</p>
+    <p>Max: {{ price.maxPrice }}</p>
   </div>
 </template>
 
@@ -35,9 +35,7 @@ export default {
 
   data() {
     return {
-      //?????????
-      minPrice: this.$store.getters.minProductPrice,
-      maxPrice: this.$store.getters.maxProductPrice,
+      price: this.value,
     }
   },
 
@@ -52,35 +50,21 @@ export default {
 
   watch: {
     min(val) {
-      this.minPrice = val
+      this.price.minPrice = val
     },
 
     max(val) {
-      this.maxPrice = val
+      this.price.maxPrice = val
     },
   },
 
   methods: {
     setRangeSliders() {
-      
-      if(this.minPrice > this.maxPrice) {
-        let tmp = this.maxPrice
-        this.maxPrice = this.minPrice
-        this.minPrice = tmp
-        
+      if(this.price.minPrice > this.price.maxPrice) {
+        let tmp = this.price.maxPrice
+        this.price.maxPrice = this.price.minPrice
+        this.price.minPrice = tmp
       }
-      this.$emit('input', {
-        minPrice: this.minPrice,
-        maxPrice: this.maxPrice
-      })
-
-      //disabled
-      // if(this.minPrice != this.$store.getters.minProductPrice || this.maxPrice != this.$store.getters.maxProductPrice) {
-      //   this.$store.dispatch('disableButton', true)
-      // } else { 
-      //   this.$store.state.disabled = false
-      // }
-      // console.log(this.$store.state.disabled)
     },
   },
 }

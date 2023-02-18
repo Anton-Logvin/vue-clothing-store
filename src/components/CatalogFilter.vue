@@ -1,6 +1,5 @@
 <template>
   <form class="filter">
-    <!-- TODO: Сделать поиск сразу используюя функцию debounce -->
     <custom-input v-model="search"/>
 
     <div>
