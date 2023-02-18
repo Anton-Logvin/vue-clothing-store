@@ -1,6 +1,6 @@
 <template>
   <label>
-    <input type="checkbox" v-model="selected" @change="changeCategory">
+    <input type="checkbox" v-model="selected" >
     <span v-if="label">{{ label }}</span>
   </label>
 </template>
@@ -9,11 +9,7 @@
 
 export default {
   name: 'CustomCheckbox',
-  data() {
-    return {
-      arr: []
-    }
-  },
+
   props: {
     value: {
       type: [Boolean, String],
@@ -28,9 +24,6 @@ export default {
   computed: {
     selected: {
       get() {
-        //???????
-        this.changeCategory()
-        this.$store.dispatch('disableButton', this.value)
         return this.value
       },
       set(val) {
@@ -38,13 +31,5 @@ export default {
       }
     }
   },
-  methods: {
-    changeCategory() {
-      if(this.value) {
-        this.arr.push(this.value)
-        console.log(this.arr)
-      }
-    }
-  }
 }
 </script>

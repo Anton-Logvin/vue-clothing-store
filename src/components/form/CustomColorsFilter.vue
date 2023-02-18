@@ -36,10 +36,6 @@ export default {
   computed: {
     selectedColors: {
       get() {
-        //???????
-        this.disabledXZ()
-        console.log(Boolean(this.value.length), this.value)
-        this.$store.dispatch('disableButton', Boolean(this.value.length))
         return this.value
       },
       set(val) {
@@ -51,12 +47,7 @@ export default {
       return this.$store.getters['allProductColors']
     }
   },
-  methods: {
-    disabledXZ() {
-      if(this.value.length) this.$store.dispatch('disableButton', true)
-      }
-    }
-  }
+}
 
 
 </script>

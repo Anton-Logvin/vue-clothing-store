@@ -88,11 +88,11 @@ export default {
     display: flex;
     max-width: 80%;
     margin: 0 auto;
-    border: 2px solid rgb(190, 190, 190);
+    border: 2px solid rgb(212, 212, 212);
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 10px;
-    box-shadow: 0px 0px 6px gray;
+    box-shadow: 0px 0px 8px rgb(197, 197, 197);
   }
 
   &__image {

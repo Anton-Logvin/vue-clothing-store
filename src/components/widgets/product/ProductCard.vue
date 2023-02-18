@@ -73,7 +73,6 @@ export default {
   &__info {
     display: flex;
     flex-direction: column;
-    
   }
 
   &__title {
@@ -82,21 +81,11 @@ export default {
     padding: 6px;
   }
 
-  // &__availability {
-  //   display: flex;
-  //   justify-content: center;
-  //   gap: 20px;
-  // }
-
   &__price {
     color: rgb(255, 0, 0);
     font-size: 20px;
     padding-left: 10px;
   }
-
-  // &__out-of-stock {
-  //   text-decoration: line-through;
-  // }
 }
 
 button {

@@ -14,8 +14,8 @@ const store = new Vuex.Store({
     indexImage: 0,
     productColors: [],
     filteredProducts: [],
-    minPrice: 0,
-    maxPrice: 90,
+    searchTitleProduct: [],
+    orderList: [],
     disabled: false,
   },
 
@@ -111,32 +111,45 @@ const store = new Vuex.Store({
       state.cart = state.cart.filter(item => item.id !== id) || []
     },
 
+    addToOrderList(state, objOrder) {
+      state.orderList.push(objOrder)
+      console.log(state.orderList)
+    },
+
     IndexImageProductToCart(state, indexPhoto) {
       state.indexImage = indexPhoto
     },
 
     searchByNameProduct(state, searchText) {
-      let searchProducts = state.products;
-
-      searchProducts = searchProducts.filter(product => {
-        return product.title.toLowerCase().includes(searchText.toLowerCase())
-      })
-
-      state.filteredProducts = searchProducts
+      let searchProducts = []
+      if(searchText) {
+        state.filteredProducts.length ? searchProducts = state.filteredProducts : searchProducts = state.products
+        searchProducts = searchProducts.filter(product => {
+          return product.title.toLowerCase().includes(searchText.toLowerCase())
+        })
+      }
+      state.searchTitleProduct = searchProducts
+      console.log(state.searchTitleProduct)
     },
 
     filteredProducts(state, filterSetting) {
-      let filteredProducts = state.filteredProducts;
+      let filteredProducts = state.products;
+
+      if(state.searchTitleProduct.length) {
+        filteredProducts = state.searchTitleProduct
+        console.log(filteredProducts)
+      }
+      // console.log(filteredProducts)
+      // console.log(state.searchTitleProduct)
+
       const { category, priceRange, colors } = filterSetting
 
       // Category filter
       const selectedCategories = Object.entries(category).filter(item => item[1]).map(item => item[0])
-      console.log(selectedCategories)
       if (selectedCategories.length) {
         filteredProducts = filteredProducts.filter(product => {
           return selectedCategories.includes(product.category)
         })
-        
       }
 
       // Price filter
@@ -154,6 +167,7 @@ const store = new Vuex.Store({
         })
       }
       state.filteredProducts = filteredProducts
+      // console.log(state.filteredProducts)
     },
 
     clearFilter(state) {
@@ -164,12 +178,10 @@ const store = new Vuex.Store({
 
     disableButton(state, changeFilterOption) {
       changeFilterOption ? state.disabled = true : state.disabled = false
+      if(state.disabled === false) {
+        state.filteredProducts = state.products
+      }
     },
-
-    // disableButtonToColors(state, colors) {
-    //   console.log(colors.length)
-    //   colors.length ? state.disabled = true : state.disabled = false
-    // }
   },
 
   actions: {
@@ -206,6 +218,7 @@ const store = new Vuex.Store({
 
     searchByNameProduct({ commit }, value) {
       commit('searchByNameProduct', value)
+      // commit('filteredProducts')
     },
 
     filteredProducts({ commit }, filterSetting) {
@@ -220,11 +233,11 @@ const store = new Vuex.Store({
       commit('disableButton', checkBox)
       // dispatch('disableButtonToColors')
     },
+    
+    addToOrderList({commit}, objOrder)  {
+      commit('addToOrderList', objOrder)
+    },
 
-    // disableButtonToColors({commit}, colors) {
-    //   commit('disableButtonToColors', colors)
-    // },
-        
     saveToStorage({ state }) {
       sessionStorage.setItem('cart', JSON.stringify(state.cart));
     },

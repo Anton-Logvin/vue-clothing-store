@@ -62,7 +62,7 @@ export default {
 
   methods: {
     setRangeSliders() {
-      console.log(this.$store.state.disabled)
+      
       if(this.minPrice > this.maxPrice) {
         let tmp = this.maxPrice
         this.maxPrice = this.minPrice
@@ -73,11 +73,14 @@ export default {
         minPrice: this.minPrice,
         maxPrice: this.maxPrice
       })
+
       //disabled
-      if(this.minPrice != this.$store.getters.minProductPrice || this.maxPrice != this.$store.getters.maxProductPrice) {
-        return this.$store.state.disabled = true
-      } else 
-      { return this.$store.state.disabled = false}
+      // if(this.minPrice != this.$store.getters.minProductPrice || this.maxPrice != this.$store.getters.maxProductPrice) {
+      //   this.$store.dispatch('disableButton', true)
+      // } else { 
+      //   this.$store.state.disabled = false
+      // }
+      // console.log(this.$store.state.disabled)
     },
   },
 }

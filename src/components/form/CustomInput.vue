@@ -2,7 +2,7 @@
   <div>
     <input
       v-model="search"
-      placeholder="search product"
+      :placeholder="plaseHolder"
     >
   </div>
 </template>
@@ -16,7 +16,12 @@ export default {
     value: {
       type: String,
       default: ""
+    },
+    plaseHolder: {
+      type: String,
+      default: '_'
     }
+
   },
 
   computed: {

@@ -20,10 +20,6 @@
         </b-button>
       </div>
     </div>
-    <!-- <div
-      :PriceCart="PriceCart"
-    ></div>
-    Order: {{ PriceCart }} -->
   </div>
 </template>
 
@@ -32,26 +28,14 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'ProductPage',
   props: [],
+
   computed: {
     ...mapGetters(['cart', 'productList', ]),
   },
+
   methods: {
-    // ...mapActions(['getProducts']),
 
-  //   PriceCart() {
-    
-  //     let order = 0
-      
-  //     console.log(order)
-  //     return order
-  // },
-
-  // mounted() {
-  //   if (!this.toCart.length) {
-  //     this.Cart
-  //   }
-  // },
-}
+  }
 }
 </script>
 

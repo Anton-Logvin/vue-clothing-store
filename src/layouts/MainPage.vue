@@ -1,6 +1,5 @@
 <template>
 <div class="main-page">
-  <!-- TODO: Вынести в отдельный компонент -->
   <b-carousel 
     class="main-slider" 
     ref="myCarousel" 
