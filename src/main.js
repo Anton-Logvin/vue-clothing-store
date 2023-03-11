@@ -10,6 +10,7 @@ import store from './store'
 import router from '@/router'
 //??????debounce
 import { debounce } from 'vue-debounce'
+// import Vuelidate from 'vuelidate'
 
 Vue.config.productionTip = false
 

@@ -1,31 +1,36 @@
 <template>
   <form class="filter">
-    <custom-input v-model="search"/>
-
-    <div>
-      <p>Категории</p>
+    <h3 class="filter__title">Фильтр продуктов</h3>
+    <div class="filter__item category">
+      <p>Категории товаров</p>
       <custom-checkbox  v-model="category['t-shirt']" label="Майки" />
       <custom-checkbox  v-model="category.cap" label="Кeпки" />
       <custom-checkbox  v-model="category.socks" label="Носки" />
     </div>
-
-    <custom-price-filter :key="refresh" v-model="priceRange" />
-
-    <custom-colors-filter v-model="colors" />
-
-    <custom-button 
-      :title="buttonApplyTitle" 
-      :disabled="!isDisabled" 
-      @click="filterData"
-      :class="{'active-apply':isDisabled===true}"
-    />
-    <custom-button 
-      :title="buttonResetTitle" 
-      :disabled="!isDisabled" 
-      @click="resetFilter"
-      :class="{'active-reset':isDisabled===true}"
-    />
+    <div>
+      <p>Выбрать по цене</p>
+      <div class="filter__item">
+      <custom-price-filter :key="refresh" v-model="priceRange" />
+    </div>
+    </div>
     
+    <div class="filter__item">
+      <custom-colors-filter v-model="colors" />
+    </div>
+    <div class="filter__buttons filter__item">
+      <custom-button 
+        :title="buttonApplyTitle" 
+        :disabled="!isDisabled" 
+        @click="filterData"
+        :class="{'active-apply':isDisabled===true}"
+      />
+      <custom-button 
+        :title="buttonResetTitle" 
+        :disabled="!isDisabled" 
+        @click="resetFilter"
+        :class="{'active-reset':isDisabled===true}"
+      />
+    </div>
   </form>
 </template>
 
@@ -33,7 +38,6 @@
 import CustomButton from './form/CustomButton'
 import CustomCheckbox from './form/CustomCheckbox'
 import CustomColorsFilter from './form/CustomColorsFilter'
-import CustomInput from './form/CustomInput'
 import CustomPriceFilter from './form/CustomPriceFilter'
 
 export default {
@@ -51,8 +55,8 @@ export default {
         socks: false,
       },
       priceRange: {
-        minPrice: 0,
-        maxPrice: 0
+        minPrice: this.$store.getters.minProductPrice,
+        maxPrice: this.$store.getters.maxProductPrice
       },
       colors: [],
     }
@@ -62,7 +66,6 @@ export default {
     CustomCheckbox,
     CustomPriceFilter,
     CustomColorsFilter,
-    CustomInput,
     CustomButton,
   },
 
@@ -85,14 +88,12 @@ export default {
         } else {
           this.$store.dispatch('disableButton', false)
         }
-     
-        //disabled priceRange
-      // if(this.priceRange.minPrice != this.$store.getters.minProductPrice || this.priceRange.maxPrice != this.$store.getters.maxProductPrice) {
-      //   this.$store.dispatch('disableButton', true)
-      // } 
-      // console.log(this.$store.state.disabled, this.priceRange.minPrice)
+    
+      //disabled priceRange
+      if(this.priceRange.minPrice != this.$store.getters.minProductPrice || this.priceRange.maxPrice != this.$store.getters.maxProductPrice) {
+        this.$store.dispatch('disableButton', true)
+      } 
       return this.$store.state.disabled 
-
     },
   },
 
@@ -112,35 +113,63 @@ export default {
       this.category = {"t-shirt": false, cap: false, socks: false,}
       this.priceRange.minPrice = this.$store.getters.minProductPrice
       this.priceRange.maxPrice = this.$store.getters.maxProductPrice
-      // console.log(this.priceRange)
     },
   },
 }
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .filter {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   align-items: center;
-  max-width: 1400px;
-  margin: 0 auto;
+  // max-width: 1400px;
+  // width: 100%;
+  
+  &__title {
+    color: rgb(0, 88, 0);
+  }
+
+  &__item {
+    width: 100%;
+    // border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    // flex-direction: column;
+    font-size: 17px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 14px;
+    justify-content: space-around;
+  }
+}
+
+.category {
+  padding-left: 30px;
+  display: flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap: 6px;
 }
 
 .active-apply {
   background: rgb(0, 128, 0);
   color: #fff;
-  
+  // border: none;
 }
 .active-apply:hover {
   background: rgb(0, 165, 0);
   color: #fff;
   box-shadow: 0px 0px 6px rgb(90, 90, 90);
+  
 }
 .active-reset {
   background: rgb(223, 0, 0);
   color: #fff;
+  // border: none;
 }
 
 .active-reset:hover {

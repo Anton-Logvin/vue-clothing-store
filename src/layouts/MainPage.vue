@@ -87,7 +87,7 @@ export default {
   &__item {
     text-decoration: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     gap: 10px;
     border: 1px solid rgba(163, 163, 163, 0.253);
     box-shadow: 1px 1px 4px rgba(0, 192, 0, 0.329);
@@ -111,6 +111,7 @@ export default {
 
   &__item-description {
     display: flex;
+    flex: 0 0 40%;
     flex-direction: column;
     justify-content: space-between;
   }

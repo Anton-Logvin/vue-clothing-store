@@ -2,29 +2,34 @@
   <div class="item-cart container">
     <div class="item-cart__product">
       <div class="item-cart__image">
-        <img :src="cart_item_data.images[this.$store.state.indexImage]">
+        <img :src="product.images[this.$store.state.indexImage]">
       </div>
       <div class="item-cart__description">
-        <h4 class="item-cart__title">{{ cart_item_data.title }}</h4>
+        <div class="item-cart__title">
+          <h5>{{ product.title }}</h5>
+          <b-icon 
+            class="item-cart__icon"
+            icon="x-lg" 
+            scale="1.1" 
+            variant="danger"
+            @click="deleteFromCart"            
+          ></b-icon>
+        </div>
         <div class="item-cart__sub-title">
           <div>
-            <span>
-              Quantity: <br />
+            <span>Количество: <br /> </span>
+            <div class="item-cart__quantity">
               <span class="item-cart__amount" @click="decrementItem">-</span>
-                {{ cart_item_data.quantityInCart }}
+                <span class="item-cart__quantity-number">{{ product.quantityInCart }}</span> 
               <span class="item-cart__amount" @click="incrementItem">+</span>
-              <p>in stock: {{ cart_item_data.quantity }}</p>
-            </span>
+            </div>
+              <p>Доступно: {{ product.quantity }}</p>
           </div>
-          <div>Shipping: {{ cart_item_data.shipping }}
-            <div class="item-cart__color">Color: <div class="item-cart__color-item" :style="`background: ${cart_item_data.colors[this.$store.state.indexImage]}`"></div> </div>
+          <div>Доставка: {{ product.shipping }}
+            <div class="item-cart__color">Цвет: <div class="item-cart__color-item" :style="`background: ${product.colors[this.$store.state.indexImage]}`"></div> </div>
           </div>
-          
-          <div>
+          <div class="item-cart__price-wrapper">
             <p class="item-cart__price">$ {{ sumQuantity }} </p>
-            <b-button variant="success" @click="deleteFromCart">
-              Delete
-            </b-button>
           </div>
         </div>
       </div>
@@ -36,12 +41,15 @@
 
 import { mapGetters } from 'vuex'
 export default {
+ 
   name: 'ItemCart',
   data() {
-    return {}
+    return {
+      buttonName: 'Удалить'
+    }
   },
   props: {
-    cart_item_data: {
+    product: {
       type: Object,
       default: null
     }
@@ -51,7 +59,7 @@ export default {
     ...mapGetters(['']),
 
     sumQuantity() {
-      let sumQuantity = this.cart_item_data.price * this.cart_item_data.quantityInCart
+      let sumQuantity = this.product.price * this.product.quantityInCart
       this.$emit('totalSumQuantity', sumQuantity)
       return sumQuantity
     },
@@ -86,21 +94,16 @@ export default {
 
   &__product {
     display: flex;
-    max-width: 80%;
-    margin: 0 auto;
-    border: 2px solid rgb(212, 212, 212);
-    border-radius: 10px;
+    border-top: 2px solid rgb(212, 212, 212);
     padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0px 0px 8px rgb(197, 197, 197);
   }
-
+  
   &__image {
     display: flex;
   }
 
   &__image img {
-    max-width: 200px;
+    max-width: 160px;
   }
 
   &__description {
@@ -109,17 +112,57 @@ export default {
   }
 
   &__title {
+    color: green;
     position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
   }
+
+  &__icon {
+    opacity: 0.7;
+  }
+
+  &__icon:hover {
+    opacity: 1;
+  }
+
+  &__button {
+    border: 1px solid red;
+    background: rgb(228, 98, 98);
+    
+  }
+
+  &__button:hover {
+    background: rgb(255, 56, 56);
+  } 
 
   &__sub-title {
     padding-top: 3em;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
+    gap: 3em;
+    height: 100%;
+  }
+
+  &__quantity {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
+  &__quantity-number {
+    padding: 0px 10px;
   }
 
   &__amount {
-    padding: 4px;
+    width: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    flex: 1 0 auto;
+    background: rgb(230, 230, 230);
   }
 
   &__amount:hover {
@@ -128,20 +171,28 @@ export default {
 
   &__color {
     display: flex;
+    align-items: center;
     gap: 10px;
   } 
 
   &__color-item {
-    height: 12px;
-    width: 26px;
-    margin-top: 7px;
+    height: 14px;
+    width: 30px;
     border-radius: 2px;
+    box-shadow: 0px 0px 2px gray;
+  }
+
+  &__price-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 
   &__price {
-    color: rgb(255, 0, 0);
-    font-size: 20px;
-    padding-top: 30px;
+    color: green;
+    font-size: 18px;
+    min-width: 60px;
+    border-radius: 2px;
   }
 }
 </style>

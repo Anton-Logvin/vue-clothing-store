@@ -31,7 +31,7 @@
       <div class="product__buy">
         <span class="product__price">$ {{ product.price }} </span>
         <b-button variant="success" @click="addToCart">
-          Add to Cart
+          В корзину
         </b-button>
       </div>
     </div>
@@ -43,6 +43,7 @@
     </div> -->
 
   </div>
+  <router-link class="product__return-catalog" to="/catalog"><b-icon icon="arrow-left" scale="1.1"></b-icon> Вернуться к покупкам</router-link>
 </div>
 <span v-else>
   Нет информации по товару
@@ -135,6 +136,11 @@ export default {
     color: rgb(255, 0, 0);
     font-size: 22px;
     padding: 10px;
+  }
+
+  &__return-catalog {
+    text-decoration: none;
+    font-size: 18px;
   }
 }
 </style>

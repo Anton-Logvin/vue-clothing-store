@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Change color</p>
+    <p>Выбрать по цвету</p>
     <div class="color">
       <label 
         v-for="(color, i) in getColorsProducts" 

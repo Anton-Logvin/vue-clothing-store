@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <button type="button" :disabled="!isDisabled" @click="filterData">Применить</button>
 </template>
 
@@ -26,4 +26,4 @@ name: 'CustomButtonApply',
   
 <style lang="scss" scoped>
 
-</style>
+</style> -->

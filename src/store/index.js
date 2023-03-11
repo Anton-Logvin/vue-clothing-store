@@ -14,9 +14,9 @@ const store = new Vuex.Store({
     indexImage: 0,
     productColors: [],
     filteredProducts: [],
-    searchTitleProduct: [],
     orderList: [],
     disabled: false,
+    numberOrder: 1
   },
 
   getters: {
@@ -121,26 +121,17 @@ const store = new Vuex.Store({
     },
 
     searchByNameProduct(state, searchText) {
-      let searchProducts = []
+      let searchProducts = state.products
       if(searchText) {
-        state.filteredProducts.length ? searchProducts = state.filteredProducts : searchProducts = state.products
         searchProducts = searchProducts.filter(product => {
           return product.title.toLowerCase().includes(searchText.toLowerCase())
         })
       }
-      state.searchTitleProduct = searchProducts
-      console.log(state.searchTitleProduct)
+      state.filteredProducts = searchProducts
     },
 
     filteredProducts(state, filterSetting) {
       let filteredProducts = state.products;
-
-      if(state.searchTitleProduct.length) {
-        filteredProducts = state.searchTitleProduct
-        console.log(filteredProducts)
-      }
-      // console.log(filteredProducts)
-      // console.log(state.searchTitleProduct)
 
       const { category, priceRange, colors } = filterSetting
 
@@ -182,6 +173,10 @@ const store = new Vuex.Store({
         state.filteredProducts = state.products
       }
     },
+
+    getOrderNumber(state) {
+      state.numberOrder++
+    }
   },
 
   actions: {
@@ -236,6 +231,10 @@ const store = new Vuex.Store({
     
     addToOrderList({commit}, objOrder)  {
       commit('addToOrderList', objOrder)
+    },
+
+    getOrderNumber({commit}) {
+      commit('getOrderNumber')
     },
 
     saveToStorage({ state }) {

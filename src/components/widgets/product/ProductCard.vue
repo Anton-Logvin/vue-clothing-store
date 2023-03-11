@@ -6,15 +6,18 @@
     />
     
     <div class="product__info">
-      <span class="product__title">{{ product.title }}</span>
-      <div class="product__buy">
+      <div class="product__text">
+        <span class="product__title">{{ product.title }}</span>
+        <span class="product__price">$ {{ product.price }} </span>
+      </div>
+      
+      <div class="product__btn">
         <button 
           @click.prevent.stop="addToCart" 
           :disabled="!inStock" 
           :class="{ disabledButton: !inStock }">
-          Add to cart
+          В корзину
         </button>
-        <span class="product__price">$ {{ product.price }} </span>
       </div>
     </div>
   </div>
@@ -59,32 +62,45 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.product:hover {
+  box-shadow: 0px 0px 10px rgb(204, 204, 204);
+  color: rgb(255, 153, 0);
+}
 .product {
   flex-flow: wrap;
-  padding: 1rem;
+  padding: 1em;
+  margin: 10px;
+  border: 1px solid #e9e9e9;
+  border-radius: 6px;
+  transition: .3s ease;
 
   &__image {
-    border: 1px solid #d8d8d8;
-    max-width: 350px;
-    box-shadow: 0px 2px 5px rgb(204, 204, 204);
-    border-radius: 10px;
+    max-width: 340px;
   }
 
   &__info {
+    text-align: left;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items:end
   }
 
   &__title {
-    font-size: 22px;
-    color: #008512;
-    padding: 6px;
+    display: block;
+    font-size: 20px;
+    color: #222222;
+    padding: 8px 0px 0px 0px;
   }
 
   &__price {
-    color: rgb(255, 0, 0);
+    display: block;
+    font-weight: 600;
     font-size: 20px;
-    padding-left: 10px;
+    // padding: 10px 0px
+  }
+
+  &__price:hover {
+    // color: rgb(255, 115, 0);
   }
 }
 
@@ -92,9 +108,7 @@ button {
   border: none;
   background-color: #00a0159c;
   color: white;
-  height: 36px;
-  width: 100px;
-  font-size: 14px;
+  padding: 8px 20px;
   transition: .3s ease;
   border-radius: 4px;
 }

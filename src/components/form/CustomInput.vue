@@ -20,7 +20,7 @@ export default {
 
     plaseHolder: {
       type: String,
-      default: '_'
+      default: "_"
     },
 
     width: {
@@ -51,10 +51,13 @@ export default {
 <style lang="scss">
 .custom-input {
   display: block;
-  padding: 8px;
-  height: 40px;
+  height: 32px;
   border-radius: 4px;
-  border: 1px solid #cccccc;
   outline: none;
+  transition: .3 ease;
+}
+
+.custom-input:focus {
+  box-shadow: 0px 0px 4px rgb(190, 190, 190);
 }
 </style>

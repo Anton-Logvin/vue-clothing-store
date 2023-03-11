@@ -4,22 +4,49 @@
     <div class="container-lg">
       <b-navbar-nav>
         <b-nav-item>
-          <router-link class="product-page-link" to="/">Main Page</router-link>
+          <router-link class="product-page-link" to="/">Главная</router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link class="product-page-link" to="/catalog">Catalog</router-link>
+          <router-link class="product-page-link" to="/catalog">Каталог</router-link>
         </b-nav-item>
         <!-- Navbar dropdowns -->
-        <b-nav-item-dropdown text="User" right>
+        <b-nav-item-dropdown text="Пользователь" right>
           <b-dropdown-item href="#">
-            <router-link class="product-page-link" to="/user">Account</router-link>  
+            <router-link class="product-page-link" to="/user">Аккаунт</router-link>  
           </b-dropdown-item>
-          <b-dropdown-item href="#">Settings</b-dropdown-item>
+          <b-dropdown-item href="#">Установки</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
+
+      <div class="search-products">
+        <custom-input 
+          class="search-input"
+          v-model="search"
+          :value="search"
+          :plaseHolder="placeHolder"
+          width="160"
+        />
+        <button class="search-btn">
+          <b-icon 
+            class="search-icon" 
+            icon="search"
+            font-scale="1.4"
+            @click="searchByNameProduct"
+        ></b-icon>
+        </button>
+        <button class="search-btn">
+          <b-icon 
+            class="search-icon" 
+            icon="x-circle"
+            font-scale="1.4"
+            @click="clearSearch"
+        ></b-icon>
+        </button>
+      </div>
+      
       <div class="navbar-cart">
         <router-link class="product-page-link" to="/cart">
-          Cart
+          Корзина
           <b-icon icon="cart4" aria-hidden="true"></b-icon>
           {{ cartLength }}
         </router-link>
@@ -36,14 +63,33 @@
 </template>
 
 <script>
+
 import { mapGetters } from 'vuex';
+import CustomInput from './form/CustomInput.vue';
+
 export default {
+  data() {
+    return {
+      search: '',
+      placeHolder: 'Поиск'
+    }
+  },
+
+  components: { CustomInput },
   computed: {
     ...mapGetters(['cart', 'cartLength']),
-  
   },
-  created() {
-   
+
+  methods: {
+    searchByNameProduct() {
+      this.$store.dispatch('searchByNameProduct', this.search)
+    },
+
+    clearSearch() {
+      this.search = ''
+      this.searchByNameProduct()
+    }
+  
   }
 }
 </script>
@@ -85,6 +131,36 @@ export default {
 .navbar-logo-image {
   width: 30px;
   height: 30px;
+}
+
+.search-products {
+  display: flex;
+  /* align-items: center; */
+  gap: 8px;
+}
+
+.search-input {
+  height: 30px;
+  padding: 6px;
+  border-radius: 14px;
+  background: rgb(255, 255, 255);
+  border: none;
+}
+
+.search-btn {
+  background: #00521200;
+  border: none;
+}
+.search-icon {
+  cursor: pointer;
+  color: #fff;
+  /* padding: 3px; */
+  opacity: 0.7;
+  transition: .3s ease;
+}
+
+.search-icon:hover {
+  opacity: 1;
 }
 .navbar-cart {
   display: flex;

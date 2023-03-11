@@ -6,25 +6,33 @@
       :modalOrderVisible="modalOrderVisible"
       @closeModaltoClick="modalOrderClick"
     />
-    <h2>CART page</h2>
-    <custom-button 
-      :title="buttonCheckoutOrder" 
-      :class="{ disabledButton: !disabledOrder }"
-      @click="modalOrderClick"
-      class="cart__button-order"
-    />
-    <item-cart
-      v-for="(item, index) in cart"
-      :key="item.id"
-      :cart_item_data="item"
-      @deleteFromCart="deleteProductFromCart(item.id)"  
-      @increment="increment(index)"
-      @decrement="decrement(index)"
-    />
+    <h3>Корзина товаров</h3>
   
-    <div class="cart-total">
-      <p class="total__name">Total: </p>
-      <p>$ {{ totalPrice }}</p>
+    
+    <div class="cart__items">
+      <item-cart
+      v-for="(item, index) in cart"
+        :key="item.id"
+        :product="item"
+        @deleteFromCart="deleteProductFromCart(item.id)"  
+        @increment="increment(index)"
+        @decrement="decrement(index)"
+      />
+    </div>
+    
+    <div class="cart__footer container">
+      <router-link class="cart__footer-link" to="/catalog"><b-icon icon="arrow-left" scale="1.1"></b-icon> Вернуться к покупкам</router-link>
+      <div class="cart__total">
+        <span class="cart__total-text">Общая стоимость: 
+          <span class="cart__total-price">$ {{ totalPrice }}</span>
+        </span>
+        <custom-button 
+          :title="buttonCheckoutOrder" 
+          :class="{ disabledButton: !disabledOrder }"
+          @click="modalOrderClick"
+          class="cart__button-order"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -86,29 +94,47 @@ export default {
 
 <style lang="scss" scoped>
 .cart {
-  // margin-bottom: 96px;
-  position: relative;
-}
 
-.cart__button-order {
-  background: rgb(41, 148, 32);
-  color: #fff;
-}
+  &__button-order {
+    background: rgb(41, 148, 32);
+    color: #fff;
+  }
 
-.cart-total {
-  display: flex;
-  justify-content: center;
-  background: rgb(0, 131, 0);
-  padding: 20px;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 10;
-  font-size: 20px;
-  color: rgb(255, 255, 255);
-}
+  &__content {
+      
+  }
+  &__items {
+    
+  }
 
+  &__footer {
+    padding: 20px 0px;
+    // margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid rgb(212, 212, 212);
+  }
+
+  &__footer-link {
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  &__total {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__total-text {
+    padding: 10px 0px;
+  }
+
+  &__total-price {
+    font-weight: 600;
+  }
+}
 .disabledButton {
   display: none;
 }
