@@ -14,7 +14,7 @@
         <div class="popup__inputs-block">
           <custom-input 
             class="popup__input"
-            :plaseHolder="plaseHolderName"
+            :placeholder="placeholderName"
             v-model.trim="$v.form.name.$model"
             :class="$v.form.name.$error ? 'is-invalid' : ''"
             fill
@@ -24,7 +24,7 @@
           
           <custom-input
             class="popup__input" 
-            :plaseHolder="plaseHolderAdress"
+            :placeholder="placeholderAdress"
             v-model.trim="$v.form.adress.$model" 
             :class="$v.form.adress.$error ? 'is-invalid' : ''"
             fill
@@ -33,7 +33,7 @@
           
           <custom-input
             class="popup__input" 
-            :plaseHolder="plaseHolderTel"
+            :placeholder="placeholderTel"
             v-model.trim="$v.form.phone.$model"
             width="300" 
           />
@@ -44,7 +44,7 @@
           <span class="popup__text-email">Введите email, есди хотите получать информацию об акциях и новых поступлениях товаров</span>
           <custom-input
             class="popup__input" 
-            :plaseHolder="plaseHolderMail"
+            :placeholder="placeholderMail"
             v-model="$v.form.email.$model"
             :class="$v.form.email.$error ? 'is-invalid' : ''"
             fill
@@ -129,10 +129,10 @@ export default {
       },
       checkoutOrder: 'Оформить заказ',
       closePopUp: 'Закрыть',
-      plaseHolderName: 'Введите имя',
-      plaseHolderAdress: 'Введите адрес',
-      plaseHolderTel: 'Телефон',
-      plaseHolderMail: 'email',
+      placeholderName: 'Введите имя',
+      placeholderAdress: 'Введите адрес',
+      placeholderTel: 'Телефон',
+      placeholderMail: 'email',
       numberOrder: this.$store.state.numberOrder
     }
   },

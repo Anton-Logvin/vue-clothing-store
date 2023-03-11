@@ -2,7 +2,7 @@
   <input
     class="custom-input"
     v-model="search"
-    :placeholder="plaseHolder"
+    :placeholder="placeholder"
     :style="`width: ${fill ? '100%': width + 'px'}`"
   >
 </template>
@@ -18,7 +18,7 @@ export default {
       default: ""
     },
 
-    plaseHolder: {
+    placeholder: {
       type: String,
       default: "_"
     },

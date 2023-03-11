@@ -22,8 +22,7 @@
         <custom-input 
           class="search-input"
           v-model="search"
-          :value="search"
-          :plaseHolder="placeHolder"
+          :placeholder="placeHolder"
           width="160"
         />
         <button class="search-btn">
@@ -68,6 +67,8 @@ import { mapGetters } from 'vuex';
 import CustomInput from './form/CustomInput.vue';
 
 export default {
+  components: { CustomInput },
+  
   data() {
     return {
       search: '',
@@ -75,7 +76,6 @@ export default {
     }
   },
 
-  components: { CustomInput },
   computed: {
     ...mapGetters(['cart', 'cartLength']),
   },

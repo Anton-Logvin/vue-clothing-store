@@ -16,6 +16,7 @@
     </div>
     
     <router-link 
+      v-if="showTopButton"
       class="catalog__btn-to-up" 
       to="/catalog" 
       @click.native="scrollToTop"
@@ -31,13 +32,12 @@ import ProductCard from '@/components/widgets/product/ProductCard'
 import SideBar from '@/components/SideBar'
 // import CatalogFilter from '@/components/CatalogFilter'
 
-
 export default {
   name: 'CatalogPage',
   
   data() {
     return {
-      jopa: true
+      showTopButton: false,
     }
   },
   
@@ -77,6 +77,10 @@ export default {
 
   created() {
     this.getProducts()
+
+    document.addEventListener("scroll", () => {
+      this.showTopButton = document.body.scrollTop > 300 || document.documentElement.scrollTop > 300
+    })
   }
 }
 
