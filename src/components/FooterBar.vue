@@ -73,6 +73,13 @@
 </script>
 
 <style lang="scss" scoped>
+
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
   .footer {
     background-image: linear-gradient(90deg, #00158f3f,#00c9117e, #073f0067);
     opacity: 0.9;
@@ -83,6 +90,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      // display: grid;
+      // grid-template-columns: 1fr 1fr;
+      // align-items: center;
     }
 
     &__logo {
@@ -90,7 +101,7 @@
     }
 
     &__title {
-      font-size: 30px;
+      font-size: calc(18px + (16 * 0.5) * ((100vw - 320px) / 1600));
     }
 
     &__image {
@@ -142,6 +153,54 @@
       margin: 0 auto;
       max-width: 1000px;
       padding: 20px 0px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .footer {
+
+      &__header {
+        justify-content: center;
+      }
+    }
+  }
+  
+  @media (max-width: 800px) {
+    .footer {
+
+      &__columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      &__column {
+        text-align: center;
+      }
+    }
+  }
+
+  
+  @media (max-width: 560px) {
+    .footer {
+      &__columns {
+        grid-template-columns: 1fr ;
+        
+      }
+      
+      &__logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      &__icons {
+        display: flex;
+      }
+
+      &__icons-text {
+        display: none;
+      }
     }
   }
 </style>

@@ -20,13 +20,16 @@
       :product="product" 
     >
     <router-link class="main-page__item" :to="'/catalog'">
-      <div 
+      <div class="main-page__item-images">
+        <div 
         v-for="(image, index) in product.images" 
         :key="index"
         class="main-page__item-image"
       >
         <img :src="image" />
       </div>
+      </div>
+     
       <div class="main-page__item-description">
         <h4 class="main-page__item-title">{{ product.title }}</h4>
         <div class="main-page__item-icons">
@@ -78,7 +81,6 @@ export default {
 }
 
 .main-page {
-
   &__items {
     max-width: 850px;
     margin: 0 auto;
@@ -94,13 +96,15 @@ export default {
     border-radius: 6px;
     margin: 20px;
     padding: 10px 10px;
-    
+    max-height: 400px;
+  }
+
+  &__item-images {
+    display: flex;
   }
 
   &__item-image {
-    display: flex;
     border-radius: 6px;
-    // flex-grow: 1;
     border: 1px solid rgba(216, 216, 216, 0.233);
     box-shadow: 0px 0px 2px rgba(17, 153, 17, 0.171);
   }
@@ -119,7 +123,6 @@ export default {
   &__item-title {
     font-size: 24px;
     color: #008512;
-    // text-shadow: 0px 0px 3px #008512;
   }
 
   &__item-icons {
@@ -134,4 +137,48 @@ export default {
     color: #636363be;
   }
 }  
+
+@media(max-width: 760px) {
+  .main-page {
+    &__item {
+      // justify-content: flex-start;
+    }
+
+    &__item-images {
+      display: flex;
+      flex-direction: column;
+     
+    }
+
+    &__item-image img{
+      max-width: 120px;
+    }
+
+    &__item-description {
+      flex: 0 0 80%;
+    }
+  }
+}
+
+
+@media(max-width: 660px) {
+  .main-page {
+    &__item-description {
+      flex: 0 0 70%;
+    }
+  }
+}
+
+@media(max-width: 460px) {
+  .main-page {
+    &__item-icons {
+      display: none;
+    }
+
+    &__item-description {
+      flex: 0 0 60%;
+    }
+  }
+}
+
 </style>

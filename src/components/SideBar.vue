@@ -1,10 +1,10 @@
 <template>
   <div>
     <b-button v-b-toggle.sidebar-no-header class="sidebar-btn">
-      Фильтра
+      Фильтр
       <b-icon 
         icon="funnel" 
-        scale="1.3" 
+        scale="1.25" 
       ></b-icon>
     </b-button>
     <b-sidebar id="sidebar-no-header" class="sidebar"  aria-labelledby="sidebar-no-header-title" no-header bg-variant="light bg-opacity-75" text-variant="dark"  left shadow>
@@ -40,18 +40,21 @@ export default {
 
 .sidebar-btn {
   color:rgb(0, 151, 0);
-  border-radius: 4px;
+  border-radius: 24px;
   background: rgba(255, 255, 255, 0.637);
   border: 2px solid rgb(0, 151, 0);
   box-shadow: 0px 0px 2px rgb(196, 196, 196);
-  padding: 10px 20px;
-  transition: all .3s ease-out;
+  padding: 0 16px;
+  height: 34px;
+  transition: .3s ease;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-btn:hover {
   background: rgba(0, 128, 0, 0.685);
   color: rgb(255, 255, 255);
-  box-shadow: 0px 0px 6px rgb(97, 97, 97);;
+  box-shadow: 0px 0px 6px rgb(97, 97, 97);
 }
 
 .sidebar__filters {
@@ -64,4 +67,4 @@ export default {
   box-shadow: 0px 0px 6px #a3a3a3;
   border-radius: 4px;
 }
-</style>>
+</style>

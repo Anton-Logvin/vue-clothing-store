@@ -33,13 +33,14 @@
           
           <custom-input
             class="popup__input" 
+            type = "Number"
             :placeholder="placeholderTel"
             v-model.trim="$v.form.phone.$model"
             width="300" 
           />
           <p class="popup__text-error" v-if="$v.form.phone.$dirty && !$v.form.phone.required">Обязательное поле</p> 
-          <p class="popup__text-error" v-if="$v.form.phone.$dirty && !$v.form.phone.minLength">Номер слишком короткий</p>
-          <p class="popup__text-error" v-if="$v.form.phone.$dirty && !$v.form.phone.maxLength">Номер слишком длинный</p>
+          <p class="popup__text-error" v-if="$v.form.phone.$dirty && !$v.form.phone.minLength">Номер слишком короткий, необходимо 7 цифр </p>
+          <p class="popup__text-error" v-if="$v.form.phone.$dirty && !$v.form.phone.maxLength">Номер слишком длинный, необходимо 7 цифр</p>
           <!-- <p class="popup__text-error" v-if="$v.form.phone.$dirty && !$v.form.phone.number">Номер должен состоять из цифр</p>  -->
           <span class="popup__text-email">Введите email, есди хотите получать информацию об акциях и новых поступлениях товаров</span>
           <custom-input
@@ -80,8 +81,9 @@
           
       </div>
       <div class="popup__footer">
-        {{ isDisabled }}
-        <div class="popup__total-price"><span>Итого: </span>$ {{ totalPrice }}</div>
+        <div class="popup__total-price">
+          <span>Итого: </span>$ {{ totalPrice }}
+        </div>
         <div class="popup__buttons">
           <custom-button 
             class="popup__btn-order popup__btn" 
@@ -147,8 +149,8 @@ export default {
       phone: {
         required,
         // number,
-        minLength: minLength(9),
-        maxLength: maxLength(9),
+        minLength: minLength(7),
+        maxLength: maxLength(7),
       },
       email: {email},
     },
@@ -201,6 +203,7 @@ export default {
 }
 .popup-wrapper {
   background: rgba(31, 46, 30, 0.336);
+  border-radius: 20px;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -350,5 +353,22 @@ export default {
   .active-order-btn {
     background: rgb(0, 145, 0);
   }
+  
+  @media(max-width: 650px) {
+    .popup-wrapper {
+      padding: 50px 0px;
+    }
 
+    .popup {
+      width: auto;
+      max-width: 460px;
+    }
+  }
+
+  @media(max-width: 550px) {
+    
+    .popup {
+      max-width: 420px;
+    }
+  }
 </style>

@@ -4,13 +4,11 @@
       class="product__image"
       :src="product.images[0]" 
     />
-    
+    <span class="product__title">{{ product.title }}</span>
     <div class="product__info">
       <div class="product__text">
-        <span class="product__title">{{ product.title }}</span>
         <span class="product__price">$ {{ product.price }} </span>
       </div>
-      
       <div class="product__btn">
         <button 
           @click.prevent.stop="addToCart" 
@@ -76,6 +74,8 @@ export default {
 
   &__image {
     max-width: 340px;
+    width: 100%;
+    height: auto;
   }
 
   &__info {
@@ -90,6 +90,7 @@ export default {
     font-size: 20px;
     color: #222222;
     padding: 8px 0px 0px 0px;
+    text-align: start;
   }
 
   &__price {

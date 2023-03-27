@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import auth from './modules/auth'
 
 Vue.use(VueAxios, axios)
 Vue.use(Vuex)
@@ -17,6 +17,10 @@ const store = new Vuex.Store({
     orderList: [],
     disabled: false,
     numberOrder: 1
+  },
+
+  modules: {
+    auth
   },
 
   getters: {

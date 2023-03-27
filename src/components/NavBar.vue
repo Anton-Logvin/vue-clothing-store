@@ -4,56 +4,30 @@
     <div class="container-lg">
       <b-navbar-nav>
         <b-nav-item>
-          <router-link class="product-page-link" to="/">Главная</router-link>
+          <router-link class="navbar-link" to="/">Главная</router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link class="product-page-link" to="/catalog">Каталог</router-link>
+          <router-link class="navbar-link" to="/catalog">Каталог</router-link>
         </b-nav-item>
         <!-- Navbar dropdowns -->
-        <b-nav-item-dropdown text="Пользователь" right>
-          <b-dropdown-item href="#">
-            <router-link class="product-page-link" to="/user">Аккаунт</router-link>  
-          </b-dropdown-item>
-          <b-dropdown-item href="#">Установки</b-dropdown-item>
-        </b-nav-item-dropdown>
+      
       </b-navbar-nav>
 
-      <div class="search-products">
-        <custom-input 
-          class="search-input"
-          v-model="search"
-          :placeholder="placeHolder"
-          width="160"
-        />
-        <button class="search-btn">
-          <b-icon 
-            class="search-icon" 
-            icon="search"
-            font-scale="1.4"
-            @click="searchByNameProduct"
-        ></b-icon>
-        </button>
-        <button class="search-btn">
-          <b-icon 
-            class="search-icon" 
-            icon="x-circle"
-            font-scale="1.4"
-            @click="clearSearch"
-        ></b-icon>
-        </button>
-      </div>
-      
+
       <div class="navbar-cart">
-        <router-link class="product-page-link" to="/cart">
-          Корзина
-          <b-icon icon="cart4" aria-hidden="true"></b-icon>
+        <router-link class="navbar-link" to="/cart">
+          <span class="navbar-link-name">Корзина</span> 
+          <b-icon class="navbar-icon" icon="cart4" aria-hidden="true"></b-icon>
           {{ cartLength }}
         </router-link>
-
-        <a href="https://vuejs.org/" class="navbar-logo">
+        <router-link class="navbar-link" to="/login">
+          <span class="navbar-link-name">Авторизация</span> 
+          <b-icon class="navbar-icon autorisation-icon" icon="person-square" aria-hidden="true"></b-icon>
+        </router-link>  
+        <!-- <a href="https://vuejs.org/" class="navbar-logo">
           <span> Vue.js</span>
           <img class="navbar-logo-image" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="">
-        </a>
+        </a> -->
       </div>
 
     </div>
@@ -64,15 +38,13 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import CustomInput from './form/CustomInput.vue';
 
 export default {
-  components: { CustomInput },
+
   
   data() {
     return {
-      search: '',
-      placeHolder: 'Поиск'
+ 
     }
   },
 
@@ -81,14 +53,9 @@ export default {
   },
 
   methods: {
-    searchByNameProduct() {
-      this.$store.dispatch('searchByNameProduct', this.search)
-    },
+ 
 
-    clearSearch() {
-      this.search = ''
-      this.searchByNameProduct()
-    }
+   
   
   }
 }
@@ -102,13 +69,16 @@ export default {
   left: 0;
   z-index: 100;
 }
-.product-page-link {
+.navbar-link {
   text-decoration: none;
   color: #adadad;
   transition: all .3s ease-out;
 }
-.product-page-link:hover {
+.navbar-link:hover {
   color: rgba(255, 255, 255, 0.849);
+}
+.navbar-link-name{
+  padding-right: 4px;
 }
 .navbar {
   font-size: 18px;
@@ -133,38 +103,24 @@ export default {
   height: 30px;
 }
 
-.search-products {
-  display: flex;
-  /* align-items: center; */
-  gap: 8px;
-}
-
-.search-input {
-  height: 30px;
-  padding: 6px;
-  border-radius: 14px;
-  background: rgb(255, 255, 255);
-  border: none;
-}
-
-.search-btn {
-  background: #00521200;
-  border: none;
-}
-.search-icon {
-  cursor: pointer;
-  color: #fff;
-  /* padding: 3px; */
-  opacity: 0.7;
-  transition: .3s ease;
-}
-
-.search-icon:hover {
-  opacity: 1;
-}
 .navbar-cart {
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+@media(max-width: 560px) {
+  .navbar-link-name{
+    display: none;
+  }
+
+  .navbar-icon{
+    width: 24px;
+    height: auto;
+  }
+
+  .autorisation-icon {
+    padding-top: 2px;
+  }
 }
 </style>

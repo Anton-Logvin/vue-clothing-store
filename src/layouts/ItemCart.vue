@@ -25,7 +25,7 @@
             </div>
               <p>Доступно: {{ product.quantity }}</p>
           </div>
-          <div>Доставка: {{ product.shipping }}
+          <div class="item-cart__exposition" >Доставка: {{ product.shipping }}
             <div class="item-cart__color">Цвет: <div class="item-cart__color-item" :style="`background: ${product.colors[this.$store.state.indexImage]}`"></div> </div>
           </div>
           <div class="item-cart__price-wrapper">
@@ -150,7 +150,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
   }
 
   &__quantity-number {
@@ -163,10 +162,12 @@ export default {
     font-weight: 500;
     flex: 1 0 auto;
     background: rgb(230, 230, 230);
+    transition: ease .3s;
   }
 
   &__amount:hover {
     cursor: pointer;
+    box-shadow: 0px 0px 2px grey;
   }
 
   &__color {
@@ -179,7 +180,7 @@ export default {
     height: 14px;
     width: 30px;
     border-radius: 2px;
-    box-shadow: 0px 0px 2px gray;
+    box-shadow: 0px 0px 4px rgb(206, 206, 206);
   }
 
   &__price-wrapper {
@@ -192,7 +193,33 @@ export default {
     color: green;
     font-size: 18px;
     min-width: 60px;
-    border-radius: 2px;
+  }
+
+  @media(max-width: 576px) {
+    .item-cart {
+      &__image img {
+        max-width: 120px;
+        height: auto;
+      }
+
+      &__sub-title {
+        padding-top: 2em;
+        display: flex;
+        justify-content: space-between;
+        gap: 1em;
+        height: 100%;
+      }
+
+      &__price {
+        color: green;
+        // font-size: 18px;
+        min-width: 40px;
+      }
+
+      &__exposition {
+        display: none;
+      }
+    }
   }
 }
 </style>

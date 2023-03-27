@@ -3,7 +3,7 @@
     <h3 class="filter__title">Фильтр продуктов</h3>
     <div class="filter__item category">
       <p>Категории товаров</p>
-      <custom-checkbox  v-model="category['t-shirt']" label="Майки" />
+      <custom-checkbox class="filter__category"  v-model="category['t-shirt']" label="Майки" />
       <custom-checkbox  v-model="category.cap" label="Кeпки" />
       <custom-checkbox  v-model="category.socks" label="Носки" />
     </div>
@@ -138,6 +138,10 @@ export default {
     justify-content: center;
     // flex-direction: column;
     font-size: 17px;
+  }
+
+  &__category {
+    color: red;
   }
 
   &__buttons {

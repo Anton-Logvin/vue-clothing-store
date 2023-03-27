@@ -26,6 +26,7 @@ $footer-height: 300px;
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
   padding-top: 58px;

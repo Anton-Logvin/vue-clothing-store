@@ -49,7 +49,8 @@ export default {
   data() {
     return {
       buttonCheckoutOrder: 'Оформить заказ',
-      modalOrderVisible: false
+      modalOrderVisible: false,
+      showTopToModal: false,
     }
   },
   components: { 
@@ -82,9 +83,12 @@ export default {
 
     modalOrderClick() {
       this.modalOrderVisible = !this.modalOrderVisible
-    }
-  },
+      window.scrollTo(0,0);
+    },
 
+ 
+  },
+  
   mounted() {
     this.$store.dispatch('setCartFromStorage');
   }
@@ -94,17 +98,9 @@ export default {
 
 <style lang="scss" scoped>
 .cart {
-
   &__button-order {
     background: rgb(41, 148, 32);
     color: #fff;
-  }
-
-  &__content {
-      
-  }
-  &__items {
-    
   }
 
   &__footer {
@@ -140,5 +136,17 @@ export default {
 }
 .total__name {
   margin-right: 10px;
+}
+
+@media(max-width: 576px) {
+  .cart {
+    &__footer {
+      flex-direction: column;
+    }
+
+    &__footer-link {
+      padding: 14px;
+    }
+  }
 }
 </style>
