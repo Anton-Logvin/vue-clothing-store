@@ -2,19 +2,19 @@
   <form class="filter">
     <h3 class="filter__title">Фильтр продуктов</h3>
     <div class="filter__item category">
-      <p>Категории товаров</p>
+      <p class="filter__item-title">Категории товаров</p>
       <custom-checkbox class="filter__category"  v-model="category['t-shirt']" label="Майки" />
       <custom-checkbox  v-model="category.cap" label="Кeпки" />
       <custom-checkbox  v-model="category.socks" label="Носки" />
     </div>
-    <div>
-      <p>Выбрать по цене</p>
-      <div class="filter__item">
+    <div class="filter__item">
+      <p class="filter__item-title">Выбрать по цене</p>
       <custom-price-filter :key="refresh" v-model="priceRange" />
-    </div>
+    
     </div>
     
     <div class="filter__item">
+      <p class="filter__item-title">Выбрать по цвету</p>
       <custom-colors-filter v-model="colors" />
     </div>
     <div class="filter__buttons filter__item">
@@ -124,30 +124,35 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  // max-width: 1400px;
-  // width: 100%;
-  
+   
   &__title {
     color: rgb(0, 88, 0);
+    padding-top: 50px;
   }
 
   &__item {
     width: 100%;
-    // border: 1px solid red;
+    padding: 20px 0px;
+    border-top: 1px solid rgb(172, 172, 172);
     display: flex;
-    justify-content: center;
-    // flex-direction: column;
+    flex-direction: column;
+    align-items: center;
     font-size: 17px;
   }
 
+  &__item-title {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
   &__category {
-    color: red;
+    color: rgb(16, 190, 10);
   }
 
   &__buttons {
-    display: flex;
-    gap: 14px;
+    flex-direction: row;
     justify-content: space-around;
+    gap: 14px;
   }
 }
 
@@ -157,6 +162,10 @@ export default {
   flex-direction:column;
   align-items:flex-start;
   gap: 6px;
+}
+
+.filter__item-title {
+  
 }
 
 .active-apply {

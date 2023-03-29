@@ -91,9 +91,6 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      // display: grid;
-      // grid-template-columns: 1fr 1fr;
-      // align-items: center;
     }
 
     &__logo {
@@ -106,6 +103,7 @@
 
     &__image {
       width: 100px;
+      filter: drop-shadow(0px 0px 8px #fff);
     }
 
     &__icons {
@@ -114,8 +112,13 @@
 
     &__icon {
       max-height: 40px;
-      // border-radius: 50%;
       margin: 5px;
+      border-radius: 50%;
+      transition: .3s ease;
+    }
+
+    &__icon:hover {
+      box-shadow: 0px 0px 6px #fff;
     }
 
     &__icons-text{

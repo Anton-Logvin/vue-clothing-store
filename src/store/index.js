@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import auth from './modules/auth'
+// import auth from './modules/auth'
+
+import user from './modules/user'
 
 Vue.use(VueAxios, axios)
 Vue.use(Vuex)
@@ -20,7 +22,7 @@ const store = new Vuex.Store({
   },
 
   modules: {
-    auth
+    user,
   },
 
   getters: {

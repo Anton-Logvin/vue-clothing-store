@@ -36,6 +36,7 @@ export default {
 .sidebar {
   /* opacity: 0.9; */
   /* background: #ca292970; */
+  /* position: relative; */
 }
 
 .sidebar-btn {
@@ -58,13 +59,17 @@ export default {
 }
 
 .sidebar__filters {
-  padding: 50px 0px;
+  /* padding: 20px 0px; */
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  
   border: 1px solid rgb(230, 230, 230);
   background: #ffffffcc;
   box-shadow: 0px 0px 6px #a3a3a3;
   border-radius: 4px;
+}
+
+.btn-close {
+  
 }
 </style>

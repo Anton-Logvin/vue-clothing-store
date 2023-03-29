@@ -1,6 +1,6 @@
 <template>
   <div class="price-slider">
-    <p>Min: {{ price.minPrice }}</p>
+    <p class="price">Min: {{ price.minPrice }}</p>
     <input 
       type="range" 
       :min="min"
@@ -18,7 +18,7 @@
       v-model.number="price.maxPrice" 
       @change="setRangeSliders"
     >
-    <p>Max: {{ price.maxPrice }}</p>
+    <p class="price">Max: {{ price.maxPrice }}</p>
   </div>
 </template>
 
@@ -72,6 +72,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+  .price {
+    width: 100%;
+    font-weight: 600;
+    color: rgb(92, 92, 92);
+  }
   .price-slider {
     width: 200px;
     margin: auto 16px;

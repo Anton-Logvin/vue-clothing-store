@@ -1,18 +1,52 @@
 <template>
-<div class="main-page">
-  <b-carousel 
-    class="main-slider" 
-    ref="myCarousel" 
-    id="carousel-fade" 
-    :interval="2000" 
-    style="text-shadow: 0px 0px 2px #000" 
-    fade indicators img-width="1024" 
-    img-height="480"
-  >
-    <b-carousel-slide class="main-slider-image" caption="First Slide" img-src="/images/vue-t-shirt-green.jpeg"></b-carousel-slide>
-    <b-carousel-slide class="main-slider-image" caption="Second Slide" img-src="/images/t-shirt-white.jpg"></b-carousel-slide>
-    <b-carousel-slide class="main-slider-image" caption="Third Slide" img-src= "/images/t-shirt-yellow.jpg"></b-carousel-slide>
-  </b-carousel>
+<div class="main-page ">
+  <div>
+    <b-carousel
+      class="main-slider" 
+      id="carousel-1"
+      v-model="slide"
+      :interval="3000"
+      controls
+      indicators
+      background="#fff"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+    >
+      <b-carousel-slide
+        class="main-slider-image"
+        caption="1 slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="/images/vue-t-shirt-black.jpeg"
+      ></b-carousel-slide>
+
+      <b-carousel-slide
+        class="main-slider-image"
+        caption="2 slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="/images/t-shirt-white.jpg"
+      >
+      </b-carousel-slide>
+
+      <b-carousel-slide 
+        class="main-slider-image"
+        caption="3 slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="/images/t-shirt-yellow.jpg"
+      >
+      </b-carousel-slide>
+
+      <b-carousel-slide 
+        class="main-slider-image"
+        caption="4 slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        
+        img-src="/images/vue-t-shirt-green.jpeg"
+      >
+      </b-carousel-slide>
+    </b-carousel>
+  </div>
+
   <div class="main-page__items">
     <div 
       v-for="product in products" 
@@ -22,12 +56,12 @@
     <router-link class="main-page__item" :to="'/catalog'">
       <div class="main-page__item-images">
         <div 
-        v-for="(image, index) in product.images" 
-        :key="index"
-        class="main-page__item-image"
-      >
-        <img :src="image" />
-      </div>
+          v-for="(image, index) in product.images" 
+          :key="index"
+          class="main-page__item-image"
+        >
+          <img :src="image" />
+        </div>
       </div>
      
       <div class="main-page__item-description">
@@ -37,7 +71,6 @@
           <b-icon icon="cart-check" scale="2" aria-hidden="true"></b-icon>
           <b-icon icon="emoji-sunglasses" scale="2" aria-hidden="true"></b-icon>
         </div>
-        
         <span class="main-page__item-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, accusamus?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, explicabo!</span>
       </div>
     </router-link>
@@ -49,9 +82,6 @@
 <script>
 
 export default {
-  components: {
-    
-  },
   computed: {
     products() {
       return this.$store.getters['productList']
@@ -62,7 +92,7 @@ export default {
 
     getProducts() {
       this.$store.dispatch('getProducts')
-    }
+    },
   },
   
   created() {
@@ -73,11 +103,12 @@ export default {
 
 <style lang="scss" scoped>
 .main-slider {
-  max-width: 80%;
+  max-width: 1440px;
   margin: 0 auto;
 }
 .main-slider-image{
-  max-height: 400px;
+  max-height: 500px;
+  border-radius: 20px;
 }
 
 .main-page {
@@ -92,8 +123,8 @@ export default {
     justify-content: space-between;
     gap: 10px;
     border: 1px solid rgba(163, 163, 163, 0.253);
-    box-shadow: 1px 1px 4px rgba(0, 192, 0, 0.329);
-    border-radius: 6px;
+    box-shadow: 1px 1px 4px rgba(126, 126, 126, 0.329);
+    border-radius: 16px;
     margin: 20px;
     padding: 10px 10px;
     max-height: 400px;
@@ -105,8 +136,6 @@ export default {
 
   &__item-image {
     border-radius: 6px;
-    border: 1px solid rgba(216, 216, 216, 0.233);
-    box-shadow: 0px 0px 2px rgba(17, 153, 17, 0.171);
   }
 
   &__item-image img {
@@ -131,6 +160,7 @@ export default {
     display: flex;
     justify-content: center;
     gap: 24px;
+    padding: 30px;
   }
 
   &__item-text {
@@ -166,6 +196,11 @@ export default {
     &__item-description {
       flex: 0 0 70%;
     }
+  }
+
+  .main-slider-image{
+    max-height: 400px;
+    border-radius: 20px;
   }
 }
 

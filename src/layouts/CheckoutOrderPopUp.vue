@@ -216,7 +216,7 @@ export default {
     width: 500px;
     margin: 0 auto;
     background: #fff;
-    border-radius: 6px;
+    border-radius: 12px;
     box-shadow: 0px 0px 10px #c9c9c9;
     transition: 0.3 ease;
           
@@ -227,7 +227,7 @@ export default {
       padding: 10px 10px;
       background-image: linear-gradient(90deg, #008026, #005212);
       color: #fff;
-      border-radius: 6px 6px 0px 0px;
+      border-radius: 12px 12px 0px 0px;
     }
 
     &__content {

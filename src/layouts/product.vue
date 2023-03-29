@@ -1,7 +1,8 @@
 <template>
-<div v-if="product" class="container">
+<div v-if="product">
   <div class="product">
     <product-photo 
+      class="product__photo"
       :ImageProduct="product.images" 
       :ProductColor="product.colors" 
     />
@@ -35,13 +36,6 @@
         </b-button>
       </div>
     </div>
-    <!-- <div 
-      v-for="(image, index) in product.images" 
-      :key="index"
-    >
-      <img :src="image" />
-    </div> -->
-
   </div>
   <router-link class="product__return-catalog" to="/catalog"><b-icon icon="arrow-left" scale="1.1"></b-icon> Вернуться к покупкам</router-link>
 </div>
@@ -103,7 +97,7 @@ export default {
   border: 2px solid #ccc;
   border-radius: 6px;
   box-shadow: 0px 0px 6px gray;
-  max-width: 90%;
+  max-width: 1240px;
   margin: 0 auto;
   position: relative;
 
@@ -141,6 +135,56 @@ export default {
   &__return-catalog {
     text-decoration: none;
     font-size: 18px;
+  }
+}
+
+@media(max-width: 1240px) {
+  .product {
+    max-width: 90%;
+  }
+}
+@media(max-width: 992px) {
+  .product {
+    // flex-wrap: wrap;
+
+    &__discription {
+      padding-right: 0px;
+    }
+  }
+}
+
+@media(max-width: 612px) {
+  .product {
+    // flex-wrap: wrap;
+
+    &__discription {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+@media(max-width: 460px) {
+  .product {
+    flex-direction: column;
+
+    &__title {
+      top: 4px;
+      left: 10px;
+    }
+
+    &__photo {
+      padding-top: 10px;
+    }
+
+    &__discription {
+      padding-top: 20px;
+    }
+
+    &__discription-colum {
+    flex-direction: row;
+  }
+   
   }
 }
 </style>

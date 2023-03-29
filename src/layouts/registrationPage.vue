@@ -49,7 +49,7 @@
       </b-form-group>
     
 
-      <b-button class="user-page__btn" type="submit" variant="primary">Submit</b-button>
+      <b-button class="user-page__btn" @click="onSubmit" type="submit" variant="primary">Submit</b-button>
       <b-button class="user-page__btn" type="reset" variant="danger">Reset</b-button>
     </b-form>
   </div>
@@ -70,7 +70,13 @@
       }
     },
     methods: {
-
+      onSubmit() {
+        const user = {
+          email: this.email,
+          password: this.password
+        }
+        this.$store.dispatch('registerUser', user)
+      }
     }
   }
 </script>

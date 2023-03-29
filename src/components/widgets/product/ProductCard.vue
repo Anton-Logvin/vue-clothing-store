@@ -69,7 +69,7 @@ export default {
   padding: 1em;
   margin: 10px;
   border: 1px solid #e9e9e9;
-  border-radius: 6px;
+  border-radius: 12px;
   transition: .3s ease;
 
   &__image {
@@ -111,7 +111,7 @@ button {
   color: white;
   padding: 8px 20px;
   transition: .3s ease;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 button:hover {

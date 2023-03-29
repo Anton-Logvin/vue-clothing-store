@@ -9,25 +9,28 @@ import './plugins/axios'
 import store from './store'
 import router from '@/router'
 
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
+// import * as fb from 'firebase/app'
+
+import { initializeApp } from "firebase/app";
+
+
+import { getAuth } from "firebase/auth";
 
 // Vue.config.productionTip = false
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCZsxRq0oPY_9m9e39TDGGm6O4PuTWjKEw",
-//   authDomain: "vue-clothing-store.firebaseapp.com",
-//   projectId: "vue-clothing-store",
-//   storageBucket: "vue-clothing-store.appspot.com",
-//   messagingSenderId: "718963116738",
-//   appId: "1:718963116738:web:c6ff053388f67a24fc895b",
-//   measurementId: "G-ZEKLKCPWFW"
-// };
+const firebaseConfig = {
+  apiKey: "AIzaSyCZsxRq0oPY_9m9e39TDGGm6O4PuTWjKEw",
+  authDomain: "vue-clothing-store.firebaseapp.com",
+  projectId: "vue-clothing-store",
+  storageBucket: "vue-clothing-store.appspot.com",
+  messagingSenderId: "718963116738",
+  appId: "1:718963116738:web:c6ff053388f67a24fc895b",
+  measurementId: "G-ZEKLKCPWFW"
+};
 
-// const app = initializeApp(firebaseConfig);
-// const analytics = 
-// getAnalytics(app);
-// console.log(analytics)
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+console.log(auth)
 
 
 // firebase.auth().onAuthStateChanged(() => {
@@ -35,7 +38,20 @@ import router from '@/router'
       router,
       store,
       render: h => h(App),
+      // created() {
+      //   const firebaseConfig = {
+      //     apiKey: "AIzaSyCZsxRq0oPY_9m9e39TDGGm6O4PuTWjKEw",
+      //     authDomain: "vue-clothing-store.firebaseapp.com",
+      //     projectId: "vue-clothing-store",
+      //     storageBucket: "vue-clothing-store.appspot.com",
+      //     messagingSenderId: "718963116738",
+      //     appId: "1:718963116738:web:c6ff053388f67a24fc895b",
+      //     measurementId: "G-ZEKLKCPWFW"
+      //   };
+      //   fb.initializeApp(firebaseConfig)
+      // }
       }).$mount('#app')
+      
     // })
 
 

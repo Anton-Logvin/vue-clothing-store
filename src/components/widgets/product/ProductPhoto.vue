@@ -67,4 +67,26 @@ img {
     padding-top: 3em;
   }
 }
+
+@media(max-width: 994px) {
+  .product-view {
+    flex-direction: column;
+
+    &__color-box {
+      flex-direction: row;
+      justify-content: center;
+      // align-items: end;
+      padding-top: 0px;
+      gap: 10px;
+    }
+
+  
+  }
+}
+
+@media(max-width: 770px) {
+  img {
+    max-width: 200px;
+  }
+}
 </style>

@@ -3,6 +3,10 @@
   <b-navbar type="dark" variant="dark" class="navbar">
     <div class="container-lg">
       <b-navbar-nav>
+        <a href="https://vuejs.org/" class="navbar-logo">
+          <img class="navbar-logo-image" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="">
+          <span> Vue.js</span>
+        </a>
         <b-nav-item>
           <router-link class="navbar-link" to="/">Главная</router-link>
         </b-nav-item>
@@ -24,10 +28,7 @@
           <span class="navbar-link-name">Авторизация</span> 
           <b-icon class="navbar-icon autorisation-icon" icon="person-square" aria-hidden="true"></b-icon>
         </router-link>  
-        <!-- <a href="https://vuejs.org/" class="navbar-logo">
-          <span> Vue.js</span>
-          <img class="navbar-logo-image" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="">
-        </a> -->
+      
       </div>
 
     </div>
@@ -91,6 +92,7 @@ export default {
   text-decoration: none;
   color: rgba(240, 248, 255, 0.692);
   transition: all .3s ease-out;
+  filter: drop-shadow(0px 0px 2px #fff);
 }
 .navbar-logo span {
   padding-right: 8px;

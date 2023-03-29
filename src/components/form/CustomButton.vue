@@ -29,7 +29,7 @@ name: 'CustomButton',
   
 <style lang="scss" scoped>
   .btn {
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 5px 10px;
     opacity: 0.85;
     background: rgb(192, 192, 192);

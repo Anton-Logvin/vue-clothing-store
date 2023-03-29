@@ -36,17 +36,19 @@ export default {
 
 <style lang="scss" scoped>
   .checkbox {
+    width: 88%;
+    text-align: start;
     color: green;
-    border: 1px solid blue;
+    border-bottom: 1px solid rgb(226, 226, 226);
     padding: 0px 10px;
+    cursor: pointer;
   }
 
   .checkbox-input {
-    border: 1px solid rgb(138, 10, 31);
     padding: 10px;
   }
   .checkbox-title {
-    color: red;
+    color: rgb(0, 0, 0);
     padding: 10px;
   }
 </style>
