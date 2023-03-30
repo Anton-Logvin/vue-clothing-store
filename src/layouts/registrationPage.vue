@@ -49,13 +49,15 @@
       </b-form-group>
     
 
-      <b-button class="user-page__btn" @click="onSubmit" type="submit" variant="primary">Submit</b-button>
+      <b-button class="user-page__btn" @click="register" type="button" variant="primary">Submit</b-button>
       <b-button class="user-page__btn" type="reset" variant="danger">Reset</b-button>
     </b-form>
   </div>
 </template>
 
+
 <script>
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
   export default {
     name: 'RegistrationPage',
@@ -70,6 +72,16 @@
       }
     },
     methods: {
+      register() {
+        const auth = getAuth();
+          createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
+            .then((userCredential) => {
+              console.log(userCredential)
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+      },
       onSubmit() {
         const user = {
           email: this.email,

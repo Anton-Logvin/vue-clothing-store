@@ -24,7 +24,11 @@
           <b-icon class="navbar-icon" icon="cart4" aria-hidden="true"></b-icon>
           {{ cartLength }}
         </router-link>
-        <router-link class="navbar-link" to="/login">
+        <div v-if="isAuth" class="navbar-link" @click="signOut">
+          <span class="navbar-link-name">Выход</span> 
+          <b-icon class="navbar-icon autorisation-icon" icon="person-square" aria-hidden="true"></b-icon>
+        </div>  
+        <router-link v-else class="navbar-link" to="/login">
           <span class="navbar-link-name">Авторизация</span> 
           <b-icon class="navbar-icon autorisation-icon" icon="person-square" aria-hidden="true"></b-icon>
         </router-link>  
@@ -37,27 +41,26 @@
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex';
+import { getAuth, signOut } from "firebase/auth";
 
 export default {
-
-  
-  data() {
-    return {
- 
-    }
-  },
-
   computed: {
+    ...mapGetters('user', ['isAuth']),
     ...mapGetters(['cart', 'cartLength']),
   },
 
   methods: {
- 
-
-   
-  
+    signOut() {
+      const auth = getAuth();
+        signOut(auth).then(() => {
+          localStorage.removeItem('token')
+          this.$store.dispatch('user/setToken', null)
+          this.$router.push('/')
+        }).catch((error) => {
+          console.log(error)
+        });
+    }
   }
 }
 </script>

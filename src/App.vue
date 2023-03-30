@@ -17,6 +17,11 @@ import FooterBar from './components/FooterBar'
 export default {
   name: 'App',
   components: { NavBar, FooterBar },
+
+  created() {
+    // TODO: type of text, JSON.parse
+    this.$store.dispatch('user/setToken', localStorage.getItem('token'))
+  }
 }
 </script>
 

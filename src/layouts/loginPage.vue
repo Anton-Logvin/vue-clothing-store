@@ -1,89 +1,77 @@
 <template>
   <div class="container user-page">
-    <h3>Авторизация</h3>
-    <b-form @submit="submitHundler" @reset="onReset" v-if="show">
+    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
         class="user-page__email"
         id="input-group-1"
-        label="Email адрес:"
+        label="Email address:"
         label-for="input-1"
-        description="Мы никогда не будем делиться вашей электронной почтой с кем-либо еще."
+        description="We'll never share your email with anyone else."
       >
         <b-form-input
+          
           id="input-1"
           v-model="form.email"
           type="email"
-          placeholder="Введите email"
+          placeholder="Enter email"
           required
         ></b-form-input>
       </b-form-group>
 
       <b-form-group 
-        class="user-page__password"
-        label="Ваш пароль:" 
+        class="user-page__name"
+        id="input-group-2" 
+        label="Your Name:" 
         label-for="input-2"
       >
         <b-form-input
-          type="password"
-          id="input-3"
+        
+          id="input-2"
           v-model="form.password"
-          placeholder="Введите пароль"
+          placeholder="Enter name"
           required
         >
         </b-form-input>
       </b-form-group>
-      <router-link class="product-page-link" to="/registration">Не зарегестрированы? </router-link>
-      <b-button class="user-page__btn" type="submit" variant="primary">Submit</b-button>
+
+      <b-button class="user-page__btn" type="button" variant="primary" @click="signIn">Submit</b-button>
       <b-button class="user-page__btn" type="reset" variant="danger">Reset</b-button>
     </b-form>
   </div>
 </template>
 
 <script>
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
   export default {
-    name: 'loginPage',
+    name: 'UserPage',
     data() {
       return {
         form: {
           email: '',
-          name: '',
           password: '',
         },
         show: true
       }
     },
     methods: {
-      async submitHundler() {
-        if (this.$v.invalid) {
-          this.$v.touch()
-          return
-        }
-        const formData = {
-          email: this.email,
-          password: this.password
-        }
-  
-          await this.$store.dispatch('registerUser', formData)
-          console.log(formData)
-          this.$router.push('/')
-   
-        
+      signIn() {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, this.form.email, this.form.password)
+          .then((userCredential) => {
+            const token = userCredential.user.accessToken
+            if(token) {
+              this.$store.dispatch('user/setToken', token)
+              this.$router.push('/')
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          });
       },
-
-      onSubmit() {
-        // event.preventDefault()
-        // alert(JSON.stringify(this.form))
-
-        // if(this.$fers.form.validate()) {
-        //   const user = {
-        //     email: this.email,
-        //     name: this.name,
-        //     password: this.password
-        //   }
-          
-        //   this.$store.dispatch('registerUser', user)
-        // }
+      onSubmit(event) {
+        event.preventDefault()
+        alert(JSON.stringify(this.form))
       },
       onReset(event) {
         event.preventDefault()
