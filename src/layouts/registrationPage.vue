@@ -65,8 +65,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
       return {
         form: {
           email: '',
-          name: '',
           password: '',
+          name: '',
         },
         show: true
       }
@@ -74,9 +74,10 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
     methods: {
       register() {
         const auth = getAuth();
-          createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
+          createUserWithEmailAndPassword(auth, this.form.email, this.form.password, this.form.name)
             .then((userCredential) => {
               console.log(userCredential)
+              this.$router.push('/')
             })
             .catch((error) => {
               console.log(error)
@@ -85,9 +86,10 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
       onSubmit() {
         const user = {
           email: this.email,
-          password: this.password
+          password: this.password,
+          name: this.name
         }
-        this.$store.dispatch('registerUser', user)
+        this.$store.dispatch('user/registerUser', user)
       }
     }
   }

@@ -4,7 +4,7 @@
     <b-carousel
       class="main-slider" 
       id="carousel-1"
-      v-model="slide"
+     
       :interval="3000"
       controls
       indicators
@@ -93,6 +93,10 @@ export default {
     getProducts() {
       this.$store.dispatch('getProducts')
     },
+
+    scrollToTop() {
+      window.scrollTo(0,0);
+    }
   },
   
   created() {

@@ -41,7 +41,7 @@ export default {
   methods: {
     updateProduct(getIndexPhoto) {
       this.selectedProduct = getIndexPhoto
-      return this.$store.dispatch('cartIndexImageProduct', this.selectedProduct)
+      return this.$store.dispatch('cartModule/cartIndexImageProduct', this.selectedProduct)
     },
   }
 }
@@ -79,8 +79,6 @@ img {
       padding-top: 0px;
       gap: 10px;
     }
-
-  
   }
 }
 

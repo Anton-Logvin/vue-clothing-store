@@ -2,6 +2,7 @@
   <div 
     class="select"
     @click="areOptionsVisible = !areOptionsVisible"
+    v-click-outside="onClickOutside"
   >
     <p class="select__main">{{ selected }}</p>
     <div 
@@ -34,6 +35,8 @@
 
 <script>
 
+import vClickOutside from 'v-click-outside'
+
   export default {
     name: 'CustomSelect',
     props: {
@@ -55,16 +58,25 @@
       }
     },
 
+    directives: {
+    clickOutside: vClickOutside.directive
+  },
+
     methods: {
       selectOption(option) {
         this.$emit('selectedOption', option)
-       
         this.areOptionsVisible = false
       },
 
       hideSelect() {
         this.areOptionsVisible = false
-      }
+      },
+
+      onClickOutside () {
+        this.areOptionsVisible = false
+        // ???????????????????????????
+        // console.log('Clicked outside. Event: ', event)
+      },
     },
 
     // mounted() {

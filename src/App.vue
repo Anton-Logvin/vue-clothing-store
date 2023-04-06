@@ -21,6 +21,9 @@ export default {
   created() {
     // TODO: type of text, JSON.parse
     this.$store.dispatch('user/setToken', localStorage.getItem('token'))
+  },
+  mounted() {
+    this.$store.dispatch('cartModule/setCartFromStorage');
   }
 }
 </script>
@@ -53,7 +56,7 @@ $footer-height: 300px;
 .router-view {
   border-radius: 20px;
   background: #fff;
-  padding: 20px 0px;
+  padding: 30px 0px 20px 0px;
 }
 
 .content {

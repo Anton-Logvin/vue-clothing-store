@@ -27,12 +27,30 @@
             On sale: {{ isSale ? 'on sale' : 'not on sale' }}
           </div>
         </div>
-      </div>
+              
+        <custom-quantity 
+          class="product__custom-quantity"
+          v-if="productInCart" 
+          :product="productInCart" 
+          @decrement="decrement"
+          @increment="increment"
+        />
 
+      </div>
       <div class="product__buy">
         <span class="product__price">$ {{ product.price }} </span>
-        <b-button variant="success" @click="addToCart">
-          В корзину
+        <b-button
+          v-if="!productInCart" 
+          variant="success" 
+          @click="addToCart">
+            В корзину
+        </b-button>
+        <b-button
+          v-else
+          variant="success" 
+          :disabled="true"
+          @click="addToCart">
+            В корзинe
         </b-button>
       </div>
     </div>
@@ -42,26 +60,38 @@
 <span v-else>
   Нет информации по товару
 </span>
-</template>
 
+</template>
 <script>
-import ProductPhoto from '@/components/widgets/product/ProductPhoto.vue';
+
 import { mapGetters, mapActions } from 'vuex';
+import ProductPhoto from '@/components/widgets/product/ProductPhoto';
+import CustomQuantity from '@/components/form/CustomQuantity';
 
 export default {
-  components: { ProductPhoto },
+  components: { ProductPhoto, CustomQuantity },
   name: 'ProductPage',
 
   data() {
     return {
       productId: +this.$route.params.id,
+      quantityInCart: 1
     }
   },
 
   computed: {
-    ...mapGetters(['productList', 'Cart', ]),
+    ...mapGetters(['productList',]),
+    ...mapGetters('cartModule', ['cart',]),
     product() {
       return this.productList.find(item => item.id === this.productId)
+    },
+
+    productInCart() {
+      return this.$store.getters['cartModule/cart'].find(item => item.id === this.productId) 
+    },
+
+    indexProductInCart() {
+      return this.$store.getters['cartModule/cart'].findIndex(item => item.id === this.productId) 
     },
 
     inStock() {
@@ -75,16 +105,29 @@ export default {
 
   methods: {
     ...mapActions(['getProducts']),
-
+    
     addToCart() {
-      return this.$store.dispatch('addProductToCart', this.product)
-    }
+      if(this.productInCart) {
+        this.btnText = "В корзине"
+        this.isDisabled = true
+      }
+      this.$store.dispatch('cartModule/addProductToCart', this.product)
+    },
+
+    decrement() {
+      this.$store.dispatch('cartModule/decrementItemInCart', this.indexProductInCart)     
+    },
+
+    increment() {
+      this.$store.dispatch('cartModule/incrementItemInCart', this.indexProductInCart)     
+    },
   },
 
   mounted() {
     if (!this.productList.length) {
       this.getProducts()
     }
+    // this.$store.dispatch('cartModule/setCartFromStorage');
   }
 }
 </script>
@@ -95,8 +138,8 @@ export default {
   display: flex;
   justify-content: space-between;
   border: 2px solid #ccc;
-  border-radius: 6px;
-  box-shadow: 0px 0px 6px gray;
+  border-radius: 16px;
+  box-shadow: 0px 0px 10px rgb(148, 148, 148);
   max-width: 1240px;
   margin: 0 auto;
   position: relative;
@@ -119,6 +162,38 @@ export default {
     text-align: start;
   }
 
+  &__custom-quantity {
+    text-align: center;
+    padding: 6px 18px;
+    border: 1px solid rgb(160, 160, 160);
+    border-radius: 6px;
+  }
+  
+  &__in-cart {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__quantity-number {
+    padding: 0px 10px;
+  }
+
+  &__amount {
+    width: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    flex: 1 0 auto;
+    background: rgb(230, 230, 230);
+    transition: ease .3s;
+  }
+
+  &__amount:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 2px grey;
+  }
+
   &__buy {
     display: flex;
     flex-direction: column;
@@ -135,6 +210,7 @@ export default {
   &__return-catalog {
     text-decoration: none;
     font-size: 18px;
+    padding: 20px 0px;
   }
 }
 

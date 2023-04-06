@@ -16,6 +16,7 @@ export default {
 
   getters: {
     user(state) {
+      console.log(state.user)
       return state.user
     },
     isAuth(state) {
@@ -25,6 +26,7 @@ export default {
 
   mutations: {
     setUser(state, user) {
+      console.log(user)
       state.user = user
     },
     setToken(state, token) {
@@ -33,17 +35,19 @@ export default {
   },
 
   actions: {
-    registerUser(context, { email, password }) {
-      fb.auth().createUserWithEmailAndPassword(email, password)
+    registerUser({commit}, { email, password, name }) {
+      fb.auth().createUserWithEmailAndPassword(email, password, name)
       .then(user => {
+        commit('setUser', { email, password, name })
         console.log(user)
-        // commit('setUser', new User(user.uid))
+        console.log(name)
       }).catch((error) => {
         console.log(error)
       })
     },
     setToken({ commit }, token) {
       localStorage.setItem('token', token)
+      // console.log(token)
       commit("setToken", token)
     },
   },

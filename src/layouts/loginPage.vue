@@ -9,7 +9,6 @@
         description="We'll never share your email with anyone else."
       >
         <b-form-input
-          
           id="input-1"
           v-model="form.email"
           type="email"
@@ -21,19 +20,21 @@
       <b-form-group 
         class="user-page__name"
         id="input-group-2" 
-        label="Your Name:" 
+        label="Your password:" 
         label-for="input-2"
       >
         <b-form-input
-        
           id="input-2"
           v-model="form.password"
-          placeholder="Enter name"
+          placeholder="Enter password"
           required
         >
         </b-form-input>
       </b-form-group>
 
+      <router-link class="navbar-link" @click="scrollTop" to="/registration" >
+        ЗАрегестрироваться
+      </router-link>  
       <b-button class="user-page__btn" type="button" variant="primary" @click="signIn">Submit</b-button>
       <b-button class="user-page__btn" type="reset" variant="danger">Reset</b-button>
     </b-form>
@@ -78,11 +79,16 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
         // Reset our form values
         this.form.email = ''
         this.form.name = ''
-                // Trick to reset/clear native browser form validation state
+        // Trick to reset/clear native browser form validation state
         this.show = false
         this.$nextTick(() => {
           this.show = true
         })
+      },
+
+      scrollTop() {
+        window.scrollTo(0, 0);
+        //Не работает!!!!!!!!!!!!!!!!!
       }
     }
   }

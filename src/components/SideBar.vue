@@ -1,17 +1,36 @@
 <template>
-  <div>
-    <b-button v-b-toggle.sidebar-no-header class="sidebar-btn">
+  <div v-click-outside="onClickOutside">
+    <b-button 
+      class="sidebar-btn" 
+      @click="openSidebar">
       Фильтр
       <b-icon 
         icon="funnel" 
         scale="1.25" 
       ></b-icon>
     </b-button>
-    <b-sidebar id="sidebar-no-header" class="sidebar"  aria-labelledby="sidebar-no-header-title" no-header bg-variant="light bg-opacity-75" text-variant="dark"  left shadow>
-      <template #default="{ hide }">
+    <b-sidebar 
+      id="sidebar-no-header" 
+      aria-controls="id"
+      class="sidebar"  
+      aria-labelledby="sidebar-no-header-title" 
+      no-header 
+      bg-variant="light bg-opacity-75" 
+      text-variant="dark"  
+      left 
+      shadow
+      v-model="visible"
+    >
+      <template >
         <div class="p-3">
           <catalog-filter class="sidebar__filters"/>
-          <b-button variant="primary" block @click="hide">Close Sidebar</b-button>
+          <b-button 
+            variant="primary" 
+            block @click="!visible"
+            v-b-toggle.sidebar-no-header 
+          >
+            Close
+          </b-button>
         </div>
       </template>
     </b-sidebar>
@@ -21,18 +40,45 @@
 <script>
 
 import CatalogFilter from '@/components/CatalogFilter'
+import vClickOutside from 'v-click-outside'
 
 export default {
   name: 'SideBar',
+
+  data() {
+    return {
+      visible: false
+    }
+  },
   
   components: {
     CatalogFilter
+  },
+
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
+
+  methods: {
+    onClickOutside () {
+      this.visible = false
+      // ???????????????????????????
+      // console.log('Clicked outside. Event: ', event)
+    },
+  
+    openSidebar() {
+      this.visible = true
+    }
   }
 }
 
 </script>
 
 <style scoped>
+
+#sidebar-no-header {
+  display: block;
+}
 .sidebar {
   /* opacity: 0.9; */
   /* background: #ca292970; */

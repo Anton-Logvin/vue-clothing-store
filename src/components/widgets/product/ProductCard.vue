@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -42,8 +43,9 @@ export default {
   },
 
   methods: {
+    ...mapActions('cartModule', ['addProductToCart']),
     addToCart() {
-      return this.$store.dispatch('addProductToCart', this.product)
+      return this.addProductToCart(this.product)
     }
   },
 

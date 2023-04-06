@@ -1,7 +1,10 @@
 <template>
   <div class="item-cart container">
     <div class="item-cart__product">
-      <div class="item-cart__image">
+      <div 
+        class="item-cart__image"
+        @click="goToProduct(product.id)" 
+      >
         <img :src="product.images[this.$store.state.indexImage]">
       </div>
       <div class="item-cart__description">
@@ -16,17 +19,21 @@
           ></b-icon>
         </div>
         <div class="item-cart__sub-title">
-          <div>
-            <span>Количество: <br /> </span>
-            <div class="item-cart__quantity">
-              <span class="item-cart__amount" @click="decrementItem">-</span>
-                <span class="item-cart__quantity-number">{{ product.quantityInCart }}</span> 
-              <span class="item-cart__amount" @click="incrementItem">+</span>
-            </div>
-              <p>Доступно: {{ product.quantity }}</p>
-          </div>
+
+          <custom-quantity 
+            :product="product"
+            @increment="increment"
+            @decrement="decrement"
+          />
+
           <div class="item-cart__exposition" >Доставка: {{ product.shipping }}
-            <div class="item-cart__color">Цвет: <div class="item-cart__color-item" :style="`background: ${product.colors[this.$store.state.indexImage]}`"></div> </div>
+            <div class="item-cart__color">
+              Цвет: 
+              <div 
+                class="item-cart__color-item" 
+                :style="`background: ${product.colors[this.$store.state.indexImage]}`"
+              ></div> 
+            </div>
           </div>
           <div class="item-cart__price-wrapper">
             <p class="item-cart__price">$ {{ sumQuantity }} </p>
@@ -39,7 +46,10 @@
 
 <script>
 
+import CustomQuantity from '@/components/form/CustomQuantity'
 import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
+
 export default {
  
   name: 'ItemCart',
@@ -52,7 +62,12 @@ export default {
     product: {
       type: Object,
       default: null
-    }
+    },
+  },
+
+  components: {
+    CustomQuantity,
+
   },
 
   computed: {
@@ -63,25 +78,33 @@ export default {
       this.$emit('totalSumQuantity', sumQuantity)
       return sumQuantity
     },
-
-    imgIndexCart() {
-      console.log(this.$store.state.indexImage)
-      return this.$store.getters['getIndexImageProduct']
-    },
   },
 
   methods: {
     ...mapGetters(['indexImageGetter', 'getIndexImageProduct']),
 
+    ...mapActions([
+      'incrementItemInCart', 
+      'decrementItemInCart',
+    ]),
+
+    goToProduct(id) {
+      window.scrollTo(0,0);
+      this.$router.push({
+        name: 'product', 
+        params: { id }
+      })
+    },
+
     deleteFromCart() {
       this.$emit('deleteFromCart')
     },
 
-    decrementItem() {
+    decrement() {
       this.$emit('decrement')
     },
 
-    incrementItem() {
+    increment() {
       this.$emit('increment')
     },
   },
@@ -100,6 +123,7 @@ export default {
   
   &__image {
     display: flex;
+    cursor: pointer;
   }
 
   &__image img {

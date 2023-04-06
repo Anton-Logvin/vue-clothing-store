@@ -26,7 +26,7 @@
               icon="search"
               font-scale="1.4"
               @click="searchByNameProduct"
-          ></b-icon>
+            ></b-icon>
           </button>
           <button class="search-btn">
             <b-icon 
@@ -74,6 +74,7 @@ import ProductCard from '@/components/widgets/product/ProductCard'
 import SideBar from '@/components/SideBar'
 import CustomInput from '@/components/form/CustomInput'
 import CustomSelect from '@/components/form/CustomSelect'
+// import vClickOutside from 'v-click-outside'
 
 export default {
   name: 'CatalogPage',
@@ -88,6 +89,7 @@ export default {
         {name: 'Возрастание $', value: '2'}
       ],
       selected: 'Сортировать',
+      sortVisible: false,
     }
   },
   
@@ -98,10 +100,13 @@ export default {
     CustomSelect,
   },
 
+  // directives: {
+  //   clickOutside: vClickOutside.directive
+  // },
+
   computed: {
     filteredProducts() {
       let filteredProducts = this.$store.getters['filteredProductsList']
-          // return this.$store.getters['filteredProductsList']
       if(this.selected === 'Убывание $') {
         filteredProducts = (filteredProducts.sort((a, b) => a.price - b.price))
       }
@@ -114,6 +119,7 @@ export default {
 
   methods: {
     goToProduct(id) {
+      window.scrollTo(0,0);
       this.$router.push({
         name: 'product', 
         params: { id }
@@ -145,11 +151,17 @@ export default {
     scrollToTop() {
       window.scrollTo(0,0);
     },
+
+    // onClickOutside (event) {
+    //   this.sortVisible = false
+   
+    //   console.log('Clicked outside. Event: ', event)
+    // },
   },
 
   created() {
     this.getProducts()
-
+    window.scrollTo(0,0);
     document.addEventListener("scroll", () => {
       this.showTopButton = document.body.scrollTop > 300 || document.documentElement.scrollTop > 300
     })

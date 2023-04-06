@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="product">
     <product-photo :ImageProduct="product.images" :ProductColor="product.colors" />
     <div class="product__info">
@@ -65,7 +65,7 @@ export default {
 
   }
 }
-</script>
+</script> -->
 
 <style lang="scss" scoped>
 // body {

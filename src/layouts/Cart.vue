@@ -11,9 +11,10 @@
     
     <div class="cart__items">
       <item-cart
-      v-for="(item, index) in cart"
+        v-for="(item, index) in cart"
         :key="item.id"
         :product="item"
+        :indexProduct="index"
         @deleteFromCart="deleteProductFromCart(item.id)"  
         @increment="increment(index)"
         @decrement="decrement(index)"
@@ -60,15 +61,17 @@ export default {
   },
   
   computed: {
-    ...mapGetters(['cart', 'totalPrice',]),
+    ...mapGetters('cartModule', ['cart', 'totalPrice', 'cartLength']),
 
     disabledOrder() {
-      return this.$store.getters.cartLength
+      return this.$store.getters['cartModule/cartLength']
     }
   },
 
   methods: {
-    ...mapActions([
+    ...mapActions(
+    'cartModule',  
+    [
       'deleteProductFromCart',
       'incrementItemInCart', 
       'decrementItemInCart',
@@ -90,7 +93,7 @@ export default {
   },
   
   mounted() {
-    this.$store.dispatch('setCartFromStorage');
+    // this.$store.dispatch('cartModule/setCartFromStorage');
   }
 }
 

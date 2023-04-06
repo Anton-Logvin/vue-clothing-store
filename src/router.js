@@ -5,6 +5,7 @@ import ProductPage from './layouts/product'
 import MainPage from './layouts/MainPage'
 import loginPage from './layouts/loginPage'
 import registrationPage from './layouts/registrationPage'
+import userPage from './layouts/userPage'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,10 @@ const routes = [
   {
     path: '/registration',
     component: registrationPage
+  },
+  {
+    path: '/user',
+    component: userPage
   },
 ]
 

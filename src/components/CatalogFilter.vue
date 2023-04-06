@@ -35,6 +35,7 @@
 </template>
 
 <script>
+
 import CustomButton from './form/CustomButton'
 import CustomCheckbox from './form/CustomCheckbox'
 import CustomColorsFilter from './form/CustomColorsFilter'
@@ -104,7 +105,6 @@ export default {
     },
 
     resetFilter() {
-      
       // this.refresh = !this.refresh
       const { category, colors } = this
       this.$store.dispatch('clearFilter', { category, colors })

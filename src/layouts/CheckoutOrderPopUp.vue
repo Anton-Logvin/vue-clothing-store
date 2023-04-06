@@ -157,7 +157,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['cart', 'totalPrice']),
+    ...mapGetters('cartModule', ['cart', 'totalPrice']),
 
     isDisabled() {
       if(this.form.name && this.form.adress && this.form.phone) {
@@ -190,7 +190,7 @@ export default {
     },
 
     deleteProduct(id) {
-      this.$store.dispatch('deleteProductFromCart', id)
+      this.$store.dispatch('cartModule/deleteProductFromCart', id)
     },
   }
 }
