@@ -14,7 +14,8 @@ export default {
   },
 
   actions: {
-    loadProducts({commit}) {
+    loadProducts({ commit }) {
+      console.log(Vue.$db)
       Vue.$db.collection('products')
       .get()
       .then(querySnapshot => {

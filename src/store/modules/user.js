@@ -1,5 +1,4 @@
 import * as fb from 'firebase/app'
-
 // class User {
 //   constructor(id) {
 //     this.id = id
@@ -49,5 +48,8 @@ export default {
       // console.log(token)
       commit("setToken", token)
     },
+    setUser({ commit }, user) {
+      commit('setUser', user)
+    }
   },
 }

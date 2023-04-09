@@ -14,7 +14,7 @@
           type="email"
           placeholder="Enter email"
           required
-        ></b-form-input>
+        />
       </b-form-group>
 
       <b-form-group 
@@ -28,12 +28,12 @@
           v-model="form.password"
           placeholder="Enter password"
           required
-        >
-        </b-form-input>
+          type="password"
+        />
       </b-form-group>
 
       <router-link class="navbar-link" @click="scrollTop" to="/registration" >
-        ЗАрегестрироваться
+        Зарегестрироваться
       </router-link>  
       <b-button class="user-page__btn" type="button" variant="primary" @click="signIn">Submit</b-button>
       <b-button class="user-page__btn" type="reset" variant="danger">Reset</b-button>
@@ -49,8 +49,8 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
     data() {
       return {
         form: {
-          email: '',
-          password: '',
+          email: 'alexey@gmail.com',
+          password: 123456,
         },
         show: true
       }
@@ -58,11 +58,14 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
     methods: {
       signIn() {
         const auth = getAuth();
+        console.log(auth)
         signInWithEmailAndPassword(auth, this.form.email, this.form.password)
           .then((userCredential) => {
-            const token = userCredential.user.accessToken
+            const user = userCredential.user
+            const token = user.accessToken
             if(token) {
               this.$store.dispatch('user/setToken', token)
+              this.$store.dispatch('user/setUser', user)
               this.$router.push('/')
             }
           })
