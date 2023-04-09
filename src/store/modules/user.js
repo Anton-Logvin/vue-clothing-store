@@ -16,7 +16,6 @@ export default {
 
   getters: {
     user(state) {
-      console.log(state.user)
       return state.user
     },
     isAuth(state) {
@@ -26,12 +25,12 @@ export default {
 
   mutations: {
     setUser(state, user) {
-      console.log(user)
       state.user = user
     },
+
     setToken(state, token) {
       state.token = token
-    }
+    },
   },
 
   actions: {

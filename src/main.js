@@ -8,8 +8,12 @@ import './plugins/axios'
 import store from './store'
 import router from '@/router'
 import vClickOutside from 'v-click-outside'
+
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from 'firebase/firestore';
+
+import 'firebase/database'
 
 Vue.use(BootstrapVueIcons)
 Vue.use(vClickOutside)
@@ -25,12 +29,18 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-console.log(auth)
+getAuth(app);
+//firestore
+const db = getFirestore(app);
+
+Vue.$db = db
 
 new Vue({
   router,
   store,
+  created() {
+    this.$store.dispatch('loadProducts')
+  },
   render: h => h(App),
 }).$mount('#app')
       

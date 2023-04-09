@@ -88,7 +88,6 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
       scrollTop() {
         window.scrollTo(0, 0);
-        //Не работает!!!!!!!!!!!!!!!!!
       }
     }
   }

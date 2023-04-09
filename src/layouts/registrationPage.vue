@@ -83,12 +83,14 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
               console.log(error)
             });
       },
+      
       onSubmit() {
         const user = {
           email: this.email,
           password: this.password,
           name: this.name
         }
+        console.log(user)
         this.$store.dispatch('user/registerUser', user)
       }
     }

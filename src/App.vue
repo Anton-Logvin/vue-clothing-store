@@ -24,6 +24,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('cartModule/setCartFromStorage');
+    this.$store.getters['cartModule/cartLength']
   }
 }
 </script>

@@ -6,6 +6,7 @@ import VueAxios from 'vue-axios'
 
 import user from './modules/user'
 import cartModule from './modules/cartModule'
+import productsFirestore from './modules/products'
 
 Vue.use(VueAxios, axios)
 Vue.use(Vuex)
@@ -16,6 +17,7 @@ const store = new Vuex.Store({
   modules: {
     user,
     cartModule,
+    productsFirestore
   },
 
   state: {

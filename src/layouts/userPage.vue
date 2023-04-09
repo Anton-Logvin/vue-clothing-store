@@ -12,12 +12,17 @@
     <custom-button 
       @click="addPhoto"
     />
+    <!-- {{ this.$store.state.user }} -->
+  <p>-------------------------------------------</p>
+    {{ this.$store.state.productsFirestore }}
   </div>
 </template>
 
 <script> 
+
 import CustomInput from '@/components/form/CustomInput.vue'
 import CustomButton from '@/components/form/CustomButton.vue'
+import { mapGetters } from 'vuex'
 
 
 export default {
@@ -28,6 +33,10 @@ export default {
     return {
       image: '',
     }
+  },
+
+  computed: {
+    ...mapGetters('user', ['isAuth', 'user']),
   },
 
   methods: {
@@ -42,7 +51,11 @@ export default {
       //   console.log(photo)
       // }
       // reader.readAsDataURL(this.image)
-    console.log(this.image)
+
+      
+      console.log(this.$store.getters['user/user'])
+      console.log(this.$store.getters['user/isAuth'])
+        // console.log(userCredential.user)
     }
   }
 }

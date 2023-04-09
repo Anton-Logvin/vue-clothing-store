@@ -15,11 +15,12 @@
           <router-link class="navbar-link" to="/catalog">Каталог</router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link class="navbar-link" to="/user">
+          <router-link class="navbar-link" to="/user" @click="XXX">
             <div v-if="isAuth" class="navbar-link">
               <span class="navbar-link-name">
-                <!-- {{ this.$store.getters["user/isAuth"] }}
-                {{ user }} -->
+                <!-- {{ this.$store.state.user }} -->
+                <!-- {{ this.$store.getters["user/user"] }} -->
+                <!-- {{ user }} -->
                 Профиль:
               </span> 
               <b-icon class="navbar-icon autorisation-icon" icon="person-square" aria-hidden="true"></b-icon>
@@ -58,7 +59,8 @@ export default {
     ...mapGetters('cartModule', ['cart', 'cartLength']),
 
     user() {
-      return this.$store.getters["user/user"] + ' NAME:'
+      console.log(this.$store.state.user)
+      return this.$store.state.user + ' NAME:'
     }
   },
 
@@ -73,7 +75,11 @@ export default {
       this.$router.push('/')
       }).catch((error) => {
         console.log(error)
-      });
+      })
+    },
+
+    XXX() {
+      console.log(this.$store.state.user)
     }
   },
 
