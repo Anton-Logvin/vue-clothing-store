@@ -19,7 +19,7 @@ export default {
   mutations: {
     setProducts(state, payload) {
       console.log(payload)
-      state.filteredProducts = payload
+      state.productsFirestore = payload
     },
   },
 

@@ -2,6 +2,10 @@
   <div class="user container">
     <!-- TODO: Добавить поменять email, password, photo, phone, name -->
     <h2 class="user__title">{{ userName }}</h2>
+    <p>Профиль создан: 15.10.2022 15:45</p>
+    <p>Последний вход на сайт: 15.10.2022 15:45</p>
+    <p>Последние изменения: 15.10.2022 15:45</p>
+    <p>Последние изменение пароля: 15.10.2022 15:45</p>
     <img class="user__avatar" :src="image" alt="">
     <div class="user__redact">
       <b-form-group 
