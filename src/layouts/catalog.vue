@@ -74,7 +74,6 @@ import ProductCard from '@/components/widgets/product/ProductCard'
 import SideBar from '@/components/SideBar'
 import CustomInput from '@/components/form/CustomInput'
 import CustomSelect from '@/components/form/CustomSelect'
-// import vClickOutside from 'v-click-outside'
 
 export default {
   name: 'CatalogPage',
@@ -99,10 +98,6 @@ export default {
     CustomInput,
     CustomSelect,
   },
-
-  // directives: {
-  //   clickOutside: vClickOutside.directive
-  // },
 
   computed: {
     filteredProducts() {
@@ -151,16 +146,12 @@ export default {
     scrollToTop() {
       window.scrollTo(0,0);
     },
-
-    // onClickOutside (event) {
-    //   this.sortVisible = false
-   
-    //   console.log('Clicked outside. Event: ', event)
-    // },
   },
 
   created() {
     this.getProducts()
+    // console.log(this.$store.getters['productsFb/getProductsFirestore'])
+    // this.$store.getters['productsFb/getProductsFirestore']
     window.scrollTo(0,0);
     document.addEventListener("scroll", () => {
       this.showTopButton = document.body.scrollTop > 300 || document.documentElement.scrollTop > 300

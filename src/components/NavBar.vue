@@ -18,12 +18,10 @@
           <router-link class="navbar-link" to="/user" @click="XXX">
             <div v-if="isAuth" class="navbar-link">
               <span class="navbar-link-name">
-                <!-- {{ this.$store.state.user }} -->
-                <!-- {{ this.$store.getters["user/user"] }} -->
-                <!-- {{ user }} -->
-                Профиль:
+                {{ userName }}
               </span> 
-              <b-icon class="navbar-icon autorisation-icon" icon="person-square" aria-hidden="true"></b-icon>
+              <img v-if="image" class="navbar-image" :src="image" alt="">
+              <b-icon v-if="!image" class="navbar-icon autorisation-icon" icon="person-square" aria-hidden="true"></b-icon>
             </div> 
           </router-link>
         </b-nav-item>
@@ -54,14 +52,25 @@ import { mapGetters } from 'vuex';
 import { getAuth, signOut } from "firebase/auth";
 
 export default {
+  name: 'NavBar',
+
+  data() {
+    return {
+      currentUser: null,
+    }
+  },
+
   computed: {
     ...mapGetters('user', ['isAuth', 'user']),
     ...mapGetters('cartModule', ['cart', 'cartLength']),
 
-    user() {
-      console.log(this.$store.state.user)
-      return this.$store.state.user + ' NAME:'
-    }
+    userName() {
+      return this.currentUser?.displayName || 'Профиль:';
+    },
+
+    image() {
+      return this.currentUser?.photoURL;
+    },
   },
 
   methods: {
@@ -80,11 +89,15 @@ export default {
 
     XXX() {
       console.log(this.$store.state.user)
-    }
+    },
   },
 
   created () {
-    this.$store.getters.cartLength
+    this.$store.getters.cartLength,
+    setTimeout(() => {
+      this.auth = getAuth();
+      this.currentUser = this.auth.currentUser;
+    }, 1000);
   }
 }
 </script>
@@ -111,6 +124,14 @@ export default {
 .navbar {
   font-size: 18px;
   background-image: linear-gradient(90deg, #001f31, #005212);
+}
+
+.navbar-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  /* border: 1px solid rgb(224, 224, 224); */
+  object-fit: cover;
 }
 .navbar-logo {
   display: flex;

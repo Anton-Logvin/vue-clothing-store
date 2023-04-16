@@ -209,7 +209,7 @@ export default {
   width: 100%;
   z-index: 100;
   padding: 50px;  
-  margin-top: -20px;
+  margin-top: -30px;
 }
   .popup {
     z-index: 100;

@@ -48,7 +48,7 @@
 
 import CustomQuantity from '@/components/form/CustomQuantity'
 import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+// import { mapActions } from 'vuex'
 
 export default {
  
@@ -83,10 +83,10 @@ export default {
   methods: {
     ...mapGetters(['indexImageGetter', 'getIndexImageProduct']),
 
-    ...mapActions([
-      'incrementItemInCart', 
-      'decrementItemInCart',
-    ]),
+    // ...mapActions([
+    //   'incrementItemInCart', 
+    //   'decrementItemInCart',
+    // ]),
 
     goToProduct(id) {
       window.scrollTo(0,0);

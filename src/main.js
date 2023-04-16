@@ -1,5 +1,3 @@
-// import '@babel/polyfill'
-// import 'mutationobserver-shim'
 import Vue from 'vue'
 import App from './App.vue'
 import './plugins/bootstrap-vue'
@@ -14,6 +12,18 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore';
 
 import 'firebase/database'
+
+import { collection } from 'firebase/firestore'
+import { doc, setDoc } from "firebase/firestore"; 
+
+import Toasted from 'vue-toasted';
+Vue.use(Toasted, {
+  duration: 2000,
+  type: 'info',
+  position: 'top-right', // ['top-right', 'top-center', 'top-left', 'bottom-right', 'bottom-center', 'bottom-left']
+  theme: 'bubble', // ['toasted-primary', 'outline', 'bubble']
+  iconPack: 'mdi', // ['material', 'fontawesome', 'mdi', 'custom-class', 'callback']
+})
 
 Vue.use(BootstrapVueIcons)
 Vue.use(vClickOutside)
@@ -35,11 +45,21 @@ const db = getFirestore(app);
 
 Vue.$db = db
 
+
+setDoc(doc(db, "cities", "LA"), {
+  name: "Los Angeles",
+  state: "CA",
+  country: "Belarus"
+});
+const col = collection(db,'cities', )
+console.log(col)
+
+
 new Vue({
   router,
   store,
   created() {
-    this.$store.dispatch('loadProducts')
+    // this.$store.dispatch('loadProducts')
   },
   render: h => h(App),
 }).$mount('#app')

@@ -1,9 +1,12 @@
-import * as fb from 'firebase/app'
-// class User {
-//   constructor(id) {
-//     this.id = id
-//   }
-// }
+// import * as fb from 'firebase/app'
+
+// import { collection } from 'firebase/firestore'
+// import { doc, setDoc } from "firebase/firestore"; 
+
+
+import Vue from "vue";
+import { doc, setDoc } from "firebase/firestore"; 
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default {
   namespaced: true,
@@ -17,6 +20,7 @@ export default {
     user(state) {
       return state.user
     },
+
     isAuth(state) {
       return !!state.token
     }
@@ -33,21 +37,45 @@ export default {
   },
 
   actions: {
+    // registerUser({commit}, { email, password }) {
+    //   fb.auth().createUserWithEmailAndPassword(email, password)
+    //   .then(user => {
+    //     commit('setUser', { email, password })
+    //     console.log(user)
+    //   }).catch((error) => {
+    //     console.log(error)
+    //   })
+
+
+    // },
+
     registerUser({commit}, { email, password, name }) {
-      fb.auth().createUserWithEmailAndPassword(email, password, name)
-      .then(user => {
-        commit('setUser', { email, password, name })
-        console.log(user)
-        console.log(name)
-      }).catch((error) => {
-        console.log(error)
-      })
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, password, name)
+        .then((userCredential) => {
+          commit('setUser', { email, password, name })
+          console.log(userCredential)
+          this.$router.push('/')
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+        
+      setDoc(doc(Vue.$db, "users", email), {
+        email: email,
+        name: name,
+        password: password
+      });
+   
+
     },
+
     setToken({ commit }, token) {
       localStorage.setItem('token', token)
       // console.log(token)
       commit("setToken", token)
     },
+
     setUser({ commit }, user) {
       commit('setUser', user)
     }
