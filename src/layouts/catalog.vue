@@ -65,7 +65,7 @@
       >
       </b-icon>
     </router-link>
-    
+   
   </div>
 </template>
 
@@ -101,7 +101,7 @@ export default {
 
   computed: {
     filteredProducts() {
-      let filteredProducts = this.$store.getters['filteredProductsList']
+      let filteredProducts = this.$store.getters['productsFb/filteredProductsList']
       if(this.selected === 'Убывание $') {
         filteredProducts = (filteredProducts.sort((a, b) => a.price - b.price))
       }
@@ -122,7 +122,7 @@ export default {
     },
 
     getProducts() {
-      this.$store.dispatch('getProducts')
+      this.$store.dispatch('productsFb/getProducts')
     },
 
     selectedOption(option) {
@@ -135,7 +135,7 @@ export default {
     },
 
     searchByNameProduct() {
-      this.$store.dispatch('searchByNameProduct', this.search)
+      this.$store.dispatch('productsFb/searchByNameProduct', this.search)
     },
 
     clearSearch() {
@@ -143,15 +143,13 @@ export default {
       this.searchByNameProduct()
     },
 
-    scrollToTop() {
-      window.scrollTo(0,0);
-    },
+    // scrollToTop() {
+    //   window.scrollTo(0,0);
+    // },
   },
 
   created() {
     this.getProducts()
-    // console.log(this.$store.getters['productsFb/getProductsFirestore'])
-    // this.$store.getters['productsFb/getProductsFirestore']
     window.scrollTo(0,0);
     document.addEventListener("scroll", () => {
       this.showTopButton = document.body.scrollTop > 300 || document.documentElement.scrollTop > 300

@@ -3,7 +3,8 @@ export default {
 
   state: {
     cart: [],
-    products: [],
+    numberOrder: 1,
+    orderList: [],
   },
   
   getters: {
@@ -19,6 +20,10 @@ export default {
       state.cart.forEach((item) => amountCartProduct += item.quantityInCart)
       return amountCartProduct
     },
+
+    nunberOrderGet(state) {
+      return state.numberOrder
+    }
   },
 
   mutations: {
@@ -73,6 +78,14 @@ export default {
     addProductsFromStorage(state, products) {
       state.cart = products
     },
+
+    getOrderNumber(state) {
+      state.numberOrder++
+    },
+
+    addToOrderList(state, objOrder) {
+      state.orderList.push(objOrder)
+    },
   },
  
   actions: {
@@ -111,6 +124,14 @@ export default {
       if (products && products.length) {
         commit('addProductsFromStorage', products)
       }
+    },
+
+    getOrderNumber({commit}) {
+      commit('getOrderNumber')
+    },
+
+    addToOrderList({commit}, objOrder)  {
+      commit('addToOrderList', objOrder)
     },
   }
 }

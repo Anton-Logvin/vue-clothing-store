@@ -32,7 +32,7 @@
         />
       </b-form-group>
 
-      <router-link class="navbar-link" @click="scrollTop" to="/registration" >
+      <router-link class="navbar-link" @click.native="scrollTop" to="/registration" >
         Зарегестрироваться
       </router-link>  
       <b-button class="user-page__btn" type="button" variant="primary" @click="signIn">Submit</b-button>
@@ -50,7 +50,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
       return {
         form: {
           email: 'alexey@gmail.com',
-          password: 123456,
+          password: 111111,
         },
         show: true
       }
@@ -66,6 +66,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
             if(token) {
               this.$store.dispatch('user/setToken', token)
               this.$store.dispatch('user/setUser', user)
+              this.$store.dispatch('user/getUser', this.form.email)
               this.$router.push('/')
             }
           })
@@ -73,10 +74,12 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
             console.log(error)
           });
       },
+
       onSubmit(event) {
         event.preventDefault()
         alert(JSON.stringify(this.form))
       },
+
       onReset(event) {
         event.preventDefault()
         // Reset our form values
@@ -89,9 +92,10 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
         })
       },
 
-      scrollTop() {
-        window.scrollTo(0, 0);
-      }
+    },
+
+    created() {
+      window.scrollTo(0, 0);
     }
   }
 </script>

@@ -1,97 +1,102 @@
 <template>
-<div class="main-page ">
-  <div>
-    <b-carousel
-      class="main-slider" 
-      id="carousel-1"
-     
-      :interval="3000"
-      controls
-      indicators
-      background="#fff"
-      img-width="1024"
-      img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-    >
-      <b-carousel-slide
-        class="main-slider-image"
-        caption="1 slide"
-        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="/images/vue-t-shirt-black.jpeg"
-      ></b-carousel-slide>
-
-      <b-carousel-slide
-        class="main-slider-image"
-        caption="2 slide"
-        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="/images/t-shirt-white.jpg"
+  <div class="main-page ">
+    <div>
+      <b-carousel
+        class="main-slider" 
+        id="carousel-1"
+      
+        :interval="3000"
+        controls
+        indicators
+        background="#fff"
+        img-width="1024"
+        img-height="480"
+        style="text-shadow: 1px 1px 2px #333;"
       >
-      </b-carousel-slide>
+        <b-carousel-slide
+          class="main-slider-image"
+          caption="1 slide"
+          text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+          img-src="/images/vue-t-shirt-black.jpeg"
+        ></b-carousel-slide>
 
-      <b-carousel-slide 
-        class="main-slider-image"
-        caption="3 slide"
-        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="/images/t-shirt-yellow.jpg"
-      >
-      </b-carousel-slide>
-
-      <b-carousel-slide 
-        class="main-slider-image"
-        caption="4 slide"
-        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        
-        img-src="/images/vue-t-shirt-green.jpeg"
-      >
-      </b-carousel-slide>
-    </b-carousel>
-  </div>
-
-  <div class="main-page__items">
-    <div 
-      v-for="product in products" 
-      :key="product.id" 
-      :product="product" 
-    >
-    <router-link class="main-page__item" :to="'/catalog'">
-      <div class="main-page__item-images">
-        <div 
-          v-for="(image, index) in product.images" 
-          :key="index"
-          class="main-page__item-image"
+        <b-carousel-slide
+          class="main-slider-image"
+          caption="2 slide"
+          text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+          img-src="/images/t-shirt-white.jpg"
         >
-          <img :src="image" />
+        </b-carousel-slide>
+
+        <b-carousel-slide 
+          class="main-slider-image"
+          caption="3 slide"
+          text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+          img-src="/images/t-shirt-yellow.jpg"
+        >
+        </b-carousel-slide>
+
+        <b-carousel-slide 
+          class="main-slider-image"
+          caption="4 slide"
+          text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+          
+          img-src="/images/vue-t-shirt-green.jpeg"
+        >
+        </b-carousel-slide>
+      </b-carousel>
+    </div>
+
+    <div class="main-page__items">
+      <div 
+        v-for="product in products" 
+        :key="product.id" 
+        :product="product" 
+      >
+      <router-link class="main-page__item" :to="'/catalog'">
+        <div class="main-page__item-images">
+          <div 
+            v-for="(image, index) in product.images" 
+            :key="index"
+            class="main-page__item-image"
+          >
+            <img :src="image" />
+          </div>
         </div>
-      </div>
-     
-      <div class="main-page__item-description">
-        <h4 class="main-page__item-title">{{ product.title }}</h4>
-        <div class="main-page__item-icons">
-          <b-icon icon="arrow-down-square" scale="2" aria-hidden="true"></b-icon>
-          <b-icon icon="cart-check" scale="2" aria-hidden="true"></b-icon>
-          <b-icon icon="emoji-sunglasses" scale="2" aria-hidden="true"></b-icon>
+      
+        <div class="main-page__item-description">
+          <h4 class="main-page__item-title">{{ product.title }}</h4>
+          <div class="main-page__item-icons">
+            <b-icon icon="arrow-down-square" scale="2" aria-hidden="true"></b-icon>
+            <b-icon icon="cart-check" scale="2" aria-hidden="true"></b-icon>
+            <b-icon icon="emoji-sunglasses" scale="2" aria-hidden="true"></b-icon>
+          </div>
+          <span class="main-page__item-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, accusamus?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, explicabo!</span>
         </div>
-        <span class="main-page__item-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, accusamus?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, explicabo!</span>
+      </router-link>
       </div>
-    </router-link>
     </div>
   </div>
-</div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   computed: {
+    ...mapGetters('productsFb', ['productList']),
+    // ...mapGetters('cartModule', ['cart', 'cartLength']),
+
     products() {
-      return this.$store.getters['productList']
+      // console.log('productsFb/productList: ', this.$store.getters['productsFb/productList'], this.productList)
+      // console.log('CartModule/cart', this.$store.getters['cartModule/cart'])
+      return this.productList
     },
   },
   // ...
   methods: {
-
     getProducts() {
-      this.$store.dispatch('getProducts')
+      this.$store.dispatch('productsFb/getProducts')
     },
 
     scrollToTop() {
@@ -101,6 +106,7 @@ export default {
   
   created() {
     this.getProducts()
+    window.scrollTo(0, 0);
   }
 }
 </script>

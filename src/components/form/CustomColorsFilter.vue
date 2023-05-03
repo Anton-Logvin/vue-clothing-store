@@ -43,7 +43,7 @@ export default {
     },
     
     getColorsProducts() {
-      return this.$store.getters['allProductColors']
+      return this.$store.getters['productsFb/allProductColors']
     }
   },
 }

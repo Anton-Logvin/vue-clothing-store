@@ -1,59 +1,36 @@
 <template>
   <div class="user container">
     <!-- TODO: Добавить поменять email, password, photo, phone, name -->
-    <h2 class="user__title">{{ userName }}</h2>
-    <p>Профиль создан: 15.10.2022 15:45</p>
-    <p>Последний вход на сайт: 15.10.2022 15:45</p>
-    <p>Последние изменения: 15.10.2022 15:45</p>
-    <p>Последние изменение пароля: 15.10.2022 15:45</p>
-    <img class="user__avatar" :src="image" alt="">
-    <div class="user__redact">
-      <b-form-group 
-        class="user__name"
-        id="input-group-1" 
-        label="Ваше имя:" 
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="name"
-          placeholder="Введите имя"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-      <b-form-group 
-        class="user__name"
-        id="input-group-2" 
-        label="Номер телефона:" 
-        label-for="input-2"
-      >
-        <b-form-input
-          id="input-2"
-          v-model="phone"
-          placeholder="Введите номер телефона"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
+    <h2 class="user__title">Профиль пользователя</h2>
+    <div class="user__header">
+      <img class="user__avatar" :src="image" alt="">
+      <div class="user__header-discription">
+        <p class="user__name">{{ userName }}</p>
+        <div class="user__created">
+          <img src="../assets/time.svg" width="50px" alt="">
+          <div>
+     
+            <p class="user__time-data">Профиль создан: {{ fullDate(dataUser.createdAt) }}</p>
+            <p class="user__time-data">Последний вход на сайт: {{ fullDate(dataUser.lastLoginAt) }}</p>
+          </div>
+        </div>
+      </div>
     </div>
-    {{ phoneNum }}
-    <br/>  {{ 'тут должна быть загрузка фото' }}
-    <user-image @userAva="userAva(userImageSrc)"/>
-    <img :src="userImageSrc" alt="No photo"><br/>
-    <custom-button class="user__button" @click="updateUser" title="Update user" />
-  
-  <ToastedMessage />
+ 
+    <redact-user 
+      :passwordUpdatedAt="fullDate(dataUser.passwordUpdatedAt)"
+      :lastRefreshAt="fullDate(dataUser.lastRefreshAt)"
+    />
+    <ToastedMessage />
   </div>
 </template>
 
 <script> 
 
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth, updatePassword } from "firebase/auth";
 import { mapGetters } from 'vuex'
-import UserImage from '@/components/UserImage';
-import CustomButton from '@/components/form/CustomButton'
 import ToastedMessage from '@/components/ToastedMessage';
+import RedactUser from '@/components/RedactUser.vue';
 
 export default {
   name: 'userPage',
@@ -63,19 +40,18 @@ export default {
       auth: null,
       currentUser: null,
       name: null,
-      phone: null,
-      userImageSrc: '',
+      newPassword: '',
+      newPasswordRepeat:''
     }
   },
 
   components: { 
-    CustomButton, 
-    UserImage, 
-    ToastedMessage 
+    ToastedMessage,
+    RedactUser 
   },
 
   computed: {
-    ...mapGetters('user', ['isAuth', 'user']),
+    ...mapGetters('user', ['isAuth', 'user', 'dataUser', ]),
 
 
     userName() {
@@ -94,34 +70,41 @@ export default {
     setTimeout(() => {
       this.auth = getAuth();
       this.currentUser = this.auth.currentUser;
+      this.$store.dispatch('user/setDataUser', this.currentUser.reloadUserInfo)
     }, 1000);
 
-    this.$store.dispatch('productsFb/loadProducts')
+    window.scrollTo(0, 0);
   },
 
   methods: {
     ...mapGetters('productsFb', ['getProductsFirestore']),
 
-    updateUser() {
-      updateProfile(this.auth.currentUser, {
-        displayName: this.name, 
-        phoneNumber: this.phone,
-        photoURL: "https://news.store.rambler.ru/img/2b31f673def9712dce283c9301eea18e?img-format=auto&img-1-resize=height:355,fit:max&img-2-filter=sharpen"
-      }).then(() => {
-        // Profile updated!
-        // ...
-      }).catch(() => {
-        // An error occurred
-        // ...
-      });
-      // this.getMarker()
-      console.log("products firestore:", this.$store.getters.getProductsFirestore)
-      this.$store.dispatch('productsFb/loadProducts')
-      this.$store.getters.getProductsFirestore
-      console.log('getter productsFb:',this.$store.getters['productsFb/getProductsFirestore'])
-      
-      this.$toasted.show("Фото не хочет загружаться, модули vuex getters... ")
+    updateUserPassword() {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      // const newPassword = getASecureRandomPassword();
+      updatePassword(user, this.newPassword).then(() => {
+      // Update successful.
+      console.log(this.newPassword)
+    }).catch((error) => {
+      // An error ocurred
+      // ...
+      console.log(error)
+    });
     },
+
+    fullDate(data) {
+      const days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+      const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", 
+            "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+      
+      let myDate = new Date(data);
+      
+      let allDate = myDate.getDate() + " " + months[myDate.getMonth()] + 
+        " " + myDate.getFullYear() + ", " + days[myDate.getDay()] + 
+        ", " + myDate.toLocaleTimeString();
+      return allDate
+    }
   }
 }
 
@@ -129,18 +112,87 @@ export default {
 
 <style lang="scss" scoped>
   .user {
+    max-width: 1000px;
+    p {
+      margin: 0;
+    }
+
+    &__title {
+      padding: 20px 0px;
+    }
+
+    &__header {
+      display: flex;
+      padding: 20px;
+      border-radius: 16px;
+      border: solid 1px #d8d8d8;
+      box-shadow: 0px 0px 10px rgb(219, 219, 219);
+    }
 
     &__avatar {
       border-radius: 50%;
+      box-shadow: 0px 0px 8px rgb(167, 167, 167);
       object-fit: cover;
-      width: 200px;
-      height: 200px;
+      width: 220px;
+      height: 220px;
+    }
+
+    &__time-data {
+      font-size: 14px;
+      color: gray;
+      padding: 2px;
+    }
+
+    &__header-discription {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      // padding: 0px 0px 30px 0px;
+      // background-image: url('../assets/time.svg');
+    }
+
+    &__name {
+      font-size: 26px;
+      text-align: right;
+      padding-right: 20px;
+    }
+
+    &__created {
+      text-align: left;
+      // padding: 40px 0px 0px 30px;
+      display: flex;
+      justify-content: flex-end;
+      // border: solid 1px blue;
     }
 
     &__redact {
-      padding: 20px;
-      max-width: 400px;
+      padding: 30px;
+      background: #f5f5f54b;
+      border-radius: 16px;
+      width: 100%;
       margin: 0 auto;
+      display: flex;
+      border: solid 1px #d8d8d8;
+      box-shadow: 0px 0px 10px rgb(219, 219, 219);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__redact-items {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      // padding: 0px 20px;
+    }
+
+    &__redact-elem {
+      
+    }
+
+    &__input {
+      margin-bottom: 10px;
     }
 
     &__button {

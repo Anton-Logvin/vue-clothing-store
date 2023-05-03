@@ -56,8 +56,8 @@ export default {
         socks: false,
       },
       priceRange: {
-        minPrice: this.$store.getters.minProductPrice,
-        maxPrice: this.$store.getters.maxProductPrice
+        minPrice: this.$store.getters['productsFb/minProductPrice'],
+        maxPrice: this.$store.getters['productsFb/maxProductPrice'],
       },
       colors: [],
     }
@@ -72,7 +72,7 @@ export default {
 
   watch: {
     search(val) {
-      this.$store.dispatch('searchByNameProduct', val)
+      this.$store.dispatch('productsFb/searchByNameProduct', val)
     },
   },
 
@@ -91,7 +91,7 @@ export default {
         }
     
       //disabled priceRange
-      if(this.priceRange.minPrice != this.$store.getters.minProductPrice || this.priceRange.maxPrice != this.$store.getters.maxProductPrice) {
+      if(this.priceRange.minPrice != this.$store.getters['productsFb/minProductPrice'] || this.priceRange.maxPrice != this.$store.getters['productsFb/maxProductPrice']) {
         this.$store.dispatch('disableButton', true)
       } 
       return this.$store.state.disabled 
@@ -101,18 +101,18 @@ export default {
   methods: {
     filterData() {
       const { category, priceRange, colors } = this
-      this.$store.dispatch('filteredProducts', { category, priceRange, colors })
+      this.$store.dispatch('productsFb/filteredProducts', { category, priceRange, colors })
     },
 
     resetFilter() {
       // this.refresh = !this.refresh
       const { category, colors } = this
-      this.$store.dispatch('clearFilter', { category, colors })
+      this.$store.dispatch('productsFb/clearFilter', { category, colors })
       this.search = ''
       this.colors = []
       this.category = {"t-shirt": false, cap: false, socks: false,}
-      this.priceRange.minPrice = this.$store.getters.minProductPrice
-      this.priceRange.maxPrice = this.$store.getters.maxProductPrice
+      this.priceRange.minPrice = this.$store.getters['productsFb/minProductPrice']
+      this.priceRange.maxPrice = this.$store.getters['productsFb/maxProductPrice']
     },
   },
 }

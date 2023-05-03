@@ -15,7 +15,7 @@
           <router-link class="navbar-link" to="/catalog">Каталог</router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link class="navbar-link" to="/user" @click="XXX">
+          <router-link class="navbar-link" to="/user">
             <div v-if="isAuth" class="navbar-link">
               <span class="navbar-link-name">
                 {{ userName }}
@@ -81,15 +81,19 @@ export default {
     signOut(auth).then(() => {
       localStorage.removeItem('token')
       this.$store.dispatch('user/setToken', null)
-      this.$router.push('/')
+
+      //Нужно ли это здесь?????????????
+
+      // this.$router.push('/')
+      
       }).catch((error) => {
         console.log(error)
       })
     },
 
-    XXX() {
-      console.log(this.$store.state.user)
-    },
+    // XXX() {
+    //   console.log(this.$store.state.user)
+    // },
   },
 
   created () {

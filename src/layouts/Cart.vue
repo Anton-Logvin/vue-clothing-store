@@ -62,9 +62,10 @@ export default {
   
   computed: {
     ...mapGetters('cartModule', ['cart', 'totalPrice', 'cartLength']),
-
+    
     disabledOrder() {
-      return this.$store.getters['cartModule/cartLength']
+      // return this.$store.getters['cartModule/cartLength']
+      return this.cartLength
     }
   },
 
@@ -94,6 +95,7 @@ export default {
   
   mounted() {
     // this.$store.dispatch('cartModule/setCartFromStorage');
+    window.scrollTo(0, 0);
   }
 }
 

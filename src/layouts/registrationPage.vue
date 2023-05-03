@@ -60,12 +60,6 @@
 
 <script>
 
-// import Vue from "vue";
-// import { collection } from 'firebase/firestore'
-// import { doc, setDoc } from "firebase/firestore"; 
-// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-
   export default {
     name: 'RegistrationPage',
     data() {
@@ -80,23 +74,12 @@
     },
     methods: {
       register() {
-        // const auth = getAuth();
-        // createUserWithEmailAndPassword(auth, this.form.email, this.form.password, this.form.name)
-        //   .then((userCredential) => {
-        //     console.log(userCredential)
-        //     this.$router.push('/')
-        //   })
-        //   .catch((error) => {
-        //     console.log(error)
-        //   });
-
-        // setDoc(doc(Vue.$db, "users", this.form.email), {
-        //   email: this.form.email,
-        //   name: this.form.name,
-        //   password: this.form.password
-        // });
         this.$store.dispatch('user/registerUser', this.form)
       },
+    },
+
+    created() {
+      window.scrollTo(0, 0);
     }
   }
 </script>

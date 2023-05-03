@@ -11,10 +11,11 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore';
 
+import { getStorage } from "firebase/storage";
 import 'firebase/database'
 
-import { collection } from 'firebase/firestore'
-import { doc, setDoc } from "firebase/firestore"; 
+// import { collection } from 'firebase/firestore'
+// import { doc, setDoc } from "firebase/firestore"; 
 
 import Toasted from 'vue-toasted';
 Vue.use(Toasted, {
@@ -42,18 +43,9 @@ const app = initializeApp(firebaseConfig);
 getAuth(app);
 //firestore
 const db = getFirestore(app);
-
 Vue.$db = db
-
-
-setDoc(doc(db, "cities", "LA"), {
-  name: "Los Angeles",
-  state: "CA",
-  country: "Belarus"
-});
-const col = collection(db,'cities', )
-console.log(col)
-
+const storage = getStorage(app);
+Vue.$storage = storage
 
 new Vue({
   router,

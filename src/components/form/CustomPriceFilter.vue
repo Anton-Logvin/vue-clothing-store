@@ -41,10 +41,10 @@ export default {
 
   computed: {
     min() {
-      return this.$store.getters.minProductPrice
+      return this.$store.getters['productsFb/minProductPrice']
     },
     max() {
-      return this.$store.getters.maxProductPrice
+      return this.$store.getters['productsFb/maxProductPrice']
     }
   },
 

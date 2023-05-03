@@ -1,5 +1,6 @@
 <template>
 <div v-if="product">
+  <toasted-message />
   <div class="product">
     <product-photo 
       class="product__photo"
@@ -49,7 +50,7 @@
           v-else
           variant="success" 
           :disabled="true"
-          @click="addToCart">
+        >
             В корзинe
         </b-button>
       </div>
@@ -64,12 +65,14 @@
 </template>
 <script>
 
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import ProductPhoto from '@/components/widgets/product/ProductPhoto';
 import CustomQuantity from '@/components/form/CustomQuantity';
+import ToastedMessage from '@/components/ToastedMessage';
+
 
 export default {
-  components: { ProductPhoto, CustomQuantity },
+  components: { ProductPhoto, CustomQuantity, ToastedMessage },
   name: 'ProductPage',
 
   data() {
@@ -80,18 +83,20 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['productList',]),
+    // ...mapActions('productsFb', ['getProducts']),
+    ...mapGetters('productsFb', ['productList',]),
     ...mapGetters('cartModule', ['cart',]),
+    
     product() {
-      return this.productList.find(item => item.id === this.productId)
+      return this.productList.find(item => item.id == this.productId)
     },
 
     productInCart() {
-      return this.$store.getters['cartModule/cart'].find(item => item.id === this.productId) 
+      return this.cart.find(item => item.id == this.productId) 
     },
 
     indexProductInCart() {
-      return this.$store.getters['cartModule/cart'].findIndex(item => item.id === this.productId) 
+      return this.cart.findIndex(item => item.id == this.productId) 
     },
 
     inStock() {
@@ -104,14 +109,17 @@ export default {
   },
 
   methods: {
-    ...mapActions(['getProducts']),
+    getProducts() {
+      this.$store.dispatch('productsFb/getProducts')
+    },
     
     addToCart() {
-      if(this.productInCart) {
-        this.btnText = "В корзине"
-        this.isDisabled = true
-      }
-      this.$store.dispatch('cartModule/addProductToCart', this.product)
+      // if(this.productInCart) {
+        // this.btnText = "В корзине"
+        // this.isDisabled = true
+      // }
+      this.$store.dispatch('cartModule/addProductToCart', this.product, this.productId)
+      this.$toasted.show("Товар добавлен в корзину")
     },
 
     decrement() {
@@ -125,7 +133,7 @@ export default {
 
   mounted() {
     if (!this.productList.length) {
-      this.getProducts()
+      this.$store.dispatch('productsFb/getProducts')
     }
     // this.$store.dispatch('cartModule/setCartFromStorage');
   }
@@ -259,7 +267,7 @@ export default {
 
     &__discription-colum {
     flex-direction: row;
-  }
+    }
    
   }
 }

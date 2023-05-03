@@ -1,105 +1,137 @@
 <template id="image-input-template">
   <div class="Image-input">
     <div class="Image-input__image-wrapper">
-      <i v-show="!imageSrc" class="icon fa fa-picture-o"></i>
-      <img v-show="imageSrc" class="Image-input__image" :src="imageSrc">
+      <img class="Image-input__image" :src="imageSrc">
     </div>
-
+    
     <div class="Image-input__input-wrapper">
-      Choose
-      <input @change="previewThumbnail" class="Image-input__input" name="thumbnail" type="file">
+      Установить фото
+      <input 
+        @change="loadImage" 
+        class="Image-input__input" 
+        type="file"
+        accept="image/png, image/jpeg, image/jpg"
+      >
     </div>
   </div>
 </template>
 
-
 <script>
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
 export default {
   data() {
     return {
-      imageSrc: ''
+      image: null,
+      imageSrc: '',
+      url: ''
     }
   },
-  // props: [ 'imageSrc' ],
+  props: [ 'imageUserSrc' ],
 
   methods: {
-    previewThumbnail: function(event) {
-      let input = event.target;
-
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        const vm = this;
-
-        reader.onload = function(e) {
-          vm.imageSrc = e.target.result;
-          // console.log(vm.imageSrc)
-        }
-        reader.readAsDataURL(input.files[0]);
+    loadImage(e) {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      reader.onload = () => {
+        this.imageSrc = reader.result
       }
-    }
+      reader.readAsDataURL(file)
+      this.image = file
+      console.log(this.image)
+
+      const storage = getStorage();
+
+      // Create the file metadata
+      /** @type {any} */
+      const metadata = {
+        contentType: 'image/jpeg'
+      };
+
+      const storageRef = ref(storage, 'images/' + file.name);
+      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+      
+
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        }, 
+        (error) => {
+          console.log(error)
+        }, 
+        getDownloadURL(storageRef)
+          .then((url) => {
+            // Insert url into an <img> tag to "download"
+            this.url = url
+            this.$emit('avatarUrl', this.url)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        );
+      },
   }
 }
 </script>
- 
-<style>
+
+<style lang="scss" scoped>
 .Image-input {
- display: flex;
-}
+  /* display: flex; */
+  // max-width: 500px;
+  height: 345px;
+  box-shadow: 0px 0px 10px rgb(167, 167, 167);
+  border: solid 1px #6398fc;
+  border-radius: 6px;
 
-.Image-input__image-wrapper {
-  flex-basis: 80%;
-  height: 150px;
-  flex: 2.5;
-  border-radius: 1px;
-  margin-right: 10px;
-  overflow-y: hidden;
-  border-radius: 1px;
-  background: #eee;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
+  &__image-wrapper {
+    flex-basis: 40%;
+    height: 300px;
+    border-radius: 6px 6px 0px 0px;
+    overflow-y: hidden;
+    background: rgba(236, 236, 236, 0.432);
+    background-image: url('../assets/iconForPhoto.svg');
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
 
-.Image-input__image-wrapper > .icon {
-  color: #ccc;
-  font-size: 50px;
-  cursor: default;
-}
+  /* .Image-input__image-wrapper > .icon {
+    color: #ccc;
+    font-size: 50px;
+    cursor: default;
+  } */
 
-.Image-input__image {
-  max-width: 100%;
-  border-radius: 1px;
-}
+  &__image {
+    width: 300px;
+    border-radius: 4px;
+  }
 
-.Image-input__input-wrapper {
-  overflow: hidden;
-  position: relative;
-  background: #eee;
-  border-radius: 1px;
-  float: left;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: rgba(0,0,0,0.2);
-  transition: 0.4s background;
-}
+  &__input-wrapper {
+    padding: 10px 9px;
+    overflow: hidden;
+    position: relative;
+    background: #6398fc;
+    border-radius: 1px;
+    border-radius: 0px 0px 6px 6px;
+    color: rgb(255, 255, 255);
+    transition: 0.4s background;
+  }
 
-.Image-input__input-wrapper:hover {
-  background: #e0e0e0;
-}
+  &__input-wrapper:hover {
+    background: #1c50b1;
+  }
 
-
-.Image-input__input {
-  cursor: inherit;
-  display: block;
-  font-size: 999px;
-  min-height: 100%;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  text-align: right;
-  top: 0;
-  cursor: pointer;
+  &__input {
+    display: block;
+    width: 300px;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    text-align: right;
+    top: 0;
+    cursor: pointer;
+  }
 }
 </style>

@@ -135,7 +135,7 @@ export default {
       placeholderAdress: 'Введите адрес',
       placeholderTel: 'Телефон',
       placeholderMail: 'email',
-      numberOrder: this.$store.state.numberOrder
+      numberOrder: this.$store.getters['cartModule/nunberOrderGet']
     }
   },
 
@@ -176,15 +176,15 @@ export default {
 
     addToOrderList() {
       const objOrder = {
-        numberOrder: this.$store.state.numberOrder,
+        numberOrder: this.$store.getters['cartModule/nunberOrderGet'],
         name: this.form.name,
         adress: this.form.adress,
         phone: this.form.phone,
         email: this.form.email,
-        products: this.$store.getters.cart
+        products: this.$store.getters['cartModule/cart']
       }
-      this.$store.dispatch('addToOrderList', objOrder)
-      this.$store.dispatch('getOrderNumber')
+      this.$store.dispatch('cartModule/addToOrderList', objOrder)
+      this.$store.dispatch('cartModule/getOrderNumber')
       this. closeModaltoClick()
       alert('Заказ успешно оформлен, ожидайте Вам перезвонит менеджер нашего магазина')
     },

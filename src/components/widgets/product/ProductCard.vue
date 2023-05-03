@@ -10,30 +10,39 @@
         <span class="product__price">$ {{ product.price }} </span>
       </div>
       <div class="product__btn">
-        <button 
+        <b-button
+          v-if="!productInCart" 
           @click.prevent.stop="addToCart" 
-          :disabled="!inStock" 
-          :class="{ disabledButton: !inStock }">
-          В корзину
-        </button>
+        >
+            В корзину!!
+        </b-button>
+        <b-button
+          v-else
+          :disabled="true"
+          @click="addToCart">
+            В корзинe
+        </b-button>
       </div>
     </div>
+    <toasted-message />
   </div>
 </template>
 
 <script>
+import ToastedMessage from '@/components/ToastedMessage'
 import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    
+    ToastedMessage
   },
 
   props: {
     product: {
       type: Object,
       default: null
-    }
+    },
   },
 
   data() {
@@ -42,22 +51,33 @@ export default {
     }
   },
 
-  methods: {
-    ...mapActions('cartModule', ['addProductToCart']),
-    addToCart() {
-      return this.addProductToCart(this.product)
-    }
-  },
-
   computed: {
+    ...mapGetters('productsFb', ['productList']),
+    ...mapGetters('cartModule', ['cart']),
+
     inStock() {
       return this.product.availability
     },
     isSale() {
       return this.product.isSale
     },
+    indexProductInCart() {
+      return this.cart.findIndex(item => item.id == this.productId) 
+    },
 
-  }
+    productInCart(state) {
+      return state.cart.find(item => item.id == this.product.id) 
+    },
+  },
+
+  methods: {
+    ...mapActions('cartModule', ['addProductToCart']),
+
+    addToCart() {
+      this.$toasted.show("Товар добавлен в корзину")
+      return this.addProductToCart(this.product)
+    }
+  },
 }
 </script>
 
