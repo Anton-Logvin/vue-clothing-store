@@ -49,7 +49,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, } from "firebase/auth";
 
 export default {
   name: 'NavBar',
@@ -75,29 +75,16 @@ export default {
 
   methods: {
     signOut() {
-      console.log(this.user)
-      const auth = getAuth();
-
-    signOut(auth).then(() => {
-      localStorage.removeItem('token')
-      this.$store.dispatch('user/setToken', null)
-
-      //Нужно ли это здесь?????????????
-
-      // this.$router.push('/')
-      
-      }).catch((error) => {
-        console.log(error)
-      })
+      this.$store.dispatch('user/signOut')
+      this.$router.push('/')
     },
 
-    // XXX() {
-    //   console.log(this.$store.state.user)
-    // },
   },
 
   created () {
-    this.$store.getters.cartLength,
+    // this.$store.getters.cartLength,
+    console.log(this.isAuth)
+    this.isAuth
     setTimeout(() => {
       this.auth = getAuth();
       this.currentUser = this.auth.currentUser;

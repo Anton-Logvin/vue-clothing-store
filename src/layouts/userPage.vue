@@ -9,7 +9,6 @@
         <div class="user__created">
           <img src="../assets/time.svg" width="50px" alt="">
           <div>
-     
             <p class="user__time-data">Профиль создан: {{ fullDate(dataUser.createdAt) }}</p>
             <p class="user__time-data">Последний вход на сайт: {{ fullDate(dataUser.lastLoginAt) }}</p>
           </div>
@@ -70,10 +69,11 @@ export default {
     setTimeout(() => {
       this.auth = getAuth();
       this.currentUser = this.auth.currentUser;
+      console.log(this.currentUser)
       this.$store.dispatch('user/setDataUser', this.currentUser.reloadUserInfo)
     }, 1000);
 
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   },
 
   methods: {

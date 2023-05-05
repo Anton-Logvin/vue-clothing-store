@@ -35,14 +35,27 @@
       <router-link class="navbar-link" @click.native="scrollTop" to="/registration" >
         Зарегестрироваться
       </router-link>  
-      <b-button class="user-page__btn" type="button" variant="primary" @click="signIn">Submit</b-button>
-      <b-button class="user-page__btn" type="reset" variant="danger">Reset</b-button>
+      <b-button 
+        class="user-page__btn" 
+        type="button" 
+        variant="primary" 
+        @click="signIn"
+      >
+        Submit
+      </b-button>
+      <b-button 
+        class="user-page__btn" 
+        type="reset" 
+        variant="danger"
+      >
+        Reset
+      </b-button>
     </b-form>
   </div>
 </template>
 
 <script>
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
   export default {
     name: 'UserPage',
@@ -57,22 +70,8 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
     },
     methods: {
       signIn() {
-        const auth = getAuth();
-        console.log(auth)
-        signInWithEmailAndPassword(auth, this.form.email, this.form.password)
-          .then((userCredential) => {
-            const user = userCredential.user
-            const token = user.accessToken
-            if(token) {
-              this.$store.dispatch('user/setToken', token)
-              this.$store.dispatch('user/setUser', user)
-              this.$store.dispatch('user/getUser', this.form.email)
-              this.$router.push('/')
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          });
+        this.$store.dispatch('user/signIn', this.form)
+        this.$router.push('/')
       },
 
       onSubmit(event) {

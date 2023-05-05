@@ -1,13 +1,4 @@
-// import * as fb from 'firebase/app'
-
-// import { collection } from 'firebase/firestore'
-// import { doc, setDoc } from "firebase/firestore"; 
-
-
-
-import Vue from "vue";
-import { doc, setDoc, collection, getDocs, update} from "firebase/firestore"; 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from "firebase/auth";
 
 
 export default {
@@ -17,7 +8,6 @@ export default {
     user: null,
     token: null,
     dataUser: {},
-    usersFirestore: []
   },
 
   getters: {
@@ -30,6 +20,7 @@ export default {
     },
 
     isAuth(state) {
+      console.log('getters user/isAuth:', !!state.token, typeof state.token)
       return !!state.token
     },
   },
@@ -37,14 +28,8 @@ export default {
   mutations: {
     setUser(state, user) {
       state.user = user
-      console.log(state.user)
     },
-
-    getUsersFirestore(state, usersFs) {
-      state.usersFirestore = usersFs
-      console.log('Users Firestore:',usersFs)
-    },
-
+ 
     setToken(state, token) {
       state.token = token
     },
@@ -60,20 +45,6 @@ export default {
   },
 
   actions: {
-    async getUser({commit}, email) {
-      const usersFs = []
-      const users = await getDocs(collection(Vue.$db, "users"));
-      users.docs.forEach((doc) => {
-        usersFs.push(doc.data())
-        if(doc.data().email === email) {
-          console.log('getUser:',email)
-          update(doc.data().name = 'wwwwwwwwwwwww')
-          console.log(doc.data().name)
-        }
-      });
-      commit('getUsersFirestore', usersFs)
-    },
-
     registerUser({commit}, { email, password, name }) {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password, name)
@@ -85,13 +56,35 @@ export default {
         .catch((error) => {
           console.log(error)
         });
-        
-      setDoc(doc(Vue.$db, "users", email), {
-        email: email,
-        name: name,
-        password: password
-      });
+    },
 
+    signIn({ commit }, { email, password}) {
+      const auth = getAuth();
+      console.log(auth)
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user
+          const token = user.accessToken
+          console.log(user)
+          if(token) {
+            commit('setToken', token)
+            commit('setUser', user)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    },
+
+    signOut({ commit }) {
+      const auth = getAuth();
+      signOut(auth).then(() => {
+        localStorage.removeItem('token')
+        commit('setToken', null)
+        // this.$router.push('/')
+        }).catch((error) => {
+          console.log(error)
+        })
     },
 
     setToken({ commit }, token) {
@@ -101,12 +94,12 @@ export default {
     },
 
     setUser({ commit }, user) {
+      console.log(user)
       commit('setUser', user)
     },
 
     setDataUser({commit}, user) {
       commit('setDataUser', user)
     },
-
   },
 }

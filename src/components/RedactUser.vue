@@ -39,7 +39,7 @@
           >
           </b-form-input>
         </b-form-group>
-        <b-form-group 
+        <!-- <b-form-group 
           class="user__redact-elem"
           id="input-group-1" 
           label="Номер телефона:" 
@@ -53,7 +53,7 @@
             required
           >
           </b-form-input>
-        </b-form-group>
+        </b-form-group> -->
         <b-form-group 
           class="user__redact-elem"
           id="input-group-2" 
@@ -65,7 +65,7 @@
           <b-form-input
             id="input-5"
             class="user__input"
-            type="password"
+           
             v-model="newPassword"
             placeholder="Введите новый пароль"
             required
@@ -74,7 +74,7 @@
           <b-form-input
             id="input-6"
             class="user__input"
-            type="password"
+          
             v-model="newPasswordRepeat"
             placeholder="Повторите пароль"
             required
@@ -101,7 +101,9 @@
 
 <script> 
 
-import { getAuth, updateProfile, updateEmail, } from "firebase/auth";
+// import Vue from "vue";
+import { getAuth, updateProfile, updateEmail, updatePassword, } from "firebase/auth";
+// import { doc, setDoc} from "firebase/firestore"; 
 import { mapGetters } from 'vuex'
 import UserImage from '@/components/UserImage';
 import CustomButton from '@/components/form/CustomButton'
@@ -153,9 +155,7 @@ export default {
       this.auth = getAuth();
       this.currentUser = this.auth.currentUser;
       this.metadataUser = this.currentUser.metadata
-
-      // console.log(this.currentUser)
-          
+      this.$store.getters['user/usersFirestore']
       this.$store.dispatch('user/setDataUser', this.currentUser.reloadUserInfo)
     }, 1000);
     
@@ -170,59 +170,30 @@ export default {
       this.userImageSrc = url
     },
 
-    updateUserPassword() {
-  
-      // const auth = getAuth();
-    //   this.currentUser = this.auth.currentUser;
-    //   this.currentUser.updatePassword(this.newPassword).then(() => {
-    //     // Update successful.
- 
-    //     console.log('Update SuccessFul');
- 
-    // }).catch((error) => {
-    //     // An error occurred
-    //     // ...
-    //     console.log(error, 'error password')
-    // });
-    },
-
     updateUser() {
-      // const auth = getAuth();
+      updateProfile(this.auth.currentUser, {
+        displayName: this.name, 
+        photoURL: this.userImageSrc || "https://news.store.rambler.ru/img/2b31f673def9712dce283c9301eea18e?img-format=auto&img-1-resize=height:355,fit:max&img-2-filter=sharpen"
+      }).then(() => {
+        console.log(this.currentUser)
+      }).catch(() => {
+      });
+      
       updateEmail(this.currentUser, this.email).then(() => {
-        // Email updated!
-        // ...
       }).catch((error) => {
-        // An error occurred
-        // ...
         console.log(error)
       });
 
-      // updatePhoneNumber(this.currentUser, this.phone).then(() => {
-      //   // Email updated!
-      //   // ...
-      // }).catch((error) => {
-      //   // An error occurred
-      //   // ...
-      //   console.log(error)
-      // });
+      if(this.newPassword != '' && this.newPassword === this.newPasswordRepeat) {
+        updatePassword(this.currentUser, this.newPassword).then(() => {
+          console.log(this.newPassword)
+        }).catch((error) => {
+          console.log('updatePassword:',error)
+        });
+      }
 
-      updateProfile(this.auth.currentUser, {
-        displayName: this.name, 
-        email: this.email,
-        // phoneNumber: '+375295069510',
-        photoURL: this.userImageSrc || "https://news.store.rambler.ru/img/2b31f673def9712dce283c9301eea18e?img-format=auto&img-1-resize=height:355,fit:max&img-2-filter=sharpen"
-      }).then(() => {
-        // Profile updated!
-        // ...
-        console.log(this.currentUser)
-      }).catch(() => {
-        // An error occurred
-        // ...
-      });
 
-      this.$store.dispatch('productsFb/getProducts')
-      this.updateUserPassword()
-      this.$toasted.show("Фото не хочет загружаться, модули vuex getters... ")
+      this.$toasted.show("Изменения профиля сохранены")
     },
   }
 }
