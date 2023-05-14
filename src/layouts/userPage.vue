@@ -6,6 +6,7 @@
       <img class="user__avatar" :src="image" alt="">
       <div class="user__header-discription">
         <p class="user__name">{{ userName }}</p>
+        <p class="user__email">{{ userEmail }}</p>
         <div class="user__created">
           <img src="../assets/time.svg" width="50px" alt="">
           <div>
@@ -26,7 +27,7 @@
 
 <script> 
 
-import { getAuth, updatePassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { mapGetters } from 'vuex'
 import ToastedMessage from '@/components/ToastedMessage';
 import RedactUser from '@/components/RedactUser.vue';
@@ -38,9 +39,15 @@ export default {
     return {
       auth: null,
       currentUser: null,
-      name: null,
-      newPassword: '',
-      newPasswordRepeat:''
+      // name: null,
+      // newPassword: '',
+      // newPasswordRepeat:'',
+      redactForm: {
+        name: null,
+        email: null,
+        newPassword: '',
+        newPasswordRepeat:'',
+      }
     }
   },
 
@@ -56,6 +63,9 @@ export default {
     userName() {
       return this.currentUser?.displayName || '';
     },
+    userEmail() {
+      return this.currentUser?.email || '';
+    },
     image() {
       return this.currentUser?.photoURL || '';
     },
@@ -69,29 +79,15 @@ export default {
     setTimeout(() => {
       this.auth = getAuth();
       this.currentUser = this.auth.currentUser;
-      console.log(this.currentUser)
+      // console.log(this.currentUser)
       this.$store.dispatch('user/setDataUser', this.currentUser.reloadUserInfo)
     }, 1000);
 
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   },
 
   methods: {
     ...mapGetters('productsFb', ['getProductsFirestore']),
-
-    updateUserPassword() {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      // const newPassword = getASecureRandomPassword();
-      updatePassword(user, this.newPassword).then(() => {
-      // Update successful.
-      console.log(this.newPassword)
-    }).catch((error) => {
-      // An error ocurred
-      // ...
-      console.log(error)
-    });
-    },
 
     fullDate(data) {
       const days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
@@ -156,6 +152,11 @@ export default {
       font-size: 26px;
       text-align: right;
       padding-right: 20px;
+    }
+
+    &__email {
+      font-size: 20px;
+      text-align: right;
     }
 
     &__created {

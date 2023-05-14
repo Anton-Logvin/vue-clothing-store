@@ -17,12 +17,12 @@
           <b-form-input
             id="input-2"
             class="user__input"
-            v-model="name"
+            v-model="redactForm.name"
             placeholder="Введите имя"
-      
           >
           </b-form-input>
         </b-form-group>
+
         <b-form-group 
           class="user__redact-elem"
           id="input-group-1" 
@@ -33,27 +33,12 @@
             id="input-3"
             type="email"
             class="user__input"
-            v-model="email"
+            v-model="redactForm.email"
             placeholder="Введите email"
-           
           >
           </b-form-input>
         </b-form-group>
-        <!-- <b-form-group 
-          class="user__redact-elem"
-          id="input-group-1" 
-          label="Номер телефона:" 
-          label-for="input-1"
-        >
-          <b-form-input
-            id="input-4"
-            class="user__input"
-            v-model="phone"
-            placeholder="Введите номер телефона"
-            required
-          >
-          </b-form-input>
-        </b-form-group> -->
+
         <b-form-group 
           class="user__redact-elem"
           id="input-group-2" 
@@ -61,27 +46,26 @@
           label="Изменить пароль:" 
           label-for="input-2"
         >
-        <div class=" user__redact-password">
-          <b-form-input
-            id="input-5"
-            class="user__input"
-           
-            v-model="newPassword"
-            placeholder="Введите новый пароль"
-            required
-          >
-          </b-form-input>
-          <b-form-input
-            id="input-6"
-            class="user__input"
-          
-            v-model="newPasswordRepeat"
-            placeholder="Повторите пароль"
-            required
-          >
-          </b-form-input>
-        </div>
-
+          <div class=" user__redact-password">
+            <b-form-input
+              id="input-5"
+              class="user__input"
+            
+              v-model="redactForm.newPassword"
+              placeholder="Введите новый пароль"
+              required
+            >
+            </b-form-input>
+            <b-form-input
+              id="input-6"
+              class="user__input"
+            
+              v-model="redactForm.newPasswordRepeat"
+              placeholder="Повторите пароль"
+              required
+            >
+            </b-form-input>
+          </div>
           <p class="user__time-data">Последние изменение пароля: {{ passwordUpdatedAt }}</p>
         </b-form-group>
       </div>
@@ -89,7 +73,7 @@
       <user-image 
         class="user__image-load"
         @avatarUrl="avatarUrlOnLoad"
-        v-model="userImageSrc"
+        v-model="redactForm.userImageSrc"
       />
     </div>
         
@@ -102,7 +86,7 @@
 <script> 
 
 // import Vue from "vue";
-import { getAuth, updateProfile, updateEmail, updatePassword, } from "firebase/auth";
+import { getAuth,  } from "firebase/auth";
 // import { doc, setDoc} from "firebase/firestore"; 
 import { mapGetters } from 'vuex'
 import UserImage from '@/components/UserImage';
@@ -118,13 +102,18 @@ export default {
     return {
       auth: null,
       currentUser: null,
-      name: null,
-      email: null,
-      phone: '+375295069510',
-      userImageSrc: '',
+    
+      // phone: '+375295069510',
+      
       metadataUser: {},
-      newPassword: '',
-      newPasswordRepeat:''
+    
+      redactForm: {
+        name: null,
+        email: null,
+        newPassword: '',
+        newPasswordRepeat: '',
+        userImageSrc: '',
+      }
     }
   },
 
@@ -167,32 +156,11 @@ export default {
     ...mapGetters('productsFb', ['getProductsFirestore']),
 
     avatarUrlOnLoad(url) {
-      this.userImageSrc = url
+      this.redactForm.userImageSrc = url
     },
 
     updateUser() {
-      updateProfile(this.auth.currentUser, {
-        displayName: this.name, 
-        photoURL: this.userImageSrc || "https://news.store.rambler.ru/img/2b31f673def9712dce283c9301eea18e?img-format=auto&img-1-resize=height:355,fit:max&img-2-filter=sharpen"
-      }).then(() => {
-        console.log(this.currentUser)
-      }).catch(() => {
-      });
-      
-      updateEmail(this.currentUser, this.email).then(() => {
-      }).catch((error) => {
-        console.log(error)
-      });
-
-      if(this.newPassword != '' && this.newPassword === this.newPasswordRepeat) {
-        updatePassword(this.currentUser, this.newPassword).then(() => {
-          console.log(this.newPassword)
-        }).catch((error) => {
-          console.log('updatePassword:',error)
-        });
-      }
-
-
+      this.$store.dispatch('user/updateUser', this.redactForm)  
       this.$toasted.show("Изменения профиля сохранены")
     },
   }

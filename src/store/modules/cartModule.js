@@ -85,6 +85,7 @@ export default {
 
     addToOrderList(state, objOrder) {
       state.orderList.push(objOrder)
+      console.log(state.orderList)
     },
   },
  

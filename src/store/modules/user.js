@@ -1,4 +1,11 @@
-import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from "firebase/auth";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signOut, 
+  signInWithEmailAndPassword, 
+  updateProfile, 
+  updateEmail, 
+  updatePassword, } from "firebase/auth";
 
 
 export default {
@@ -65,7 +72,7 @@ export default {
         .then((userCredential) => {
           const user = userCredential.user
           const token = user.accessToken
-          console.log(user)
+          // console.log(user)
           if(token) {
             commit('setToken', token)
             commit('setUser', user)
@@ -85,6 +92,35 @@ export default {
         }).catch((error) => {
           console.log(error)
         })
+    },
+
+    updateUser({commit}, {name, email, newPassword, newPasswordRepeat, userImageSrc}) {
+      console.log(commit, newPassword, newPasswordRepeat)
+      const auth = getAuth();
+      const currentUser = auth.currentUser
+      updateProfile(auth.currentUser, {
+        displayName: name, 
+        photoURL: userImageSrc || "https://news.store.rambler.ru/img/2b31f673def9712dce283c9301eea18e?img-format=auto&img-1-resize=height:355,fit:max&img-2-filter=sharpen"
+      }).then(() => {
+        // console.log(currentUser)
+      }).catch(() => {
+      });
+      
+      updateEmail(currentUser, email).then(() => {
+      }).catch((error) => {
+        console.log(error)
+      });
+
+      if(newPassword != '' && newPassword === newPasswordRepeat) {
+        updatePassword(currentUser, newPassword).then(() => {
+          console.log(newPassword)
+        }).catch((error) => {
+          console.log('updatePassword:', error)
+        });
+      }
+
+
+      // this.$toasted.show("Изменения профиля сохранены")
     },
 
     setToken({ commit }, token) {

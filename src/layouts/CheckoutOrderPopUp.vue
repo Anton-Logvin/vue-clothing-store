@@ -14,6 +14,7 @@
         <div class="popup__inputs-block">
           <custom-input 
             class="popup__input"
+            pattern="[A-Za-zА-Яа-яЁё]{3,}"
             :placeholder="placeholderName"
             v-model.trim="$v.form.name.$model"
             :class="$v.form.name.$error ? 'is-invalid' : ''"
@@ -33,7 +34,8 @@
           
           <custom-input
             class="popup__input" 
-            type = "Number"
+            type = "tel"
+            pattern="^\+7[1-9]{10}$"
             :placeholder="placeholderTel"
             v-model.trim="$v.form.phone.$model"
             width="300" 
@@ -132,7 +134,7 @@ export default {
       checkoutOrder: 'Оформить заказ',
       closePopUp: 'Закрыть',
       placeholderName: 'Введите имя',
-      placeholderAdress: 'Введите адрес',
+      placeholderAdress: 'Введите адрес доставки',
       placeholderTel: 'Телефон',
       placeholderMail: 'email',
       numberOrder: this.$store.getters['cartModule/nunberOrderGet']
@@ -149,8 +151,8 @@ export default {
       phone: {
         required,
         // number,
-        minLength: minLength(7),
-        maxLength: maxLength(7),
+        minLength: minLength(5),
+        maxLength: maxLength(10),
       },
       email: {email},
     },

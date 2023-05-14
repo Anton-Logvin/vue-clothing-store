@@ -27,7 +27,7 @@ export default {
       url: ''
     }
   },
-  props: [ 'imageUserSrc' ],
+  // props: [ 'imageUserSrc' ],
 
   methods: {
     loadImage(e) {
@@ -38,10 +38,7 @@ export default {
       }
       reader.readAsDataURL(file)
       this.image = file
-      console.log(this.image)
-
       const storage = getStorage();
-
       // Create the file metadata
       /** @type {any} */
       const metadata = {
@@ -51,7 +48,6 @@ export default {
       const storageRef = ref(storage, 'images/' + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file, metadata);
       
-
       uploadTask.on('state_changed',
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -77,8 +73,6 @@ export default {
 
 <style lang="scss" scoped>
 .Image-input {
-  /* display: flex; */
-  // max-width: 500px;
   height: 345px;
   box-shadow: 0px 0px 10px rgb(167, 167, 167);
   border: solid 1px #6398fc;
@@ -95,12 +89,6 @@ export default {
     align-items: center;
     display: flex;
   }
-
-  /* .Image-input__image-wrapper > .icon {
-    color: #ccc;
-    font-size: 50px;
-    cursor: default;
-  } */
 
   &__image {
     width: 300px;

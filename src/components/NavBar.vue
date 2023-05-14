@@ -83,7 +83,7 @@ export default {
 
   created () {
     // this.$store.getters.cartLength,
-    console.log(this.isAuth)
+    // console.log('isAuth:' ,this.isAuth)
     this.isAuth
     setTimeout(() => {
       this.auth = getAuth();
